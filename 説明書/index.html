@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link href="data:text/css;charset=utf-8,%0Abody%20%7B%0Afont%2Dfamily%3A%20Helvetica%2C%20arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E6%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%2010px%3B%0Abackground%2Dcolor%3A%20white%3B%0Apadding%3A%2030px%3B%20%7D%0Abody%20%3E%20%2A%3Afirst%2Dchild%20%7B%0Amargin%2Dtop%3A%200%20%21important%3B%20%7D%0Abody%20%3E%20%2A%3Alast%2Dchild%20%7B%0Amargin%2Dbottom%3A%200%20%21important%3B%20%7D%0Aa%20%7B%0Acolor%3A%20%234183C4%3B%20%7D%0Aa%2Eabsent%20%7B%0Acolor%3A%20%23cc0000%3B%20%7D%0Aa%2Eanchor%20%7B%0Adisplay%3A%20block%3B%0Apadding%2Dleft%3A%2030px%3B%0Amargin%2Dleft%3A%20%2D30px%3B%0Acursor%3A%20pointer%3B%0Aposition%3A%20absolute%3B%0Atop%3A%200%3B%0Aleft%3A%200%3B%0Abottom%3A%200%3B%20%7D%0Ah1%2C%20h2%2C%20h3%2C%20h4%2C%20h5%2C%20h6%20%7B%0Amargin%3A%2020px%200%2010px%3B%0Apadding%3A%200%3B%0Afont%2Dweight%3A%20bold%3B%0A%2Dwebkit%2Dfont%2Dsmoothing%3A%20antialiased%3B%0Acursor%3A%20text%3B%0Aposition%3A%20relative%3B%20%7D%0Ah1%3Ahover%20a%2Eanchor%2C%20h2%3Ahover%20a%2Eanchor%2C%20h3%3Ahover%20a%2Eanchor%2C%20h4%3Ahover%20a%2Eanchor%2C%20h5%3Ahover%20a%2Eanchor%2C%20h6%3Ahover%20a%2Eanchor%20%7B%0A%0Atext%2Ddecoration%3A%20none%3B%20%7D%0Ah1%20tt%2C%20h1%20code%20%7B%0Afont%2Dsize%3A%20inherit%3B%20%7D%0Ah2%20tt%2C%20h2%20code%20%7B%0Afont%2Dsize%3A%20inherit%3B%20%7D%0Ah3%20tt%2C%20h3%20code%20%7B%0Afont%2Dsize%3A%20inherit%3B%20%7D%0Ah4%20tt%2C%20h4%20code%20%7B%0Afont%2Dsize%3A%20inherit%3B%20%7D%0Ah5%20tt%2C%20h5%20code%20%7B%0Afont%2Dsize%3A%20inherit%3B%20%7D%0Ah6%20tt%2C%20h6%20code%20%7B%0Afont%2Dsize%3A%20inherit%3B%20%7D%0Ah1%20%7B%0Afont%2Dsize%3A%2028px%3B%0Acolor%3A%20black%3B%20%7D%0Ah2%20%7B%0Afont%2Dsize%3A%2024px%3B%0Aborder%2Dbottom%3A%201px%20solid%20%23cccccc%3B%0Acolor%3A%20black%3B%20%7D%0Ah3%20%7B%0Afont%2Dsize%3A%2018px%3B%20%7D%0Ah4%20%7B%0Afont%2Dsize%3A%2016px%3B%20%7D%0Ah5%20%7B%0Afont%2Dsize%3A%2014px%3B%20%7D%0Ah6%20%7B%0Acolor%3A%20%23777777%3B%0Afont%2Dsize%3A%2014px%3B%20%7D%0Ap%2C%20blockquote%2C%20ul%2C%20ol%2C%20dl%2C%20li%2C%20table%2C%20pre%20%7B%0Amargin%3A%2015px%200%3B%20%7D%0Ahr%20%7B%0A%0Aborder%3A%200%20none%3B%0Acolor%3A%20%23cccccc%3B%0Aheight%3A%204px%3B%0Apadding%3A%200%3B%20%7D%0Abody%20%3E%20h2%3Afirst%2Dchild%20%7B%0Amargin%2Dtop%3A%200%3B%0Apadding%2Dtop%3A%200%3B%20%7D%0Abody%20%3E%20h1%3Afirst%2Dchild%20%7B%0Amargin%2Dtop%3A%200%3B%0Apadding%2Dtop%3A%200%3B%20%7D%0Abody%20%3E%20h1%3Afirst%2Dchild%20%2B%20h2%20%7B%0Amargin%2Dtop%3A%200%3B%0Apadding%2Dtop%3A%200%3B%20%7D%0Abody%20%3E%20h3%3Afirst%2Dchild%2C%20body%20%3E%20h4%3Afirst%2Dchild%2C%20body%20%3E%20h5%3Afirst%2Dchild%2C%20body%20%3E%20h6%3Afirst%2Dchild%20%7B%0Amargin%2Dtop%3A%200%3B%0Apadding%2Dtop%3A%200%3B%20%7D%0Aa%3Afirst%2Dchild%20h1%2C%20a%3Afirst%2Dchild%20h2%2C%20a%3Afirst%2Dchild%20h3%2C%20a%3Afirst%2Dchild%20h4%2C%20a%3Afirst%2Dchild%20h5%2C%20a%3Afirst%2Dchild%20h6%20%7B%0Amargin%2Dtop%3A%200%3B%0Apadding%2Dtop%3A%200%3B%20%7D%0Ah1%20p%2C%20h2%20p%2C%20h3%20p%2C%20h4%20p%2C%20h5%20p%2C%20h6%20p%20%7B%0Amargin%2Dtop%3A%200%3B%20%7D%0Ali%20p%2Efirst%20%7B%0Adisplay%3A%20inline%2Dblock%3B%20%7D%0Aul%2C%20ol%20%7B%0Apadding%2Dleft%3A%2030px%3B%20%7D%0Aul%20%3Afirst%2Dchild%2C%20ol%20%3Afirst%2Dchild%20%7B%0Amargin%2Dtop%3A%200%3B%20%7D%0Aul%20%3Alast%2Dchild%2C%20ol%20%3Alast%2Dchild%20%7B%0Amargin%2Dbottom%3A%200%3B%20%7D%0Adl%20%7B%0Apadding%3A%200%3B%20%7D%0Adl%20dt%20%7B%0Afont%2Dsize%3A%2014px%3B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dstyle%3A%20italic%3B%0Apadding%3A%200%3B%0Amargin%3A%2015px%200%205px%3B%20%7D%0Adl%20dt%3Afirst%2Dchild%20%7B%0Apadding%3A%200%3B%20%7D%0Adl%20dt%20%3E%20%3Afirst%2Dchild%20%7B%0Amargin%2Dtop%3A%200%3B%20%7D%0Adl%20dt%20%3E%20%3Alast%2Dchild%20%7B%0Amargin%2Dbottom%3A%200%3B%20%7D%0Adl%20dd%20%7B%0Amargin%3A%200%200%2015px%3B%0Apadding%3A%200%2015px%3B%20%7D%0Adl%20dd%20%3E%20%3Afirst%2Dchild%20%7B%0Amargin%2Dtop%3A%200%3B%20%7D%0Adl%20dd%20%3E%20%3Alast%2Dchild%20%7B%0Amargin%2Dbottom%3A%200%3B%20%7D%0Ablockquote%20%7B%0Aborder%2Dleft%3A%204px%20solid%20%23dddddd%3B%0Apadding%3A%200%2015px%3B%0Acolor%3A%20%23777777%3B%20%7D%0Ablockquote%20%3E%20%3Afirst%2Dchild%20%7B%0Amargin%2Dtop%3A%200%3B%20%7D%0Ablockquote%20%3E%20%3Alast%2Dchild%20%7B%0Amargin%2Dbottom%3A%200%3B%20%7D%0Atable%20%7B%0Apadding%3A%200%3B%20%7D%0Atable%20tr%20%7B%0Aborder%2Dtop%3A%201px%20solid%20%23cccccc%3B%0Abackground%2Dcolor%3A%20white%3B%0Amargin%3A%200%3B%0Apadding%3A%200%3B%20%7D%0Atable%20tr%3Anth%2Dchild%282n%29%20%7B%0Abackground%2Dcolor%3A%20%23f8f8f8%3B%20%7D%0Atable%20tr%20th%20%7B%0Afont%2Dweight%3A%20bold%3B%0Aborder%3A%201px%20solid%20%23cccccc%3B%0Atext%2Dalign%3A%20left%3B%0Amargin%3A%200%3B%0Apadding%3A%206px%2013px%3B%20%7D%0Atable%20tr%20td%20%7B%0Aborder%3A%201px%20solid%20%23cccccc%3B%0Atext%2Dalign%3A%20left%3B%0Amargin%3A%200%3B%0Apadding%3A%206px%2013px%3B%20%7D%0Atable%20tr%20th%20%3Afirst%2Dchild%2C%20table%20tr%20td%20%3Afirst%2Dchild%20%7B%0Amargin%2Dtop%3A%200%3B%20%7D%0Atable%20tr%20th%20%3Alast%2Dchild%2C%20table%20tr%20td%20%3Alast%2Dchild%20%7B%0Amargin%2Dbottom%3A%200%3B%20%7D%0Aimg%20%7B%0Amax%2Dwidth%3A%20100%25%3B%20%7D%0Aspan%2Eframe%20%7B%0Adisplay%3A%20block%3B%0Aoverflow%3A%20hidden%3B%20%7D%0Aspan%2Eframe%20%3E%20span%20%7B%0Aborder%3A%201px%20solid%20%23dddddd%3B%0Adisplay%3A%20block%3B%0Afloat%3A%20left%3B%0Aoverflow%3A%20hidden%3B%0Amargin%3A%2013px%200%200%3B%0Apadding%3A%207px%3B%0Awidth%3A%20auto%3B%20%7D%0Aspan%2Eframe%20span%20img%20%7B%0Adisplay%3A%20block%3B%0Afloat%3A%20left%3B%20%7D%0Aspan%2Eframe%20span%20span%20%7B%0Aclear%3A%20both%3B%0Acolor%3A%20%23333333%3B%0Adisplay%3A%20block%3B%0Apadding%3A%205px%200%200%3B%20%7D%0Aspan%2Ealign%2Dcenter%20%7B%0Adisplay%3A%20block%3B%0Aoverflow%3A%20hidden%3B%0Aclear%3A%20both%3B%20%7D%0Aspan%2Ealign%2Dcenter%20%3E%20span%20%7B%0Adisplay%3A%20block%3B%0Aoverflow%3A%20hidden%3B%0Amargin%3A%2013px%20auto%200%3B%0Atext%2Dalign%3A%20center%3B%20%7D%0Aspan%2Ealign%2Dcenter%20span%20img%20%7B%0Amargin%3A%200%20auto%3B%0Atext%2Dalign%3A%20center%3B%20%7D%0Aspan%2Ealign%2Dright%20%7B%0Adisplay%3A%20block%3B%0Aoverflow%3A%20hidden%3B%0Aclear%3A%20both%3B%20%7D%0Aspan%2Ealign%2Dright%20%3E%20span%20%7B%0Adisplay%3A%20block%3B%0Aoverflow%3A%20hidden%3B%0Amargin%3A%2013px%200%200%3B%0Atext%2Dalign%3A%20right%3B%20%7D%0Aspan%2Ealign%2Dright%20span%20img%20%7B%0Amargin%3A%200%3B%0Atext%2Dalign%3A%20right%3B%20%7D%0Aspan%2Efloat%2Dleft%20%7B%0Adisplay%3A%20block%3B%0Amargin%2Dright%3A%2013px%3B%0Aoverflow%3A%20hidden%3B%0Afloat%3A%20left%3B%20%7D%0Aspan%2Efloat%2Dleft%20span%20%7B%0Amargin%3A%2013px%200%200%3B%20%7D%0Aspan%2Efloat%2Dright%20%7B%0Adisplay%3A%20block%3B%0Amargin%2Dleft%3A%2013px%3B%0Aoverflow%3A%20hidden%3B%0Afloat%3A%20right%3B%20%7D%0Aspan%2Efloat%2Dright%20%3E%20span%20%7B%0Adisplay%3A%20block%3B%0Aoverflow%3A%20hidden%3B%0Amargin%3A%2013px%20auto%200%3B%0Atext%2Dalign%3A%20right%3B%20%7D%0Acode%2C%20tt%20%7B%0Amargin%3A%200%202px%3B%0Apadding%3A%200%205px%3B%0Awhite%2Dspace%3A%20nowrap%3B%0Aborder%3A%201px%20solid%20%23eaeaea%3B%0Abackground%2Dcolor%3A%20%23f8f8f8%3B%0Aborder%2Dradius%3A%203px%3B%20%7D%0Apre%20code%20%7B%0Amargin%3A%200%3B%0Apadding%3A%200%3B%0Awhite%2Dspace%3A%20pre%3B%0Aborder%3A%20none%3B%0Abackground%3A%20transparent%3B%20%7D%0A%2Ehighlight%20pre%20%7B%0Abackground%2Dcolor%3A%20%23f8f8f8%3B%0Aborder%3A%201px%20solid%20%23cccccc%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%2019px%3B%0Aoverflow%3A%20auto%3B%0Apadding%3A%206px%2010px%3B%0Aborder%2Dradius%3A%203px%3B%20%7D%0Apre%20%7B%0Abackground%2Dcolor%3A%20%23f8f8f8%3B%0Aborder%3A%201px%20solid%20%23cccccc%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%2019px%3B%0Aoverflow%3A%20auto%3B%0Apadding%3A%206px%2010px%3B%0Aborder%2Dradius%3A%203px%3B%20%7D%0Apre%20code%2C%20pre%20tt%20%7B%0Abackground%2Dcolor%3A%20transparent%3B%0Aborder%3A%20none%3B%20%7D%0A" rel="stylesheet">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 id="asc-assemblersimulator">ASC Assembler&amp;Simulatorの説明書</h1>
+<p>ASC Assembler&amp;Simulatorは、<strong>ASC(A Simple Computer)</strong>の<em>アセンブラ</em>とシミュレータのセットです。<br />
+この説明書では、ASC AssemblerとASC Simulatorの使い方の説明と、アセンブリファイルの仕様について説明します。</p>
+<blockquote>
+<h4>アセンブラとは？</h4>
+<p>アセンブラとは、コンピュータが実行できる0と1の羅列が、人間にはわかりづらいものであるため、考えられたものです。機械語をわかりやすく表現することで、プログラム作成の負担を軽減します。</p>
+</blockquote>
+<h1 id="asc-assembler">ASC Assembler</h1>
+<p>ASC Assemblerは、&quot;asc-assembler.exe&quot;というファイル名で配布しています。<br />
+このexeファイルは、.ascs形式で記述されたソースコードを読み込み、アセンブル時のログと共にシミュレータの読む込むことのできる.ascoファイルを書き出すことができます。</p>
+<h2>主な使い方</h2>
+<p>まず、ascs形式のソースコードを用意します。文法については後述します。<br />
+用意したソースコードをasc-assembler.exeに読み込ませます。以下の様に入力してEnterキーを押して下さい。</p>
+<pre><code>asc-assembler.exe 用意したソースコード.ascs</code></pre>
+<p>もしくは、インストール時にデスクトップに生成された、&quot;asc-assembler&quot;というリンクに.ascsファイルをドラッグアンドドロップすることでも、アセンブルを実行することができます。</p>
+<p>[警告][エラー]などの表示が出なければアセンブル成功です。</p>
+<p>成功時には、<em>アセンブル</em>のログが表示され、ソースコードと同じディレクトリに.ascoファイルを出力します。<br />
+この.ascoファイルが、オブジェクトファイルになり、シミュレータに実行させることができます。</p>
+<blockquote>
+<h4>アセンブルとは？</h4>
+<p>アセンブリ言語によって記述されたプログラムを、機械語に変換する作業のことをいいます。</p>
+<h4>コマンドプロンプトとは？</h4>
+<p>テキストベースのプログラムを扱うことができる、Windowsに付属のツールのことです。Macでは&quot;ターミナル&quot;, Unix系では&quot;コンソール&quot;などとも呼ばれています。</p>
+</blockquote>
+<h1 id="asc-simulator">ASC Simulator</h1>
+<p>ASC Assemblerで作成したオブジェクトファイルを実行することができるシミュレータです。<br />
+使い方については、asc-simulator.exeをダブルクリックして、メニューバーの[ヘルプ]より、[使い方]を参照してください。</p>
+<h1 id="ascs">.ascsファイルについて</h1>
+<p>.ascsファイルは、ASCに実行させたい命令を順番に記述したファイルです。書式には、独自のASCアセンブリ言語を用いていて、以下にその書式を示します。</p>
+<h2 id="asc">ASCアセンブリ言語の書式</h2>
+<h3>ラベル</h3>
+<p>ラベルとは、命令につけた名札です。この名札があることによって、ユーザはアドレスを意識すること無くソースコードを作成することができるようになります。<br />
+具体的には、以下のようにラベルを記述します。</p>
+<pre><code>Label1  LD Label2
+        ADD 0x1
+Label2  B  Label1</code></pre>
+<p>この場合、Label1とLabel2がラベル名となります。一行目のLabel1は、&quot;LD Label2&quot;のアドレスを指します。同様に、Label2は&quot;B Label1&quot;のアドレスを指します。<br />
+結果として、一行目の&quot;LD Label2&quot;は&quot;B Label1&quot;の内容をロードする、という意味になります。Label2についても同様です。<br />
+ラベル名の記述に仕方について、</p>
+<ol>
+<li><strong>10文字未満であること</strong></li>
+<li><strong>アルファベットから始まっていること</strong></li>
+</ol>
+<p>が守られている必要があります。また、</p>
+<ol>
+<li><strong>大文字小文字は区別される</strong></li>
+</ol>
+<p>という点に気をつけてください。例えば、Label1とlabel1は別のものと解釈されます。</p>
+<h3>命令</h3>
+<p>命令は、実際にASCに実行させたい動作を指定するものです。<br />
+命令を記述する際、命令の前に空白(半角空白, 全角空白, タブ文字)が無い場合、ラベル名として扱われます。気をつけてください。<br />
+また、全ての命令は大文字のみで記述してください。小文字を混ぜて使用すると、エラーとなります。<br />
+使用できる命令は以下の10個です。</p>
+<hr />
+<h4 id="ld-16">1. LD &lt;16進数&gt;または<ラベル名></h4>
+<p>指定したアドレスからレジスタRへ値をロードする命令です。</p>
+<h4 id="st-16">2. ST &lt;16進数&gt;または<ラベル名></h4>
+<p>指定したアドレスへレジスタRから値をストアする命令です。</p>
+<h4 id="add-16">3. ADD &lt;16進数&gt;または<ラベル名></h4>
+<p>指定したアドレスの値をレジスタRの値に加算する命令です。<br />
+もし、演算の結果レジスタRの値が負になった場合、フラグNが立ちます。<br />
+もし、演算の結果レジスタRの値が0になった場合、フラグZが立ちます。<br />
+もし、正の値+正の値の演算により、レジスタRの値が負の値になった場合、オーバフローとなります。<br />
+もし、負の値+負の値の演算により、レジスタRの値が正の値になった場合、オーバフローとなります。</p>
+<h4 id="sub-16">4. SUB &lt;16進数&gt;または<ラベル名></h4>
+<p>レジスタRの値から指定したアドレスの値を減算する命令です。<br />
+もし、演算の結果レジスタRの値が負になった場合、フラグNが立ちます。<br />
+もし、演算の結果レジスタRの値が0になった場合、フラグZが立ちます。<br />
+もし、正の値-負の値の演算により、レジスタRの値が負の値になった場合、オーバフローとなります。<br />
+もし、負の値-正の値の演算により、レジスタRの値が正の値になった場合、オーバフローとなります。</p>
+<h4 id="and-16">5. AND &lt;16進数&gt;または<ラベル名></h4>
+<p>レジスタRの値と指定したアドレスの値の論理積を取ります。<br />
+もし、演算の結果レジスタRの値が0になった場合、フラグZが立ちます。</p>
+<h4 id="or-16">6. OR &lt;16進数&gt;または<ラベル名></h4>
+<p>レジスタRの値と指定したアドレスの値の論理和を取ります。<br />
+もし、演算の結果レジスタRの値が0になった場合、フラグZが立ちます。</p>
+<h4 id="b-16">7. B &lt;16進数&gt;または<ラベル名></h4>
+<p>指定したアドレスへ処理を移します。<br />
+具体的には、MARの値をPCへ移動します。</p>
+<h4 id="bz-16">8. BZ &lt;16進数&gt;または<ラベル名></h4>
+<p>Zフラグが立っていた場合、指定したアドレスへ処理を移します。<br />
+具体的には、IRのオペランド部の値をPCへ移動します。</p>
+<h4 id="bn-16">9. BN &lt;16進数&gt;または<ラベル名></h4>
+<p>Nフラグが立っていた場合、指定したアドレスへ処理を移します。<br />
+具体的には、IRのオペランド部の値をPCへ移動します。</p>
+<h4 id="hlt">10. HLT</h4>
+<p>ASCを停止します。この命令にはオペランドは必要ありません。</p>
+<hr />
+<h3>擬似命令</h3>
+<p>前述の命令はASCに対する命令であったのに対し、擬似命令はアセンブラに対する動作を指定するものです。<br />
+擬似命令には以下の5つがあります。</p>
+<h4 id="title">1. TITLE <名前></h4>
+<p>プログラムのタイトルを指定します。<br />
+ここで指定された名前に.ascoを付加したものを、オブジェクトファイル名として使用します。</p>
+<h4 id="org-16">2. ORG &lt;16進数&gt;</h4>
+<p>プログラムの先頭アドレスを指定します。<br />
+シミュレーション開始時には、ORGで宣言したアドレスをPCにセットします。<br />
+また、ORGが省略された場合には、0x0000番地を使用します。</p>
+<h4 id="dc">3. DC <符号付き数></h4>
+<p>定数を定義します。</p>
+<h4 id="ds-10">4. DS &lt;10進数&gt;</h4>
+<p>指定したサイズのメモリ領域を確保します。</p>
+<h4 id="end">5. END</h4>
+<p>プログラムの終了を表します。これ以降に記述されたプログラムは無視します。</p>
+<hr />
+<h3>オペランド</h3>
+<p>命令の操作対象をオペランドと呼びます。命令の隣に記述します。<br />
+ASCアセンブリ言語では、16進数、10進数、符号付き10進数、名前をオペランドとして扱うことができます。</p>
+<h3>コメント</h3>
+<p>ASCアセンブリ言語は、&quot;;&quot;(セミコロン)の後の文字を全て無視します。よって、セミコロンの後にプログラムの説明を書くことができます。これをコメントと呼びます。<br />
+コメントは主に、セミコロンが行頭にくる一行コメントと、セミコロンが行末にくる行末コメントに分けられます。<br />
+行頭コメントの場合、アセンブルのログでは一行全てをコメントとして表示します。</p>
+<pre><code>; 一行コメントの例
+
+Test   LD 0x10 ;行末コメントの例
+</code></pre>
+<h2 id="asc">ASCアセンブリ言語の言語仕様</h2>
+<p>以下に、BNF記法でこの言語の仕様を記述します。</p>
+<pre><code>&lt;プログラム&gt; ::=
+ &lt;プログラム頭部&gt;
+ &lt;プログラム本体&gt;
+ &lt;プログラム後部&gt;
+
+&lt;プログラム頭部&gt; ::= TITLE &lt;名前&gt; { ORG &lt;16進数&gt; }
+
+&lt;プログラム本体&gt; ::= &lt;命令&gt;{ &lt;命令&gt; }
+&lt;命令&gt; ::= &lt;ラベル&gt; &lt;命令本体&gt; { &lt;コメント&gt; } | &lt;命令本体&gt; { &lt;コメント&gt; } | &lt;コメント&gt;
+&lt;ラベル&gt; ::= &lt;名前&gt;
+&lt;コメント&gt; ::= ;すべての文字
+
+&lt;命令本体&gt; ::= &lt;命令グループ1&gt; | &lt;命令グループ2&gt; | &lt;命令グループ3&gt;
+&lt;命令グループ1&gt; ::= &lt;OP1&gt; &lt;16進数&gt; | &lt;OP1&gt; &lt;ラベル&gt;
+&lt;OP1&gt; ::= LD | ST | ADD | SUB | AND | OR | B | BZ | BN
+&lt;命令グループ2&gt; ::= HLT
+&lt;命令グループ3&gt; ::= DC &lt;符号付き数&gt; | DS &lt;数値&gt;
+
+&lt;符号付き数&gt; ::= &lt;10進数&gt; | +&lt;10進数&gt; | -&lt;10進数&gt;
+&lt;数値&gt; ::= &lt;10進数&gt;
+&lt;名前&gt; ::= &lt;アルファベット&gt; {&lt;アルファベットまたは数字&gt;}
+
+&lt;16進数&gt; ::= 0x&lt;10進数&gt;|A|B|C|D|E|F{&lt;10進数&gt;|A|B|C|D|E|F}
+&lt;10進数&gt; ::= &lt;数字&gt;
+&lt;アルファベットまたは数字&gt; ::= &lt;数字&gt; | &lt;アルファベット&gt;
+&lt;数字&gt; ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+
+&lt;文字&gt; ::= | ! | “ | # | $ | % | &amp; | ’ | ( | ) | - | = | ^ | \ | | |
+     @ | ` | [ | { | ; | + | : | * | ] | } | , | &lt; | . | &gt; | / | ? | _ |
+    &lt;アルファベット&gt;
+&lt;アルファベット&gt; ::= A | B | C | D | E | F | … | X | Y | Z |
+                   a | b | c | d | e | f | … | x | y | z |
+
+&lt;プログラム後部&gt; ::= END</code></pre>
+</body>
+</html>

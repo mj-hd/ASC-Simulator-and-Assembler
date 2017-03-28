@@ -1,0 +1,13 @@
+; TEST-add
+; add a + b and store to C
+	TITLE	ADDITION
+	ORG	0x0
+	LD	A
+	ADD	B
+	ST	C
+	HLT
+A 	DC 	1
+B  	DC 	2
+C	DS	1
+	END
+
