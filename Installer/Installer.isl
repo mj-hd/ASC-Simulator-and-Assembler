@@ -265,7 +265,7 @@
 		<row><td>NewBinary18</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\InstallStateMenu.ico</td></row>
 		<row><td>NewBinary19</td><td/><td>&lt;ISProjectFolder&gt;\..\delete_samples.js</td></row>
 		<row><td>NewBinary2</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\New.ibd</td></row>
-		<row><td>NewBinary20</td><td/><td>Z:\Dropbox\Projects\asc-simulator-assembler\delete_samples.js</td></row>
+		<row><td>NewBinary20</td><td/><td>&lt;ISProjectFolder&gt;\..\delete_samples.js</td></row>
 		<row><td>NewBinary3</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\Up.ibd</td></row>
 		<row><td>NewBinary4</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\WarningIcon.ibd</td></row>
 		<row><td>NewBinary5</td><td/><td>&lt;ISProductFolder&gt;\Support\Themes\InstallShield Blue Theme\welcome.jpg</td></row>
@@ -347,7 +347,6 @@
 		<row><td>Component6</td><td>{A0D90037-4415-4E59-A2F2-DD40AFEC2C5C}</td><td>INSTALLDIR</td><td>2</td><td/><td>File6</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>Component7</td><td>{26768D8A-347D-4B46-99F9-F5C830775178}</td><td>INSTALLDIR</td><td>2</td><td/><td>File7</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>Component8</td><td>{7202EEAB-7A5C-42A2-A2DE-F3A63040968E}</td><td>INSTALLDIR</td><td>2</td><td/><td>File8</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>ISX_DEFAULTCOMPONENT</td><td>{9A96AFAF-ED50-4877-B9EC-6B2477F6E8E9}</td><td>DIRECTORY</td><td>2</td><td/><td>index.html</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td>{0DE46912-D3AB-44BD-8568-38F03940B08E}</td><td>SAMPLE</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT2</td><td>{B73A0360-24F2-4CD9-BD3E-18874AF218DE}</td><td>ASC</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT3</td><td>{F22086A9-0032-4567-B8F9-010BDBDC8C93}</td><td>INSTALLDIR</td><td>2</td><td/><td>asc_assembler.bat</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
@@ -1156,7 +1155,6 @@
 		<row><td>CommonFiles64Folder</td><td>TARGETDIR</td><td>.:Common64</td><td/><td>0</td><td/></row>
 		<row><td>CommonFilesFolder</td><td>TARGETDIR</td><td>.:Common</td><td/><td>0</td><td/></row>
 		<row><td>DATABASEDIR</td><td>ISYourDataBaseDir</td><td>.</td><td/><td>0</td><td/></row>
-		<row><td>DIRECTORY</td><td>INSTALLDIR</td><td>説明書</td><td/><td>0</td><td/></row>
 		<row><td>DesktopFolder</td><td>TARGETDIR</td><td>.:Desktop</td><td/><td>3</td><td/></row>
 		<row><td>FavoritesFolder</td><td>TARGETDIR</td><td>.:FAVORI~1|Favorites</td><td/><td>0</td><td/></row>
 		<row><td>FontsFolder</td><td>TARGETDIR</td><td>.:Fonts</td><td/><td>0</td><td/></row>
@@ -1891,7 +1889,6 @@
 		<row><td>AlwaysInstall</td><td>Component6</td></row>
 		<row><td>AlwaysInstall</td><td>Component7</td></row>
 		<row><td>AlwaysInstall</td><td>Component8</td></row>
-		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT1</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT2</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT3</td></row>
@@ -1913,6 +1910,8 @@
 		<col def="I4">ISAttributes</col>
 		<col def="S72">ISComponentSubFolder_</col>
 		<row><td>File</td><td>Component</td><td>asc-simulator.コンテンツ ファイル</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;asc-simulator&gt;|ContentFiles</td><td>3</td><td/></row>
+		<row><td>File.url</td><td>ISX_DEFAULTCOMPONENT3</td><td>説明書.url</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\..\説明書.url</td><td>1</td><td/></row>
+		<row><td>File.url1</td><td>ISX_DEFAULTCOMPONENT3</td><td>サンプ~1.URL|サンプルプログラムについて.url</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\..\サンプルプログラムについて.url</td><td>1</td><td/></row>
 		<row><td>File5</td><td>Component5</td><td>asc-assembler.プライマリ出力</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;asc-assembler&gt;|Built</td><td>3</td><td/></row>
 		<row><td>File6</td><td>Component6</td><td>asc-simulator.プライマリ出力</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;asc-simulator&gt;|Built</td><td>3</td><td/></row>
 		<row><td>File7</td><td>Component7</td><td>Common.プライマリ出力</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;Common&gt;|Built</td><td>3</td><td/></row>
@@ -1920,9 +1919,9 @@
 		<row><td>add.ascs</td><td>ISX_DEFAULTCOMPONENT1</td><td>ADD~1.ASC|ADD.ascs</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\..\sample\ADD.ascs</td><td>1</td><td/></row>
 		<row><td>asc_assembler.bat</td><td>ISX_DEFAULTCOMPONENT3</td><td>ASC-AS~1.BAT|asc-assembler.bat</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\..\asc-assembler.bat</td><td>1</td><td/></row>
 		<row><td>average.ascs</td><td>ISX_DEFAULTCOMPONENT1</td><td>AVERAG~1.ASC|average.ascs</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\..\sample\average.ascs</td><td>1</td><td/></row>
+		<row><td>bitcount.ascs</td><td>ISX_DEFAULTCOMPONENT1</td><td>BITCOU~1.ASC|BITCOUNT.ascs</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\..\sample\BITCOUNT.ascs</td><td>1</td><td/></row>
+		<row><td>div.ascs</td><td>ISX_DEFAULTCOMPONENT1</td><td>DIV~1.ASC|DIV.ascs</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\..\sample\DIV.ascs</td><td>1</td><td/></row>
 		<row><td>factorial.ascs</td><td>ISX_DEFAULTCOMPONENT1</td><td>FACTOR~1.ASC|factorial.ascs</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\..\sample\factorial.ascs</td><td>1</td><td/></row>
-		<row><td>github.css</td><td>ISX_DEFAULTCOMPONENT</td><td>github.css</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\..\説明書\github.css</td><td>1</td><td/></row>
-		<row><td>index.html</td><td>ISX_DEFAULTCOMPONENT</td><td>INDEX~1.HTM|index.html</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\..\説明書\index.html</td><td>1</td><td/></row>
 		<row><td>msvcp120.dll</td><td>msvcp120.dll</td><td>msvcp120.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Windows\System32\msvcp120.dll</td><td>1</td><td/></row>
 		<row><td>msvcr120.dll</td><td>msvcr120.dll</td><td>msvcr120.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Windows\System32\msvcr120.dll</td><td>1</td><td/></row>
 		<row><td>mult.ascs</td><td>ISX_DEFAULTCOMPONENT1</td><td>MULT~1.ASC|MULT.ascs</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\..\sample\MULT.ascs</td><td>1</td><td/></row>
@@ -2074,7 +2073,6 @@
 		<row><td>Component6</td><td/><td/><td>_FC6E3FC3_CAE9_4A92_951C_2882AEEF0FB1_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Component7</td><td/><td/><td>_8D7F90C9_D04A_46B3_8617_07A7A045249D_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Component8</td><td/><td/><td>_3A2CD863_3E63_4F27_9036_049338F0E654_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>ISX_DEFAULTCOMPONENT</td><td/><td/><td>_8B2FDB0E_63AC_4AE6_97A9_7BB0ABF26010_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td/><td/><td>_67E1416E_5C8F_4146_B6B9_F4360B712CD0_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT2</td><td/><td/><td>_EAD100FF_6D37_4461_83E0_B6E5E14F8134_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT3</td><td/><td/><td>_A3BED873_5C23_4510_BFEA_B32EC662BF95_FILTER</td><td/><td/><td/><td/></row>
@@ -4920,7 +4918,7 @@
 		<row><td>ID_STRING10</td><td>1041</td><td>[~];[INSTALLDIR]</td><td>0</td><td/><td>-1935536630</td></row>
 		<row><td>ID_STRING10</td><td>1042</td><td>[~];[INSTALLDIR]</td><td>0</td><td/><td>-1935536630</td></row>
 		<row><td>ID_STRING11</td><td>1033</td><td>NEWSHO~1|NewShortcut1</td><td>0</td><td/><td>-1801313519</td></row>
-		<row><td>ID_STRING11</td><td>1041</td><td>説明書</td><td>0</td><td/><td>-1801307375</td></row>
+		<row><td>ID_STRING11</td><td>1041</td><td>ASCの~1|ASCの命令とデータ形式の説明</td><td>0</td><td/><td>-224067474</td></row>
 		<row><td>ID_STRING11</td><td>1042</td><td>NEWSHO~1|NewShortcut1</td><td>0</td><td/><td>-1801313519</td></row>
 		<row><td>ID_STRING12</td><td>1033</td><td>NEWSHO~1|NewShortcut2</td><td>0</td><td/><td>-1801290991</td></row>
 		<row><td>ID_STRING12</td><td>1041</td><td>ASC-AS~1|asc-assembler</td><td>0</td><td/><td>-1801278703</td></row>
@@ -4934,8 +4932,26 @@
 		<row><td>ID_STRING15</td><td>1033</td><td>NEWSHO~1|NewShortcut4</td><td>0</td><td/><td>-1457281330</td></row>
 		<row><td>ID_STRING15</td><td>1041</td><td>sample</td><td>0</td><td/><td>-1457290641</td></row>
 		<row><td>ID_STRING15</td><td>1042</td><td>NEWSHO~1|NewShortcut4</td><td>0</td><td/><td>-1457281330</td></row>
+		<row><td>ID_STRING16</td><td>1033</td><td>NEWSHO~1|NewShortcut1</td><td>0</td><td/><td>-224050610</td></row>
+		<row><td>ID_STRING16</td><td>1041</td><td>説明書</td><td>0</td><td/><td>-224023922</td></row>
+		<row><td>ID_STRING16</td><td>1042</td><td>NEWSHO~1|NewShortcut1</td><td>0</td><td/><td>-224050610</td></row>
+		<row><td>ID_STRING17</td><td>1033</td><td>NEWSHO~1|NewShortcut3</td><td>0</td><td/><td>-224021938</td></row>
+		<row><td>ID_STRING17</td><td>1041</td><td>サンプ~1|サンプルプログラムについて</td><td>0</td><td/><td>-224011698</td></row>
+		<row><td>ID_STRING17</td><td>1042</td><td>NEWSHO~1|NewShortcut3</td><td>0</td><td/><td>-224021938</td></row>
+		<row><td>ID_STRING18</td><td>1033</td><td>サンプ~1|サンプルプログラムについて</td><td>0</td><td/><td>-224052626</td></row>
+		<row><td>ID_STRING18</td><td>1041</td><td>サンプ~1|サンプルプログラムについて</td><td>0</td><td/><td>-224052626</td></row>
+		<row><td>ID_STRING18</td><td>1042</td><td>サンプ~1|サンプルプログラムについて</td><td>0</td><td/><td>-224052626</td></row>
+		<row><td>ID_STRING19</td><td>1033</td><td>ASCの~1|ASCの命令とデータ形式の説明</td><td>0</td><td/><td>-224048530</td></row>
+		<row><td>ID_STRING19</td><td>1041</td><td>説明書</td><td>0</td><td/><td>-224015730</td></row>
+		<row><td>ID_STRING19</td><td>1042</td><td>ASCの~1|ASCの命令とデータ形式の説明</td><td>0</td><td/><td>-224048530</td></row>
 		<row><td>ID_STRING2</td><td>1033</td><td>asc</td><td>0</td><td/><td>-1935489399</td></row>
 		<row><td>ID_STRING2</td><td>1041</td><td>asc</td><td>0</td><td/><td>-1935489399</td></row>
+		<row><td>ID_STRING20</td><td>1033</td><td>NEWSHO~1|NewShortcut5</td><td>0</td><td/><td>-224036146</td></row>
+		<row><td>ID_STRING20</td><td>1041</td><td>説明書</td><td>0</td><td/><td>-224025906</td></row>
+		<row><td>ID_STRING20</td><td>1042</td><td>NEWSHO~1|NewShortcut5</td><td>0</td><td/><td>-224036146</td></row>
+		<row><td>ID_STRING21</td><td>1033</td><td>NEWSHO~1|NewShortcut6</td><td>0</td><td/><td>-224011570</td></row>
+		<row><td>ID_STRING21</td><td>1041</td><td>説明書</td><td>0</td><td/><td>-224009522</td></row>
+		<row><td>ID_STRING21</td><td>1042</td><td>NEWSHO~1|NewShortcut6</td><td>0</td><td/><td>-224011570</td></row>
 		<row><td>ID_STRING3</td><td>1033</td><td>Launch |Built</td><td>0</td><td/><td>-1935489399</td></row>
 		<row><td>ID_STRING3</td><td>1041</td><td>Launch |Built</td><td>0</td><td/><td>-1935489399</td></row>
 		<row><td>ID_STRING4</td><td>1033</td><td>LAUNCH~1.BAT|Launch ASC用コマンドプロンプト.bat</td><td>0</td><td/><td>-1935489399</td></row>
@@ -5070,10 +5086,16 @@
 		<col def="S255">ISBuildSourcePath</col>
 		<col def="I2">ISIconIndex</col>
 		<row><td>ARPPRODUCTICON.exe</td><td/><td>&lt;ISProductFolder&gt;\redist\Language Independent\OS Independent\setupicon.ico</td><td>0</td></row>
+		<row><td>NewShortcut11_B2E7F02034ED4CC89F319E461AC71C2D.exe</td><td/><td>&lt;ISProjectFolder&gt;\..\asc-assembler.bat</td><td>0</td></row>
 		<row><td>NewShortcut1_777594458E174ECCB8B307FCE39D05F5.exe</td><td/><td>&lt;ISProjectFolder&gt;\..\説明書\index.html</td><td>0</td></row>
+		<row><td>NewShortcut1_EDA4C254DC67441092C950600F04584D.exe</td><td/><td>&lt;ISProjectFolder&gt;\..\asc-assembler.bat</td><td>0</td></row>
 		<row><td>NewShortcut2_96A46B6AEB5941DCA205D5AEA380E115.exe</td><td/><td>&lt;ISProjectFolder&gt;\..\asc-assembler.bat</td><td>0</td></row>
+		<row><td>NewShortcut31_AF0A6302B7C9401D9F57BEA2B3E174A4.exe</td><td/><td>&lt;ISProjectFolder&gt;\..\asc-assembler.bat</td><td>0</td></row>
+		<row><td>NewShortcut3_0D66A21B4792475AB15F81B629FA56DF.exe</td><td/><td>&lt;</td><td>0</td></row>
 		<row><td>NewShortcut4_BA85D3DB555545A78A36C4D09A2C63E7.exe</td><td/><td>&lt;ISProjectFolder&gt;\..\asc-assembler.bat</td><td>0</td></row>
 		<row><td>NewShortcut4_C48C402E4F0F43BCA2803E07FA460FCA.exe</td><td/><td>&lt;SystemFolder&gt;\shell32.dll</td><td>3</td></row>
+		<row><td>NewShortcut5_A13D76752B7744C3BCC370F20702E8DD.exe</td><td/><td>&lt;ISProjectFolder&gt;\..\asc-assembler.bat</td><td>0</td></row>
+		<row><td>NewShortcut6_4AECFEB60F164D98A32C10FF5ADC46D6.exe</td><td/><td>&lt;ISProjectFolder&gt;\..\asc-assembler.bat</td><td>0</td></row>
 		<row><td>asc_assembler.bat1_9B13A74D0C214B219A799D4BA4206F38.exe</td><td/><td>&lt;ISProductFolder&gt;\redist\Language Independent\OS Independent\GenericExe.ico</td><td>0</td></row>
 		<row><td>asc_assembler.bat_EC74229E951D4045A271E4457C055485.exe</td><td/><td>&lt;ISProductFolder&gt;\redist\Language Independent\OS Independent\GenericExe.ico</td><td>0</td></row>
 		<row><td>index.html_398E22B288134C1EAEDDD76ED2B0682C.exe</td><td/><td>&lt;ISProductFolder&gt;\redist\Language Independent\OS Independent\GenericExe.ico</td><td>0</td></row>
@@ -5587,9 +5609,9 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>PROGMSG_IIS_ROLLBACKAPPPOOLS</td><td>##IDS_PROGMSG_IIS_ROLLBACKAPPPOOLS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKVROOTS</td><td>##IDS_PROGMSG_IIS_ROLLBACKVROOTS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
-		<row><td>ProductCode</td><td>{65775D01-B9CE-4024-B0A8-729CF7D517AC}</td><td/></row>
+		<row><td>ProductCode</td><td>{EF28FF8D-8EB2-421A-9624-DF0B0D29CA64}</td><td/></row>
 		<row><td>ProductName</td><td>asc-simulator-assembler</td><td/></row>
-		<row><td>ProductVersion</td><td>0.5.4.0</td><td/></row>
+		<row><td>ProductVersion</td><td>0.5.4.1</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
 		<row><td>ProgressType1</td><td>Installing</td><td/></row>
 		<row><td>ProgressType2</td><td>installed</td><td/></row>
@@ -5601,7 +5623,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>RestartManagerOption</td><td>CloseRestart</td><td/></row>
 		<row><td>SERIALNUMBER</td><td/><td/></row>
 		<row><td>SERIALNUMVALSUCCESSRETVAL</td><td>1</td><td/></row>
-		<row><td>SecureCustomProperties</td><td>ISFOUNDNEWERPRODUCTVERSION;USERNAME;COMPANYNAME;ISX_SERIALNUM;SUPPORTDIR;ISACTIONPROP1;ISACTIONPROP2;ISACTIONPROP3;ISACTIONPROP4;ISACTIONPROP5;ISACTIONPROP6;ISACTIONPROP7;DOTNETVERSION45FULL;ISACTIONPROP8</td><td/></row>
+		<row><td>SecureCustomProperties</td><td>ISFOUNDNEWERPRODUCTVERSION;USERNAME;COMPANYNAME;ISX_SERIALNUM;SUPPORTDIR;ISACTIONPROP1;ISACTIONPROP2;ISACTIONPROP3;ISACTIONPROP4;ISACTIONPROP5;ISACTIONPROP6;ISACTIONPROP7;DOTNETVERSION45FULL;ISACTIONPROP8;ISACTIONPROP9</td><td/></row>
 		<row><td>SelectedSetupType</td><td>##IDS__DisplayName_Typical##</td><td/></row>
 		<row><td>SetupType</td><td>Typical</td><td/></row>
 		<row><td>UpgradeCode</td><td>{986177CD-1B2B-4CC6-8751-B304D3B700BE}</td><td/></row>
@@ -5665,14 +5687,17 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="L255">FileName</col>
 		<col def="s72">DirProperty</col>
 		<col def="i2">InstallMode</col>
-		<row><td>NewShortcut1</td><td>ISX_DEFAULTCOMPONENT</td><td/><td>asc_si_1_asc_simulator_assembler</td><td>2</td></row>
-		<row><td>NewShortcut11</td><td>ISX_DEFAULTCOMPONENT</td><td/><td>newfolder1</td><td>2</td></row>
+		<row><td>NewShortcut1</td><td>ISX_DEFAULTCOMPONENT3</td><td/><td>asc_si_1_asc_simulator_assembler</td><td>2</td></row>
+		<row><td>NewShortcut11</td><td>ISX_DEFAULTCOMPONENT3</td><td/><td>newfolder1</td><td>2</td></row>
 		<row><td>NewShortcut2</td><td>ISX_DEFAULTCOMPONENT3</td><td/><td>newfolder1</td><td>2</td></row>
+		<row><td>NewShortcut3</td><td>ISX_DEFAULTCOMPONENT3</td><td/><td>asc_si_1_asc_simulator_assembler</td><td>2</td></row>
+		<row><td>NewShortcut31</td><td>ISX_DEFAULTCOMPONENT3</td><td/><td>newfolder1</td><td>2</td></row>
 		<row><td>NewShortcut4</td><td>ISX_DEFAULTCOMPONENT3</td><td/><td>newfolder1</td><td>2</td></row>
+		<row><td>NewShortcut5</td><td>ISX_DEFAULTCOMPONENT3</td><td/><td>asc_si_1_asc_simulator_assembler</td><td>2</td></row>
+		<row><td>NewShortcut6</td><td>ISX_DEFAULTCOMPONENT3</td><td/><td>newfolder1</td><td>2</td></row>
 		<row><td>_Built</td><td>Component6</td><td/><td>asc_si_1_asc_simulator_assembler</td><td>2</td></row>
 		<row><td>_Built1</td><td>Component6</td><td/><td>newfolder1</td><td>2</td></row>
 		<row><td>asc_assembler.bat</td><td>ISX_DEFAULTCOMPONENT2</td><td/><td>asc_si_1_asc_simulator_assembler</td><td>2</td></row>
-		<row><td>index.html</td><td>ISX_DEFAULTCOMPONENT</td><td/><td>asc_si_1_asc_simulator_assembler</td><td>2</td></row>
 	</table>
 
 	<table name="RemoveIniFile">
@@ -5758,10 +5783,12 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="S255">ISComments</col>
 		<col def="S255">ISShortcutName</col>
 		<col def="I4">ISAttributes</col>
-		<row><td>NewShortcut1</td><td>asc_si_1_asc_simulator_assembler</td><td>##ID_STRING11##</td><td>ISX_DEFAULTCOMPONENT</td><td>[INSTALLDIR]説明書\index.html</td><td/><td/><td/><td/><td>1</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
-		<row><td>NewShortcut11</td><td>newfolder1</td><td>##ID_STRING14##</td><td>ISX_DEFAULTCOMPONENT</td><td>[INSTALLDIR]説明書\index.html</td><td/><td/><td/><td/><td/><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 		<row><td>NewShortcut2</td><td>newfolder1</td><td>##ID_STRING12##</td><td>ISX_DEFAULTCOMPONENT3</td><td>[INSTALLDIR]asc-assembler.bat</td><td/><td/><td/><td/><td>1</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
+		<row><td>NewShortcut3</td><td>asc_si_1_asc_simulator_assembler</td><td>##ID_STRING17##</td><td>ISX_DEFAULTCOMPONENT3</td><td>[INSTALLDIR]サンプルプログラムについて.url</td><td/><td/><td/><td/><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
+		<row><td>NewShortcut31</td><td>newfolder1</td><td>##ID_STRING18##</td><td>ISX_DEFAULTCOMPONENT3</td><td>[INSTALLDIR]サンプルプログラムについて.url</td><td/><td/><td/><td/><td>1</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 		<row><td>NewShortcut4</td><td>newfolder1</td><td>##ID_STRING15##</td><td>ISX_DEFAULTCOMPONENT3</td><td>[WindowsFolder]explorer.exe</td><td>[AppDataFolder]asc\sample</td><td/><td/><td>NewShortcut4_C48C402E4F0F43BCA2803E07FA460FCA.exe</td><td>1</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
+		<row><td>NewShortcut5</td><td>asc_si_1_asc_simulator_assembler</td><td>##ID_STRING20##</td><td>ISX_DEFAULTCOMPONENT3</td><td>[INSTALLDIR]説明書.url</td><td/><td/><td/><td/><td>1</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
+		<row><td>NewShortcut6</td><td>newfolder1</td><td>##ID_STRING21##</td><td>ISX_DEFAULTCOMPONENT3</td><td>[INSTALLDIR]説明書.url</td><td/><td/><td/><td/><td>1</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 		<row><td>_Built</td><td>asc_si_1_asc_simulator_assembler</td><td>##IDS_SHORTCUT_DISPLAY_NAME5##</td><td>Component6</td><td>AlwaysInstall</td><td/><td/><td/><td/><td/><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 		<row><td>_Built1</td><td>newfolder1</td><td>##IDS_SHORTCUT_DISPLAY_NAME5##</td><td>Component6</td><td>AlwaysInstall</td><td/><td/><td/><td/><td/><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 	</table>
@@ -5894,6 +5921,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>{986177CD-1B2B-4CC6-8751-B304D3B700BE}</td><td>0.5.3.3</td><td>0.5.3.3</td><td>1041</td><td>768</td><td/><td>ISACTIONPROP6</td><td>Version5.3.3</td></row>
 		<row><td>{986177CD-1B2B-4CC6-8751-B304D3B700BE}</td><td>0.5.3.4</td><td>0.5.3.4</td><td>1041</td><td>768</td><td/><td>ISACTIONPROP7</td><td>Version5.3.4</td></row>
 		<row><td>{986177CD-1B2B-4CC6-8751-B304D3B700BE}</td><td>0.5.3.5</td><td>0.5.3.5</td><td>1041</td><td>768</td><td/><td>ISACTIONPROP8</td><td>Version5.3.5</td></row>
+		<row><td>{986177CD-1B2B-4CC6-8751-B304D3B700BE}</td><td>0.5.4.0</td><td>0.5.4.0</td><td>1041</td><td>768</td><td/><td>ISACTIONPROP9</td><td>Version5.4.0</td></row>
 	</table>
 
 	<table name="Verb">
