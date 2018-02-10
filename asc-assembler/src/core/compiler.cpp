@@ -10,6 +10,7 @@
 #include <sstream>
 #include <iomanip>
 #include <bitset>
+#include <vector>
 
 #include <iostream>
 
@@ -44,17 +45,17 @@ std::string Compiler::Compile(Binary* binary) {
 	if (!this->_isBufferScanned) this->_Scan();
 
 
-	if (!this->_Errors.str().empty()) {
-		throw this->_Errors.str();
-	}
-
 	this->LabelTable.SetBaseAddress(this->_ORG);
 	binary->SetORG(this->_ORG);
 
-	std::stringstream log = std::stringstream();
+	int max_width = 0;
+	std::vector<std::stringstream> log_before = std::vector<std::stringstream>();
+	std::vector<std::stringstream> log_after = std::vector<std::stringstream>();
 
-	log << "[変換結果]" << std::endl;
-    log << std::setw(24) << std::left << "アドレス: 変換後" << "	" << "  行: 変換前" << std::endl;
+	log_before.push_back(std::stringstream());
+	log_after.push_back(std::stringstream());
+	log_before.back() << "行: 変換前";
+	log_after.back() << "アドレス: 変換後";
 
 	int index;
 
@@ -81,56 +82,82 @@ std::string Compiler::Compile(Binary* binary) {
 						mnemonic += this->_ToShort(lit->operand, &hasError);
 
 						if (hasError) {
-							std::stringstream error;
-							error << "エラー(" << this->LineNumber << "行目): " << "オペランド「" << lit->operand << "」は不正な文字が含まれています。ラベルの場合、定義されていないラベルです。" << std::endl;
-							throw error.str();
+							// 不正な数値か未定義のラベル
+							if ('0' <= lit->operand[0] && lit->operand[0] <= '9') {
+								this->_Errors << "エラー(" << this->LineNumber << "行目): " << "オペランド「" << lit->operand << "」は不正な文字が含まれています" << std::endl;
+							}
+							else {
+								this->_Errors << "エラー(" << this->LineNumber << "行目): " << "オペランド「" << lit->operand << "」は定義されていないラベルです。" << std::endl;
+							}
 						}
 					}
 				}
 
 				*binary << mnemonic;
 
-				log << "0x" << std::setw(4) << std::setfill('0') << std::hex << std::right << (binary->GetIndex()) << ": ";
-				log << static_cast<std::bitset<16>>(mnemonic) << "	";
+				log_after.push_back(std::stringstream());
+				log_after.back() << "0x" << std::setw(4) << std::setfill('0') << std::hex << std::right << (binary->GetIndex()) << ": ";
+				log_after.back() << static_cast<std::bitset<16>>(mnemonic);
 			}
 			else {
+				log_after.push_back(std::stringstream());
 				// 仮想命令の場合
 				if (lit->opecode == "TITLE") {
 					binary->SetTitle(lit->operand);
-					log << std::setw(24) << " " << "	";
+					log_after.back() << " ";
 				}
 				if (lit->opecode == "DC") {
 					*binary << this->_ToShort(lit->operand);
 
-					log << "0x" << std::setw(4) << std::setfill('0') << std::hex << std::right << (binary->GetIndex()) << ": ";
-					log << static_cast<std::bitset<16>>(this->_ToShort(lit->operand)) << "	";
+					log_after.back() << "0x" << std::setw(4) << std::setfill('0') << std::hex << std::right << (binary->GetIndex()) << ": ";
+					log_after.back() << static_cast<std::bitset<16>>(this->_ToShort(lit->operand));
 				}
 				if (lit->opecode == "DS") {
 					for (int i = 0; i < this->_ToShort(lit->operand); i++) {
 						*binary << 0;
-						log << "0x" << std::setw(4) << std::setfill('0') << std::hex << std::right << (binary->GetIndex()) << ": ";
-						log << static_cast<std::bitset<16>>(0) << "	";
+						log_after.back() << "0x" << std::setw(4) << std::setfill('0') << std::hex << std::right << (binary->GetIndex()) << ": ";
+						log_after.back() << static_cast<std::bitset<16>>(0);
 					}
 				}
 				if (lit->opecode == "ORG") {
-					log << std::setw(24) << " " << "	";
+					log_after.back() << " ";
 				}
 				if (lit->opecode == "END") {
-					log << std::setw(24) << " " << "	";
+					log_after.back() << " ";
 				}
 			}
 		}
 		else { // 二進数を出力しない場合。
-			log << std::setw(24) << " " << "	";
+			log_after.push_back(std::stringstream());
+			log_after.back() << " ";
 		}
 
+		log_before.push_back(std::stringstream());
 		// ラベルの文字数を後で反映させること！
 		if (lit->label.empty() && lit->opecode.empty() && lit->operand.empty()) {
-			log << std::setfill(' ') << std::right << std::setw(4) << std::dec << this->LineNumber << ": " << lit->comment << std::endl;
+			log_before.back() << std::setfill(' ') << std::right << std::setw(4) << std::dec << this->LineNumber << ": " << lit->comment;
 		}
 		else {
-			log << std::setfill(' ') << std::right << std::setw(4) << std::dec << this->LineNumber << ":" << " " << std::left << std::setw(10) << lit->label << std::setw(5) << lit->opecode << " " << std::setw(6) << lit->operand << " " << lit->comment << std::endl;
+			log_before.back() << std::setfill(' ') << std::right << std::setw(4) << std::dec << this->LineNumber << ":" << " " << std::left << std::setw(10) << lit->label << std::setw(5) << lit->opecode << " " << std::setw(6) << lit->operand << " " << lit->comment;
 		}
+		if (log_before.back().tellp() > max_width) {
+			max_width = log_before.back().tellp();
+		}
+	}
+
+	std::stringstream log = std::stringstream();
+	log << "[変換結果]" << std::endl;
+
+	for (auto i = 0; i < log_before.size(); i++) {
+		log << std::setw(max_width) << std::left << log_before[i].str();
+		if (!this->HasError()) {
+			log << "\t" << log_after[i].str();
+		}
+		log << std::endl;
+	}
+	
+	if (!this->_Errors.str().empty()) {
+		log << this->_Errors.str();
 	}
 
 	if (!this->_Warnings.str().empty()) {

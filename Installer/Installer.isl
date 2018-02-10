@@ -5609,9 +5609,9 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>PROGMSG_IIS_ROLLBACKAPPPOOLS</td><td>##IDS_PROGMSG_IIS_ROLLBACKAPPPOOLS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKVROOTS</td><td>##IDS_PROGMSG_IIS_ROLLBACKVROOTS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
-		<row><td>ProductCode</td><td>{EF28FF8D-8EB2-421A-9624-DF0B0D29CA64}</td><td/></row>
+		<row><td>ProductCode</td><td>{7EAD9BCA-3BD0-463E-9A9A-49BD9EE9EC61}</td><td/></row>
 		<row><td>ProductName</td><td>asc-simulator-assembler</td><td/></row>
-		<row><td>ProductVersion</td><td>0.5.4.1</td><td/></row>
+		<row><td>ProductVersion</td><td>0.5.4.2</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
 		<row><td>ProgressType1</td><td>Installing</td><td/></row>
 		<row><td>ProgressType2</td><td>installed</td><td/></row>
@@ -5623,7 +5623,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>RestartManagerOption</td><td>CloseRestart</td><td/></row>
 		<row><td>SERIALNUMBER</td><td/><td/></row>
 		<row><td>SERIALNUMVALSUCCESSRETVAL</td><td>1</td><td/></row>
-		<row><td>SecureCustomProperties</td><td>ISFOUNDNEWERPRODUCTVERSION;USERNAME;COMPANYNAME;ISX_SERIALNUM;SUPPORTDIR;ISACTIONPROP1;ISACTIONPROP2;ISACTIONPROP3;ISACTIONPROP4;ISACTIONPROP5;ISACTIONPROP6;ISACTIONPROP7;DOTNETVERSION45FULL;ISACTIONPROP8;ISACTIONPROP9</td><td/></row>
+		<row><td>SecureCustomProperties</td><td>ISFOUNDNEWERPRODUCTVERSION;USERNAME;COMPANYNAME;ISX_SERIALNUM;SUPPORTDIR;ISACTIONPROP1;ISACTIONPROP2;ISACTIONPROP3;ISACTIONPROP4;ISACTIONPROP5;ISACTIONPROP6;ISACTIONPROP7;DOTNETVERSION45FULL;ISACTIONPROP8;ISACTIONPROP9;ISACTIONPROP10</td><td/></row>
 		<row><td>SelectedSetupType</td><td>##IDS__DisplayName_Typical##</td><td/></row>
 		<row><td>SetupType</td><td>Typical</td><td/></row>
 		<row><td>UpgradeCode</td><td>{986177CD-1B2B-4CC6-8751-B304D3B700BE}</td><td/></row>
@@ -5922,6 +5922,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>{986177CD-1B2B-4CC6-8751-B304D3B700BE}</td><td>0.5.3.4</td><td>0.5.3.4</td><td>1041</td><td>768</td><td/><td>ISACTIONPROP7</td><td>Version5.3.4</td></row>
 		<row><td>{986177CD-1B2B-4CC6-8751-B304D3B700BE}</td><td>0.5.3.5</td><td>0.5.3.5</td><td>1041</td><td>768</td><td/><td>ISACTIONPROP8</td><td>Version5.3.5</td></row>
 		<row><td>{986177CD-1B2B-4CC6-8751-B304D3B700BE}</td><td>0.5.4.0</td><td>0.5.4.0</td><td>1041</td><td>768</td><td/><td>ISACTIONPROP9</td><td>Version5.4.0</td></row>
+		<row><td>{986177CD-1B2B-4CC6-8751-B304D3B700BE}</td><td>0.5.4.1</td><td>0.5.4.1</td><td>1041</td><td>768</td><td/><td>ISACTIONPROP10</td><td>Version5.4.1</td></row>
 	</table>
 
 	<table name="Verb">

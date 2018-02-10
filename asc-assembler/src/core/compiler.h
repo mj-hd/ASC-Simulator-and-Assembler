@@ -41,6 +41,9 @@ public:
 
   std::string Compile(Binary*);
 
+  bool HasError() { return this->_Errors.tellp() > 0; };
+  bool HasWarning() { return this->_Warnings.tellp() > 0; };
+
   int LineNumber;
   int CharNumber;
 

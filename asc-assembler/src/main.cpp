@@ -16,7 +16,6 @@ int main(int argc, char* argv[]) {
 
   std::string ifname;
   
-#ifndef _DEBUG
   if (argc < 2) {
     std::cerr << "パラメータが少なくとも一つ必要です。" << std::endl;
 
@@ -32,11 +31,6 @@ int main(int argc, char* argv[]) {
   }
 
   ifname = argv[1];
-
-#else
-  ifname = "Y:\\Downloads\\factorial.asm";
-
-#endif
 
   std::ifstream istream(ifname, std::ios::in);
   if ( istream.fail() ) {
@@ -55,7 +49,20 @@ int main(int argc, char* argv[]) {
     log = compiler.Compile(&binary);
   }
   catch (std::string message) {
-	  std::cerr << message << std::endl << "エラーが発生しているため、アセンブルを中止します。" << std::endl;;
+    std::cerr << message << std::endl << "エラーが発生しているため、アセンブルを中止します。" << std::endl;;
+
+    istream.close();
+
+    return EXIT_FAILURE;
+  }
+
+  std::cout << "プログラム名: " << binary.GetTitle() << "	ファイルサイズ:" << binary.GetSize() << " byte" << std::endl;
+  std::cout << "ORG: 0x" << std::hex << binary.GetORG() << std::endl;
+  std::cout << "--------------------------------------------------" << std::endl;
+  std::cout << log << std::endl;
+
+  if (compiler.HasError()) {
+    std::cout << "エラーが発生しているため、出力を中止します。" << std::endl;
 
     istream.close();
 
@@ -74,11 +81,6 @@ int main(int argc, char* argv[]) {
 
     return EXIT_FAILURE;
   }
-
-  std::cout << "プログラム名: " << binary.GetTitle() << "	ファイルサイズ:" << binary.GetSize() << " byte" << std::endl;
-  std::cout << "ORG: 0x" << std::hex << binary.GetORG() << std::endl;
-  std::cout << "--------------------------------------------------" << std::endl;
-  std::cout << log << std::endl;
 
   binary.WriteToStream(&ostream);
 
