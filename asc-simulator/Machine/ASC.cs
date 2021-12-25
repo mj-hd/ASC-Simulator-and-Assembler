@@ -5,10 +5,8 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Threading;
+using System.Threading.Tasks;
 using System.IO;
 
 namespace Simulator.Machine
@@ -196,12 +194,20 @@ namespace Simulator.Machine
 
     public class ASC : IDisposable
     {
+        public interface ILoadable {
+            ushort ToUShort();
+        }
 
         // ニーモニックを格納する構造体
-        struct MNEMONIC
+        public struct MNEMONIC: ILoadable
         {
             public Common.Defines.OPECODE Opecode;
             public ushort Operand; // ASCの場合は１つ。
+
+            public ushort ToUShort()
+            {
+                return (ushort)(((ushort)Opecode << 12) | (Operand & 0xFFF));
+            }
         }
 
 
@@ -280,6 +286,7 @@ namespace Simulator.Machine
 
             this.Stepped += () => { };
 
+            this.PreDataMoved += (dme) => { };
             this.DataMoved += (dme) => { };
 
             // スレッドの実行を停止するためのResetEvent

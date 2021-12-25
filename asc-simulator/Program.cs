@@ -28,12 +28,6 @@ namespace Simulator
 
             ui.Machine = machine;
 
-            if (args.GetLength(0) > 0)
-            {
-                ui.OpenFile("Y:\\Sync\\Projects\\asc-assembler-win\\TEST2.asco");
-            }
-
-
             try
             {
               ui.ShowWindow();

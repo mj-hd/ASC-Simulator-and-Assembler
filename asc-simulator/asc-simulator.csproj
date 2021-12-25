@@ -138,7 +138,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="asc-simulator_一時キー.pfx" />
     <None Include="Properties\app.manifest" />
     <None Include="README.md" />
   </ItemGroup>
