@@ -399,19 +399,23 @@ namespace Simulator.MachineDisplay
             aluPath.AddLine(this._ICs["ALULeft"].Frame.Right, this._ICs["ALU"].Frame.Bottom, this._ICs["ALULeft"].Frame.Left, this._ICs["ALULeft"].Frame.Top);
 
             e.Graphics.DrawPath(this._ICPen[this._ICs["ALU"].State], aluPath);
-            e.Graphics.DrawString("ALU", this._ICFont, this._ICBrush[ICState.Normal], this._ICs["ALU"].Frame.Left + this._ICs["ALU"].Frame.Width / 2-40, this._ICs["ALU"].Frame.Top + this._ICs["ALU"].Frame.Height / 2-10);
 
-            e.Graphics.DrawString("ALU", this._ICFont, this._ICBrush[ICState.Normal], this._ICs["ALU"].Frame.Right + 50, this._ICs["ALU"].Frame.Top);
+            var aluDetailLeft = (int)(this._ICs["ALU"].Frame.Right + 50 * this._WidthRatio);
+            var stringFormat = new StringFormat();
+            stringFormat.Alignment = StringAlignment.Center;
+            stringFormat.LineAlignment = StringAlignment.Center;
+            e.Graphics.DrawString("ALU", this._ICFont, this._ICBrush[ICState.Normal], this._ICs["ALU"].Frame.Left + this._ICs["ALU"].Frame.Rect.Width / 4, this._ICs["ALU"].Frame.Top + this._ICs["ALU"].Frame.Rect.Height / 2-10, stringFormat);
+            e.Graphics.DrawString("ALU", this._ICFont, this._ICBrush[ICState.Normal], aluDetailLeft, this._ICs["ALU"].Frame.Top);
 
             //ALUOperator
             e.Graphics.DrawString(this._ICs["ALUOperator"].Data, this._ICFont, this._ICBrush[this._ICs["ALUOperator"].State], this._ICs["ALU"].Frame.Right + (int)(40*this._WidthRatio), this._ICs["ALU"].Frame.Top+(int)(40*this._HeightRatio));
             
             //ALULeft
-            e.Graphics.DrawString(this._ICs["ALULeft"].Data, this._ICFont, this._ICBrush[this._ICs["ALULeft"].State], this._ICs["ALU"].Frame.Right + (int)(50*this._WidthRatio), this._ICs["ALURight"].Frame.Top+(int)(20*this._HeightRatio));
-             //ALURight
-            e.Graphics.DrawString(this._ICs["ALURight"].Data, this._ICFont, this._ICBrush[this._ICs["ALURight"].State], this._ICs["ALU"].Frame.Right + (int)(50*this._WidthRatio), this._ICs["ALU"].Frame.Top+(int)(40*this._HeightRatio));
+            e.Graphics.DrawString(this._ICs["ALULeft"].Data, this._ICFont, this._ICBrush[this._ICs["ALULeft"].State], aluDetailLeft, this._ICs["ALURight"].Frame.Top+(int)(20*this._HeightRatio));
+            //ALURight
+            e.Graphics.DrawString(this._ICs["ALURight"].Data, this._ICFont, this._ICBrush[this._ICs["ALURight"].State], aluDetailLeft, this._ICs["ALU"].Frame.Top+(int)(40*this._HeightRatio));
            
-            e.Graphics.DrawLine(this._ICPen[ICState.Normal], this._ICs["ALU"].Frame.Right + 50, this._ICs["ALU"].Frame.Top + (int)(60*this._HeightRatio), this._ICs["ALU"].Frame.Right + (int)(200*this._WidthRatio), this._ICs["ALU"].Frame.Top + (int)(60*this._HeightRatio));
+            e.Graphics.DrawLine(this._ICPen[ICState.Normal], aluDetailLeft, this._ICs["ALU"].Frame.Top + (int)(60*this._HeightRatio), this._ICs["ALU"].Frame.Right + (int)(200*this._WidthRatio), this._ICs["ALU"].Frame.Top + (int)(60*this._HeightRatio));
 
             e.Graphics.DrawString(this._ICs["ALU"].Data, this._ICFont, this._ICBrush[this._ICs["ALU"].State], this._ICs["ALU"].Frame.Right + (int)(50*this._WidthRatio), this._ICs["ALU"].Frame.Top + (int)(60*this._HeightRatio));
 
@@ -469,41 +473,44 @@ namespace Simulator.MachineDisplay
                 #endregion
 
                 #region コネクタのサイズ更新
+                var xMargin = (int)(this._Settings.RegisterMargin * this._WidthRatio);
+                var yMargin = (int)(this._Settings.RegisterMargin * this._HeightRatio);
+
                 // 全てのコネクタの形状を登録する
                 var IC1 = this._ICs["IR"];
                 var IC2 = this._ICs["Controller"];
                 this._Connectors["IRtoController"].Path = new GraphicsPath();
                 this._Connectors["IRtoController"].Path.StartFigure();
-                this._Connectors["IRtoController"].Path.AddLine(IC1.Frame.Center.X - this._Settings.RegisterMargin, IC1.Frame.Top - 10, IC1.Frame.Center.X - this._Settings.RegisterMargin, IC2.Frame.Center.Y);
-                this._Connectors["IRtoController"].Path.AddLine(IC1.Frame.Center.X - this._Settings.RegisterMargin, IC2.Frame.Center.Y, IC2.Frame.Left - 5, IC2.Frame.Center.Y);
+                this._Connectors["IRtoController"].Path.AddLine(IC1.Frame.Center.X - xMargin, IC1.Frame.Top - 10, IC1.Frame.Center.X - xMargin, IC2.Frame.Center.Y);
+                this._Connectors["IRtoController"].Path.AddLine(IC1.Frame.Center.X - xMargin, IC2.Frame.Center.Y, IC2.Frame.Left - 5, IC2.Frame.Center.Y);
 
                 IC2 = this._ICs["MAR"];
                 this._Connectors["IRtoMAR"].Path = new GraphicsPath();
                 this._Connectors["IRtoMAR"].Path.StartFigure();
-                this._Connectors["IRtoMAR"].Path.AddLine(IC1.Frame.Center.X + this._Settings.RegisterMargin, IC1.Frame.Bottom + 10, IC1.Frame.Center.X + this._Settings.RegisterMargin, IC2.Frame.Top - 5);
+                this._Connectors["IRtoMAR"].Path.AddLine(IC1.Frame.Center.X + xMargin, IC1.Frame.Bottom + 10, IC1.Frame.Center.X + xMargin, IC2.Frame.Top - 5);
 
                 IC2 = this._ICs["PC"];
                 this._Connectors["IRtoPC"].Path = new GraphicsPath();
                 this._Connectors["IRtoPC"].Path.StartFigure();
-                this._Connectors["IRtoPC"].Path.AddLine(IC1.Frame.Center.X + this._Settings.RegisterMargin, IC1.Frame.Bottom + 10, IC1.Frame.Center.X + this._Settings.RegisterMargin, IC2.Frame.Top - this._Settings.RegisterMargin);
-                this._Connectors["IRtoPC"].Path.AddLine(IC1.Frame.Center.X + this._Settings.RegisterMargin, IC2.Frame.Top - this._Settings.RegisterMargin, IC2.Frame.Left + 20, IC2.Frame.Top - this._Settings.RegisterMargin);
-                this._Connectors["IRtoPC"].Path.AddLine(IC2.Frame.Left + 20, IC2.Frame.Top - this._Settings.RegisterMargin, IC2.Frame.Left + 20, IC2.Frame.Top - 5);
+                this._Connectors["IRtoPC"].Path.AddLine(IC1.Frame.Center.X + xMargin, IC1.Frame.Bottom + 10, IC1.Frame.Center.X + xMargin, IC2.Frame.Top - yMargin);
+                this._Connectors["IRtoPC"].Path.AddLine(IC1.Frame.Center.X + xMargin, IC2.Frame.Top - yMargin, IC2.Frame.Left + 20, IC2.Frame.Top - yMargin);
+                this._Connectors["IRtoPC"].Path.AddLine(IC2.Frame.Left + 20, IC2.Frame.Top - yMargin, IC2.Frame.Left + 20, IC2.Frame.Top - 5);
 
                 int tmp;
                 IC1 = this._ICs["PC"];
                 IC2 = this._ICs["MAR"];
                 this._Connectors["PCtoMAR"].Path = new GraphicsPath();
                 this._Connectors["PCtoMAR"].Path.StartFigure();
-                this._Connectors["PCtoMAR"].Path.AddLine(IC1.Frame.Center.X, IC1.Frame.Bottom + 10, IC1.Frame.Center.X, IC2.Frame.Top - this._Settings.RegisterMargin);
-                this._Connectors["PCtoMAR"].Path.AddLine(IC1.Frame.Center.X, IC2.Frame.Top - this._Settings.RegisterMargin, IC2.Frame.Right - 20, IC2.Frame.Top - this._Settings.RegisterMargin);
-                this._Connectors["PCtoMAR"].Path.AddLine(IC2.Frame.Right - 20, IC2.Frame.Top - this._Settings.RegisterMargin, IC2.Frame.Right - 20, IC2.Frame.Top - 5);
+                this._Connectors["PCtoMAR"].Path.AddLine(IC1.Frame.Center.X, IC1.Frame.Bottom + 10, IC1.Frame.Center.X, IC2.Frame.Top - yMargin);
+                this._Connectors["PCtoMAR"].Path.AddLine(IC1.Frame.Center.X, IC2.Frame.Top - yMargin, IC2.Frame.Right - 20, IC2.Frame.Top - yMargin);
+                this._Connectors["PCtoMAR"].Path.AddLine(IC2.Frame.Right - 20, IC2.Frame.Top - yMargin, IC2.Frame.Right - 20, IC2.Frame.Top - 5);
 
                 IC2 = this._ICs["ALULeft"];
                 this._Connectors["PCtoALULeft"].Path = new GraphicsPath();
                 this._Connectors["PCtoALULeft"].Path.StartFigure();
-                this._Connectors["PCtoALULeft"].Path.AddLine(IC1.Frame.Center.X, IC1.Frame.Bottom + 10, IC1.Frame.Center.X, IC2.Frame.Top - this._Settings.RegisterMargin);
-                this._Connectors["PCtoALULeft"].Path.AddLine(IC1.Frame.Center.X, IC2.Frame.Top - this._Settings.RegisterMargin, IC2.Frame.Center.X, IC2.Frame.Top - this._Settings.RegisterMargin);
-                this._Connectors["PCtoALULeft"].Path.AddLine(IC2.Frame.Center.X, IC2.Frame.Top - this._Settings.RegisterMargin, IC2.Frame.Center.X, IC2.Frame.Top - 5);
+                this._Connectors["PCtoALULeft"].Path.AddLine(IC1.Frame.Center.X, IC1.Frame.Bottom + 10, IC1.Frame.Center.X, IC2.Frame.Top - yMargin);
+                this._Connectors["PCtoALULeft"].Path.AddLine(IC1.Frame.Center.X, IC2.Frame.Top - yMargin, IC2.Frame.Center.X, IC2.Frame.Top - yMargin);
+                this._Connectors["PCtoALULeft"].Path.AddLine(IC2.Frame.Center.X, IC2.Frame.Top - yMargin, IC2.Frame.Center.X, IC2.Frame.Top - 5);
 
                 IC1 = this._ICs["R"];
                 this._Connectors["RtoALURight"].Path = new GraphicsPath();
@@ -511,12 +518,13 @@ namespace Simulator.MachineDisplay
                 this._Connectors["RtoALURight"].Path.AddLine(IC1.Frame.Center.X, IC1.Frame.Bottom + 10, IC1.Frame.Center.X, IC2.Frame.Top - 5);
 
                 IC2 = this._ICs["MM"];
+                var mmRight = (int)(IC2.Frame.Right + 40 * this._WidthRatio);
                 this._Connectors["RtoMM"].Path = new GraphicsPath();
                 this._Connectors["RtoMM"].Path.StartFigure();
                 this._Connectors["RtoMM"].Path.AddLine(IC1.Frame.Center.X, IC1.Frame.Bottom + 10, IC1.Frame.Center.X, IC1.Frame.Bottom + 20);
-                this._Connectors["RtoMM"].Path.AddLine(IC1.Frame.Center.X, IC1.Frame.Bottom + 20, IC2.Frame.Right + 40, IC1.Frame.Bottom + 20);
-                this._Connectors["RtoMM"].Path.AddLine(IC2.Frame.Right + 40, IC1.Frame.Bottom + 20, IC2.Frame.Right + 40, IC2.Frame.Center.Y);
-                this._Connectors["RtoMM"].Path.AddLine(IC2.Frame.Right + 40, IC2.Frame.Center.Y, IC2.Frame.Right + 5, IC2.Frame.Center.Y);
+                this._Connectors["RtoMM"].Path.AddLine(IC1.Frame.Center.X, IC1.Frame.Bottom + 20, mmRight, IC1.Frame.Bottom + 20);
+                this._Connectors["RtoMM"].Path.AddLine(mmRight, IC1.Frame.Bottom + 20, mmRight, IC2.Frame.Center.Y);
+                this._Connectors["RtoMM"].Path.AddLine(mmRight, IC2.Frame.Center.Y, IC2.Frame.Right + 5, IC2.Frame.Center.Y);
 
                 IC1 = this._ICs["MM"];
                 IC2 = this._ICs["IR"];
@@ -529,17 +537,17 @@ namespace Simulator.MachineDisplay
                 this._Connectors["MMtoR"].Path = new GraphicsPath();
                 this._Connectors["MMtoR"].Path.StartFigure();
                 this._Connectors["MMtoR"].Path.AddLine(IC1.Frame.Left - 10, IC1.Frame.Center.Y, tmp = this._ICs["IR"].Frame.Left + 10, IC1.Frame.Center.Y);
-                this._Connectors["MMtoR"].Path.AddLine(tmp, IC1.Frame.Center.Y, tmp, this._ICs["IR"].Frame.Bottom + this._Settings.RegisterMargin);
-                this._Connectors["MMtoR"].Path.AddLine(tmp, this._ICs["IR"].Frame.Bottom + this._Settings.RegisterMargin, IC2.Frame.Left + 20, this._ICs["IR"].Frame.Bottom + this._Settings.RegisterMargin);
-                this._Connectors["MMtoR"].Path.AddLine(IC2.Frame.Left + 20, this._ICs["IR"].Frame.Bottom + this._Settings.RegisterMargin, IC2.Frame.Left + 20, IC2.Frame.Top - 5);
+                this._Connectors["MMtoR"].Path.AddLine(tmp, IC1.Frame.Center.Y, tmp, this._ICs["IR"].Frame.Bottom + yMargin);
+                this._Connectors["MMtoR"].Path.AddLine(tmp, this._ICs["IR"].Frame.Bottom + yMargin, IC2.Frame.Left + 20, this._ICs["IR"].Frame.Bottom + yMargin);
+                this._Connectors["MMtoR"].Path.AddLine(IC2.Frame.Left + 20, this._ICs["IR"].Frame.Bottom + yMargin, IC2.Frame.Left + 20, IC2.Frame.Top - 5);
 
                 IC2 = this._ICs["ALULeft"];
                 this._Connectors["MMtoALULeft"].Path = new GraphicsPath();
                 this._Connectors["MMtoALULeft"].Path.StartFigure();
                 this._Connectors["MMtoALULeft"].Path.AddLine(IC1.Frame.Left - 10, IC1.Frame.Center.Y, tmp = this._ICs["IR"].Frame.Left + 10, IC1.Frame.Center.Y);
-                this._Connectors["MMtoALULeft"].Path.AddLine(tmp, IC1.Frame.Center.Y, tmp, this._ICs["IR"].Frame.Bottom + this._Settings.RegisterMargin);
-                this._Connectors["MMtoALULeft"].Path.AddLine(tmp, this._ICs["IR"].Frame.Bottom + this._Settings.RegisterMargin, IC2.Frame.Right - 5, this._ICs["IR"].Frame.Bottom + this._Settings.RegisterMargin);
-                this._Connectors["MMtoALULeft"].Path.AddLine(IC2.Frame.Right - 5, this._ICs["IR"].Frame.Bottom + this._Settings.RegisterMargin, IC2.Frame.Right - 5, IC2.Frame.Top - 5);
+                this._Connectors["MMtoALULeft"].Path.AddLine(tmp, IC1.Frame.Center.Y, tmp, this._ICs["IR"].Frame.Bottom + yMargin);
+                this._Connectors["MMtoALULeft"].Path.AddLine(tmp, this._ICs["IR"].Frame.Bottom + yMargin, IC2.Frame.Right - 5, this._ICs["IR"].Frame.Bottom + yMargin);
+                this._Connectors["MMtoALULeft"].Path.AddLine(IC2.Frame.Right - 5, this._ICs["IR"].Frame.Bottom + yMargin, IC2.Frame.Right - 5, IC2.Frame.Top - 5);
 
                 IC1 = this._ICs["1"];
                 IC2 = this._ICs["ALURight"];
@@ -549,32 +557,33 @@ namespace Simulator.MachineDisplay
 
                 IC1 = this._ICs["ALU"];
                 IC2 = this._ICs["Z"];
+                var aluLeft = (int)(IC1.Frame.Left + 20 * this._WidthRatio);
                 this._Connectors["ALUtoZ"].Path = new GraphicsPath();
                 this._Connectors["ALUtoZ"].Path.StartFigure();
-                this._Connectors["ALUtoZ"].Path.AddLine(IC1.Frame.Left + 20, IC1.Frame.Center.Y, IC2.Frame.Center.X, IC1.Frame.Center.Y);
+                this._Connectors["ALUtoZ"].Path.AddLine(aluLeft, IC1.Frame.Center.Y, IC2.Frame.Center.X, IC1.Frame.Center.Y);
                 this._Connectors["ALUtoZ"].Path.AddLine(IC2.Frame.Center.X, IC1.Frame.Center.Y, IC2.Frame.Center.X, IC2.Frame.Top - 5);
 
                 IC2 = this._ICs["N"];
                 this._Connectors["ALUtoN"].Path = new GraphicsPath();
                 this._Connectors["ALUtoN"].Path.StartFigure();
-                this._Connectors["ALUtoN"].Path.AddLine(IC1.Frame.Left + 20, IC1.Frame.Center.Y, IC2.Frame.Center.X, IC2.Frame.Top - 5);
+                this._Connectors["ALUtoN"].Path.AddLine(aluLeft, IC1.Frame.Center.Y, IC2.Frame.Center.X, IC2.Frame.Top - 5);
 
                 IC2 = this._ICs["R"];
                 this._Connectors["ALUtoR"].Path = new GraphicsPath();
                 this._Connectors["ALUtoR"].Path.StartFigure();
                 this._Connectors["ALUtoR"].Path.AddLine(IC1.Frame.Center.X, IC1.Frame.Bottom + 10, IC1.Frame.Center.X, IC1.Frame.Bottom + 40);
-                this._Connectors["ALUtoR"].Path.AddLine(IC1.Frame.Center.X, IC1.Frame.Bottom + 40, IC1.Frame.Right + this._Settings.RegisterMargin, IC1.Frame.Bottom + 40);
-                this._Connectors["ALUtoR"].Path.AddLine(IC1.Frame.Right + this._Settings.RegisterMargin, IC1.Frame.Bottom + 40, IC1.Frame.Right + this._Settings.RegisterMargin, IC2.Frame.Top - 20);
-                this._Connectors["ALUtoR"].Path.AddLine(IC1.Frame.Right + this._Settings.RegisterMargin, IC2.Frame.Top - 20, IC2.Frame.Right - 10, IC2.Frame.Top - 20);
+                this._Connectors["ALUtoR"].Path.AddLine(IC1.Frame.Center.X, IC1.Frame.Bottom + 40, IC1.Frame.Right + xMargin, IC1.Frame.Bottom + 40);
+                this._Connectors["ALUtoR"].Path.AddLine(IC1.Frame.Right + xMargin, IC1.Frame.Bottom + 40, IC1.Frame.Right + xMargin, IC2.Frame.Top - 20);
+                this._Connectors["ALUtoR"].Path.AddLine(IC1.Frame.Right + xMargin, IC2.Frame.Top - 20, IC2.Frame.Right - 10, IC2.Frame.Top - 20);
                 this._Connectors["ALUtoR"].Path.AddLine(IC2.Frame.Right - 10, IC2.Frame.Top - 20, IC2.Frame.Right - 10, IC2.Frame.Top - 5);
 
                 IC2 = this._ICs["PC"];
                 this._Connectors["ALUtoPC"].Path = new GraphicsPath();
                 this._Connectors["ALUtoPC"].Path.StartFigure();
                 this._Connectors["ALUtoPC"].Path.AddLine(IC1.Frame.Center.X, IC1.Frame.Bottom + 10, IC1.Frame.Center.X, IC1.Frame.Bottom + 40);
-                this._Connectors["ALUtoPC"].Path.AddLine(IC1.Frame.Center.X, IC1.Frame.Bottom + 40, IC1.Frame.Right + this._Settings.RegisterMargin, IC1.Frame.Bottom + 40);
-                this._Connectors["ALUtoPC"].Path.AddLine(IC1.Frame.Right + this._Settings.RegisterMargin, IC1.Frame.Bottom + 40, IC1.Frame.Right + this._Settings.RegisterMargin, IC2.Frame.Top - 20);
-                this._Connectors["ALUtoPC"].Path.AddLine(IC1.Frame.Right + this._Settings.RegisterMargin, IC2.Frame.Top - 20, IC2.Frame.Right - 10, IC2.Frame.Top - 20);
+                this._Connectors["ALUtoPC"].Path.AddLine(IC1.Frame.Center.X, IC1.Frame.Bottom + 40, IC1.Frame.Right + xMargin, IC1.Frame.Bottom + 40);
+                this._Connectors["ALUtoPC"].Path.AddLine(IC1.Frame.Right + xMargin, IC1.Frame.Bottom + 40, IC1.Frame.Right + xMargin, IC2.Frame.Top - 20);
+                this._Connectors["ALUtoPC"].Path.AddLine(IC1.Frame.Right + xMargin, IC2.Frame.Top - 20, IC2.Frame.Right - 10, IC2.Frame.Top - 20);
                 this._Connectors["ALUtoPC"].Path.AddLine(IC2.Frame.Right - 10, IC2.Frame.Top - 20, IC2.Frame.Right - 10, IC2.Frame.Top - 5);
 
                 #endregion
