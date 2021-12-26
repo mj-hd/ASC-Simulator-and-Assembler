@@ -10,7 +10,7 @@ namespace asc_simulator_test
 {
     internal class Utils
     {
-        public class TestASC
+        public class TestASC: IDisposable
         {
             public struct CONST: ASC.ILoadable
             {
@@ -27,6 +27,11 @@ namespace asc_simulator_test
                 this.machine = machine;
             }
 
+            public void Dispose()
+            {
+                this.machine.Dispose();
+            }
+
             public static async Task<TestASC> New(ASC.ILoadable[] data)
             {
                 var encoder = new MnemonicEncoder();
@@ -39,8 +44,8 @@ namespace asc_simulator_test
 
                 machine.Memory.Load(reader, 0x0000);
 
-                machine.Stepped += () => {
-                    Console.WriteLine("STEPPED");
+                machine.Stepped += (ce) => {
+                    Console.WriteLine("STEPPED {0}", ce.InstructionCount);
                     machine.HLT();
                 };
 
@@ -80,23 +85,23 @@ namespace asc_simulator_test
                 machine.Memory.MemoryChanged += (me) => {
                     Console.WriteLine("MEMORY CHANGED {0:X}~{1:X}({2})", me.StartAddress, me.EndAddress, me.Memory);
                 };
-                machine.CycleBegin += () => {
-                    Console.WriteLine("CYCLE BEGIN");
+                machine.CycleBegin += (ce) => {
+                    Console.WriteLine("CYCLE BEGIN {0}", ce.InstructionCount);
                 };
-                machine.CycleEnd += () => {
-                    Console.WriteLine("CYCLE END");
+                machine.CycleEnd += (ce) => {
+                    Console.WriteLine("CYCLE END {0}", ce.InstructionCount);
                 };
-                machine.CycleDecode += () => {
-                    Console.WriteLine("CYCLE DECODE");
+                machine.CycleDecode += (ce) => {
+                    Console.WriteLine("CYCLE DECODE {0}", ce.InstructionCount);
                 };
-                machine.CycleUpdateIR += () => {
-                    Console.WriteLine("CYCLE UPDATE IR");
+                machine.CycleUpdateIR += (ce) => {
+                    Console.WriteLine("CYCLE UPDATE IR {0}", ce.InstructionCount);
                 };
-                machine.CycleOpecode += () => {
-                    Console.WriteLine("CYCLE OPECODE");
+                machine.CycleOpecode += (ce) => {
+                    Console.WriteLine("CYCLE OPECODE {0}", ce.InstructionCount);
                 };
-                machine.CycleUpdatePC += () => { 
-                    Console.WriteLine("CYCLE UPDATE PC");
+                machine.CycleUpdatePC += (ce) => { 
+                    Console.WriteLine("CYCLE UPDATE PC {0}", ce.InstructionCount);
                 };
                 machine.PreDataMoved += (dme) => {
                     Console.WriteLine("PRE-DATA MOVED {0} => {1}", dme.Sender, dme.Reciever);
@@ -107,16 +112,17 @@ namespace asc_simulator_test
 
                 var tcs = new TaskCompletionSource<object>();
 
-                CycleEventHandler listener = () =>
+                Simulator.Common.CycleEventHandler listener = (ce) =>
                 {
                     tcs.SetResult(null);
                 };
 
-                machine.CycleBegin += listener;
+                // 初期状態はDoNotStopなので、CycleBegin時点でSteppedが発火する
+                machine.Stepped += listener;
 
                 await tcs.Task;
 
-                machine.CycleBegin -= listener;
+                machine.Stepped -= listener;
 
                 return testASC;
             }
@@ -131,7 +137,7 @@ namespace asc_simulator_test
 
                 var tcs = new TaskCompletionSource<object>();
 
-                CycleEventHandler listener = () =>
+                Simulator.Common.CycleEventHandler listener = (ce) =>
                 {
                     tcs.SetResult(null);
                 };

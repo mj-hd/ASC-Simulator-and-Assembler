@@ -11,6 +11,19 @@ using System.Threading.Tasks;
 
 namespace Simulator.Common
 {
+    // マシンの実行状態を知らせるイベントハンドラ
+    public delegate void CycleEventHandler(CycleEventArgs ce);
+
+    public class CycleEventArgs
+    {
+        public CycleEventArgs(uint instrCount)
+        {
+            this.InstructionCount = instrCount;
+        }
+
+        public uint InstructionCount;
+    }
+
     // メモリの参照・書換イベントに使われる引数
     public class MemoryEventArgs
     {
@@ -20,17 +33,21 @@ namespace Simulator.Common
         public ushort EndAddress { get { return this._EndAddress; } }
         // 実際に書き換えられたメモリの値
         public ushort[] Memory { get { return this._Value;  } }
+        // リセットされたかどうか（リセットの場合はその他の値は0を差し、内容すべてが消されたことを表す）
+        public bool Reset { get { return this._Reset; } }
 
-        public MemoryEventArgs(ushort startAddress, ushort endAddress, ushort[] memory)
+        public MemoryEventArgs(ushort startAddress, ushort endAddress, ushort[] memory, bool reset = false)
         {
             this._StartAddress = startAddress;
             this._EndAddress = endAddress;
             this._Value = memory;
+            this._Reset = reset;
         }
 
         private ushort _StartAddress;
         private ushort _EndAddress;
         private ushort[] _Value;
+        private bool _Reset;
     }
     public delegate void MemoryEventHandler(MemoryEventArgs me);
 

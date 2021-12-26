@@ -37,8 +37,6 @@ namespace Simulator.UI.Forms
         // プログラムの設定を格納するクラス
         public Simulator.Common.ApplicationSettings Settings;
 
-
-
         public Machine.ASC Machine
         {
             get
@@ -50,21 +48,23 @@ namespace Simulator.UI.Forms
                 this._Machine = value;
 
                 // マシンの各々のイベントにMainFormのメソッドを割り当てる
-                this._Machine.CycleBegin += () => this.DidCycleBegin();
-                this._Machine.CycleEnd   += () => this.DidCycleEnd();
-                this._Machine.CycleDecode += () => this.DidCycleDecode();
-                this._Machine.CycleOpecode += () => this.DidCycleOpecode();
-                this._Machine.CycleUpdateIR += () => this.DidCycleUpdateIR();
-                this._Machine.CycleUpdatePC += () => this.DidCycleUpdatePC();
+                this._Machine.CycleBegin += this.DidCycleBegin;
+                this._Machine.CycleEnd   += this.DidCycleEnd;
+                this._Machine.CycleDecode += this.DidCycleDecode;
+                this._Machine.CycleOpecode += this.DidCycleOpecode;
+                this._Machine.CycleUpdateIR += this.DidCycleUpdateIR;
+                this._Machine.CycleUpdatePC += this.DidCycleUpdatePC;
 
-                this._Machine.Stepped += () => this.DidStepped();
+                this._Machine.ALU.Overflowed += this.DidOverflowed;
 
-                this.Machine.Registers.DataChanged += (de) => { this.DidDataChanged(de); };
-                this.Machine.Registers.DataAccessed += (de) => { this.DidDataAccessed(de); };
+                this._Machine.Stepped += this.DidStepped;
 
-                this.Machine.Memory.MemoryChanged += (me) => { this.DidMemoryChanged(me); };
+                this.Machine.Registers.DataChanged += this.DidDataChanged;
+                this.Machine.Registers.DataAccessed += this.DidDataAccessed;
 
-                this.Machine.DataMoved += (dme) => { this.DidDataMoved(dme); };
+                this.Machine.Memory.MemoryChanged += this.DidMemoryChanged;
+
+                this.Machine.DataMoved += this.DidDataMoved;
             }
         }
 
@@ -132,11 +132,7 @@ namespace Simulator.UI.Forms
             // チェックアイコン(ブレークポイントの赤い丸)を有効化
             MMView.IsEnabledCheckIcon = true;
 
-            // MMの表示の内容を0で埋める
-            for (int i = 0; i <= Simulator.Memory.ASC_Memory.MaxSize; i++)
-            {
-                MMTable.Rows.Add("0x"+Convert.ToString(i, 16), "0000000000000000", "LD 0x0");
-            }
+            this._ResetMMView();
 
             // レジスタの内容を表示のために格納しておくDataTable
             // レジスタの内容と同期している
@@ -299,10 +295,6 @@ namespace Simulator.UI.Forms
         // ブレークポイントのアドレスを格納する
         private List<ushort> _Breakpoints;
 
-        // ステップランをしているか否か
-        // 通常実行の場合はfalseが入る
-
-
         // コントロールを全て無効にする
         // 実行中などのユーザの操作を防ぐ為
         private void _DisableViews()
@@ -340,6 +332,26 @@ namespace Simulator.UI.Forms
             this.Machine.HLT();
             this._EnableViews();
             this.Display.Invalidate();
+        }
+        // MMViewの内容を初期化する
+        private void _ResetMMView()
+        {
+            // MMの表示の内容を0で埋める
+            for (int i = 0; i <= Simulator.Memory.ASC_Memory.MaxSize; i++)
+            {
+                var binary = "0000000000000000";
+                var mnemonic = "LD 0x0";
+                if (MMTable.Rows.Count > i)
+                {
+                    MMTable.Rows[i]["バイナリ"] = binary;
+                    MMTable.Rows[i]["ニーモニック"] = mnemonic;
+                }
+                else
+                {
+                    var addr = "0x"+Convert.ToString(i, 16);
+                    MMTable.Rows.Add(addr, binary, mnemonic);
+                }
+            }
         }
 
         #endregion
@@ -780,12 +792,13 @@ namespace Simulator.UI.Forms
         #endregion
 
         #region サイクルイベントハンドラ
-        private void DidCycleBegin()
+        private void DidCycleBegin(Common.CycleEventArgs ce)
         {
             Invoke(new MethodInvoker(() =>
             {
                 // ステータスを更新
 	            this.StatusLabel.Text = "命令サイクルを開始";
+                this.InstructionCountLabel.Text = "実行命令数: " + ce.InstructionCount;
                 // スクロール
                 this.MMView.ScrollToIndexRow((int)this.Machine.CurrentAddress - this.Settings.MMViewScrollPositionFromTop);
 
@@ -811,7 +824,7 @@ namespace Simulator.UI.Forms
             }
 
         }
-        private void DidCycleEnd()
+        private void DidCycleEnd(Common.CycleEventArgs ce)
         {
             Invoke(new MethodInvoker(() =>
             {
@@ -820,7 +833,7 @@ namespace Simulator.UI.Forms
             }));
 
         }
-        private void DidCycleDecode()
+        private void DidCycleDecode(Common.CycleEventArgs ce)
         {
             Invoke(new MethodInvoker(() =>
             {
@@ -828,7 +841,7 @@ namespace Simulator.UI.Forms
 
             }));
         }
-        private void DidCycleOpecode()
+        private void DidCycleOpecode(Common.CycleEventArgs ce)
         {
             Invoke(new MethodInvoker(() =>
             {
@@ -870,7 +883,7 @@ namespace Simulator.UI.Forms
             }));
 
         }
-        private void DidCycleUpdatePC()
+        private void DidCycleUpdatePC(Common.CycleEventArgs ce)
         {
             Invoke(new MethodInvoker(() =>
             {
@@ -879,7 +892,7 @@ namespace Simulator.UI.Forms
             }));
 
         }
-        private void DidCycleUpdateIR()
+        private void DidCycleUpdateIR(Common.CycleEventArgs ce)
         {
             Invoke(new MethodInvoker(() =>
             {
@@ -892,12 +905,21 @@ namespace Simulator.UI.Forms
 
         }
 
-        private void DidStepped()
+        private void DidStepped(Common.CycleEventArgs ce)
         {
             this._StopMachine();
         }
 
-#endregion
+        #endregion
+
+        #region 例外イベントハンドラ
+
+        private void DidOverflowed(Common.OverflowedEventArgs ove)
+        {
+            this.Display.Invalidate();
+        }
+
+        #endregion
 
         #region データ変更イベントハンドラ
 
@@ -942,6 +964,13 @@ namespace Simulator.UI.Forms
         }
         private void DidMemoryChanged(Common.MemoryEventArgs me)
         {
+            // メモリのリセットイベントであれば、MMViewの内容を初期化する
+            if (me.Reset)
+            {
+                this._ResetMMView();
+                return;
+            }
+
             // 変更されたメモリの内容を解析
             for (int i = me.StartAddress; i <= me.EndAddress; i++ )
             {

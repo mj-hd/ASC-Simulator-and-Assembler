@@ -68,6 +68,7 @@
             this.MM = new System.Windows.Forms.GroupBox();
             this.MMView = new Simulator.UI.Forms.MyDataGridView();
             this.DisplayPanel = new System.Windows.Forms.Panel();
+            this.InstructionCountLabel = new System.Windows.Forms.ToolStripLabel();
             this.MenuBar.SuspendLayout();
             this.Strip.SuspendLayout();
             this.ASCViewer.SuspendLayout();
@@ -79,13 +80,15 @@
             // 
             // MenuBar
             // 
+            this.MenuBar.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
+            this.MenuBar.ImageScalingSize = new System.Drawing.Size(28, 28);
             this.MenuBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ファイルToolStripMenuItem,
             this.動作ToolStripMenuItem,
             this.ヘルプToolStripMenuItem});
             this.MenuBar.Location = new System.Drawing.Point(0, 0);
             this.MenuBar.Name = "MenuBar";
-            this.MenuBar.Size = new System.Drawing.Size(1048, 24);
+            this.MenuBar.Size = new System.Drawing.Size(1048, 38);
             this.MenuBar.TabIndex = 1;
             this.MenuBar.Text = "menuStrip1";
             // 
@@ -99,44 +102,44 @@
             this.toolStripMenuItem1,
             this.終了ToolStripMenuItem});
             this.ファイルToolStripMenuItem.Name = "ファイルToolStripMenuItem";
-            this.ファイルToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.ファイルToolStripMenuItem.Size = new System.Drawing.Size(90, 34);
             this.ファイルToolStripMenuItem.Text = "ファイル";
             // 
             // プログラムを開くToolStripMenuItem
             // 
             this.プログラムを開くToolStripMenuItem.Name = "プログラムを開くToolStripMenuItem";
-            this.プログラムを開くToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.プログラムを開くToolStripMenuItem.Size = new System.Drawing.Size(282, 40);
             this.プログラムを開くToolStripMenuItem.Text = "ファイルを開く";
             this.プログラムを開くToolStripMenuItem.Click += new System.EventHandler(this.プログラムを開くToolStripMenuItem_Click);
             // 
             // ファイルへ書き出すToolStripMenuItem
             // 
             this.ファイルへ書き出すToolStripMenuItem.Name = "ファイルへ書き出すToolStripMenuItem";
-            this.ファイルへ書き出すToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.ファイルへ書き出すToolStripMenuItem.Size = new System.Drawing.Size(282, 40);
             this.ファイルへ書き出すToolStripMenuItem.Text = "ファイルへ書き出す";
             this.ファイルへ書き出すToolStripMenuItem.Click += new System.EventHandler(this.ファイルへ書き出すToolStripMenuItem_Click);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(158, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(279, 6);
             // 
             // 設定ToolStripMenuItem
             // 
             this.設定ToolStripMenuItem.Name = "設定ToolStripMenuItem";
-            this.設定ToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.設定ToolStripMenuItem.Size = new System.Drawing.Size(282, 40);
             this.設定ToolStripMenuItem.Text = "設定";
             this.設定ToolStripMenuItem.Click += new System.EventHandler(this.設定ToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(158, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(279, 6);
             // 
             // 終了ToolStripMenuItem
             // 
             this.終了ToolStripMenuItem.Name = "終了ToolStripMenuItem";
-            this.終了ToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.終了ToolStripMenuItem.Size = new System.Drawing.Size(282, 40);
             this.終了ToolStripMenuItem.Text = "終了";
             this.終了ToolStripMenuItem.Click += new System.EventHandler(this.終了ToolStripMenuItem_Click);
             // 
@@ -150,46 +153,46 @@
             this.表示を更新ToolStripMenuItem,
             this.指定アドレスを表示ToolStripMenuItem});
             this.動作ToolStripMenuItem.Name = "動作ToolStripMenuItem";
-            this.動作ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+            this.動作ToolStripMenuItem.Size = new System.Drawing.Size(73, 34);
             this.動作ToolStripMenuItem.Text = "動作";
             // 
             // 初期化ToolStripMenuItem
             // 
             this.初期化ToolStripMenuItem.Name = "初期化ToolStripMenuItem";
-            this.初期化ToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.初期化ToolStripMenuItem.Size = new System.Drawing.Size(334, 40);
             this.初期化ToolStripMenuItem.Text = "レジスタとフラグを初期化";
             this.初期化ToolStripMenuItem.Click += new System.EventHandler(this.初期化ToolStripMenuItem_Click);
             // 
             // メモリを初期化ToolStripMenuItem
             // 
             this.メモリを初期化ToolStripMenuItem.Name = "メモリを初期化ToolStripMenuItem";
-            this.メモリを初期化ToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.メモリを初期化ToolStripMenuItem.Size = new System.Drawing.Size(334, 40);
             this.メモリを初期化ToolStripMenuItem.Text = "メモリを初期化";
             this.メモリを初期化ToolStripMenuItem.Click += new System.EventHandler(this.メモリを初期化ToolStripMenuItem_Click);
             // 
             // ブレークポイントを初期化ToolStripMenuItem
             // 
             this.ブレークポイントを初期化ToolStripMenuItem.Name = "ブレークポイントを初期化ToolStripMenuItem";
-            this.ブレークポイントを初期化ToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.ブレークポイントを初期化ToolStripMenuItem.Size = new System.Drawing.Size(334, 40);
             this.ブレークポイントを初期化ToolStripMenuItem.Text = "ブレークポイントを初期化";
             this.ブレークポイントを初期化ToolStripMenuItem.Click += new System.EventHandler(this.ブレークポイントを初期化ToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(188, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(331, 6);
             // 
             // 表示を更新ToolStripMenuItem
             // 
             this.表示を更新ToolStripMenuItem.Name = "表示を更新ToolStripMenuItem";
-            this.表示を更新ToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.表示を更新ToolStripMenuItem.Size = new System.Drawing.Size(334, 40);
             this.表示を更新ToolStripMenuItem.Text = "表示を更新";
             this.表示を更新ToolStripMenuItem.Click += new System.EventHandler(this.表示を更新ToolStripMenuItem_Click);
             // 
             // 指定アドレスを表示ToolStripMenuItem
             // 
             this.指定アドレスを表示ToolStripMenuItem.Name = "指定アドレスを表示ToolStripMenuItem";
-            this.指定アドレスを表示ToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.指定アドレスを表示ToolStripMenuItem.Size = new System.Drawing.Size(334, 40);
             this.指定アドレスを表示ToolStripMenuItem.Text = "指定アドレスへ移動";
             this.指定アドレスを表示ToolStripMenuItem.Click += new System.EventHandler(this.指定アドレスを表示ToolStripMenuItem_Click);
             // 
@@ -199,20 +202,20 @@
             this.使い方ToolStripMenuItem,
             this.このプログラムについてToolStripMenuItem});
             this.ヘルプToolStripMenuItem.Name = "ヘルプToolStripMenuItem";
-            this.ヘルプToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.ヘルプToolStripMenuItem.Size = new System.Drawing.Size(81, 34);
             this.ヘルプToolStripMenuItem.Text = "ヘルプ";
             // 
             // 使い方ToolStripMenuItem
             // 
             this.使い方ToolStripMenuItem.Name = "使い方ToolStripMenuItem";
-            this.使い方ToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.使い方ToolStripMenuItem.Size = new System.Drawing.Size(303, 40);
             this.使い方ToolStripMenuItem.Text = "使い方";
             this.使い方ToolStripMenuItem.Click += new System.EventHandler(this.使い方ToolStripMenuItem_Click);
             // 
             // このプログラムについてToolStripMenuItem
             // 
             this.このプログラムについてToolStripMenuItem.Name = "このプログラムについてToolStripMenuItem";
-            this.このプログラムについてToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.このプログラムについてToolStripMenuItem.Size = new System.Drawing.Size(303, 40);
             this.このプログラムについてToolStripMenuItem.Text = "このプログラムについて";
             this.このプログラムについてToolStripMenuItem.Click += new System.EventHandler(this.このプログラムについてToolStripMenuItem_Click);
             // 
@@ -254,7 +257,8 @@
             this.StripSeparator3,
             this.SpeedTrackBar,
             this.SpeedLabel,
-            this.InformationLabel});
+            this.InformationLabel,
+            this.InstructionCountLabel});
             this.Strip.Location = new System.Drawing.Point(0, 564);
             this.Strip.Name = "Strip";
             this.Strip.Size = new System.Drawing.Size(1048, 50);
@@ -266,7 +270,7 @@
             this.InitStripButton.Image = global::Simulator.Properties.Resources.init_old;
             this.InitStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.InitStripButton.Name = "InitStripButton";
-            this.InitStripButton.Size = new System.Drawing.Size(36, 47);
+            this.InitStripButton.Size = new System.Drawing.Size(40, 44);
             this.InitStripButton.Text = "初期化";
             this.InitStripButton.Click += new System.EventHandler(this.InitStripButton_Click);
             // 
@@ -281,7 +285,7 @@
             this.NextStepStripButton.Image = global::Simulator.Properties.Resources.step2;
             this.NextStepStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.NextStepStripButton.Name = "NextStepStripButton";
-            this.NextStepStripButton.Size = new System.Drawing.Size(36, 47);
+            this.NextStepStripButton.Size = new System.Drawing.Size(40, 44);
             this.NextStepStripButton.Text = "通常実行";
             this.NextStepStripButton.Click += new System.EventHandler(this.NextStepStripButton_Click);
             // 
@@ -291,7 +295,7 @@
             this.NextStripButton.Image = global::Simulator.Properties.Resources.step;
             this.NextStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.NextStripButton.Name = "NextStripButton";
-            this.NextStripButton.Size = new System.Drawing.Size(36, 47);
+            this.NextStripButton.Size = new System.Drawing.Size(40, 44);
             this.NextStripButton.Text = "命令単位ステップラン";
             this.NextStripButton.Click += new System.EventHandler(this.ステップを進めるToolStripMenuItem_Click);
             // 
@@ -301,7 +305,7 @@
             this.StartStripButton.Image = global::Simulator.Properties.Resources.run;
             this.StartStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.StartStripButton.Name = "StartStripButton";
-            this.StartStripButton.Size = new System.Drawing.Size(36, 47);
+            this.StartStripButton.Size = new System.Drawing.Size(40, 44);
             this.StartStripButton.Text = "状態単位ステップラン";
             this.StartStripButton.Click += new System.EventHandler(this.実行ToolStripMenuItem_Click);
             // 
@@ -311,7 +315,7 @@
             this.PauseStripButton.Image = global::Simulator.Properties.Resources.stop;
             this.PauseStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.PauseStripButton.Name = "PauseStripButton";
-            this.PauseStripButton.Size = new System.Drawing.Size(36, 47);
+            this.PauseStripButton.Size = new System.Drawing.Size(40, 44);
             this.PauseStripButton.Text = "ブレーク";
             this.PauseStripButton.Click += new System.EventHandler(this.PauseStripButton_Click);
             // 
@@ -324,7 +328,7 @@
             // 
             this.StatusLabel.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.StatusLabel.Name = "StatusLabel";
-            this.StatusLabel.Size = new System.Drawing.Size(55, 47);
+            this.StatusLabel.Size = new System.Drawing.Size(97, 44);
             this.StatusLabel.Text = "準備完了";
             // 
             // StripSeparator3
@@ -336,28 +340,28 @@
             // SpeedTrackBar
             // 
             this.SpeedTrackBar.Name = "SpeedTrackBar";
-            this.SpeedTrackBar.Size = new System.Drawing.Size(104, 47);
+            this.SpeedTrackBar.Size = new System.Drawing.Size(104, 44);
             // 
             // SpeedLabel
             // 
             this.SpeedLabel.Name = "SpeedLabel";
-            this.SpeedLabel.Size = new System.Drawing.Size(90, 47);
+            this.SpeedLabel.Size = new System.Drawing.Size(147, 44);
             this.SpeedLabel.Text = "実行速度: 50%";
             // 
             // InformationLabel
             // 
             this.InformationLabel.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.InformationLabel.Name = "InformationLabel";
-            this.InformationLabel.Size = new System.Drawing.Size(0, 47);
+            this.InformationLabel.Size = new System.Drawing.Size(0, 44);
             // 
             // ASCViewer
             // 
             this.ASCViewer.Controls.Add(this.Registers);
             this.ASCViewer.Controls.Add(this.MM);
             this.ASCViewer.Dock = System.Windows.Forms.DockStyle.Right;
-            this.ASCViewer.Location = new System.Drawing.Point(693, 24);
+            this.ASCViewer.Location = new System.Drawing.Point(693, 38);
             this.ASCViewer.Name = "ASCViewer";
-            this.ASCViewer.Size = new System.Drawing.Size(355, 540);
+            this.ASCViewer.Size = new System.Drawing.Size(355, 526);
             this.ASCViewer.TabIndex = 5;
             this.ASCViewer.TabStop = false;
             this.ASCViewer.Text = "ASCマシンの情報";
@@ -367,7 +371,7 @@
             this.Registers.Controls.Add(this.groupBox1);
             this.Registers.Controls.Add(this.RegistersView);
             this.Registers.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.Registers.Location = new System.Drawing.Point(3, 358);
+            this.Registers.Location = new System.Drawing.Point(3, 344);
             this.Registers.Name = "Registers";
             this.Registers.Size = new System.Drawing.Size(349, 179);
             this.Registers.TabIndex = 2;
@@ -389,14 +393,15 @@
             this.RegistersView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.RegistersView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.RegistersView.HighlightedIndex = -1;
-            this.RegistersView.Location = new System.Drawing.Point(3, 15);
+            this.RegistersView.Location = new System.Drawing.Point(3, 24);
             this.RegistersView.Name = "RegistersView";
             this.RegistersView.RowHeadersVisible = false;
+            this.RegistersView.RowHeadersWidth = 72;
             this.RegistersView.RowTemplate.Height = 21;
             this.RegistersView.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.RegistersView.SecondaryHighlightedIndex = -1;
             this.RegistersView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.RegistersView.Size = new System.Drawing.Size(343, 161);
+            this.RegistersView.Size = new System.Drawing.Size(343, 152);
             this.RegistersView.TabIndex = 0;
             this.RegistersView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.RegistersView_CellEndEdit);
             // 
@@ -407,7 +412,7 @@
             this.MM.Controls.Add(this.MMView);
             this.MM.Location = new System.Drawing.Point(3, 15);
             this.MM.Name = "MM";
-            this.MM.Size = new System.Drawing.Size(349, 337);
+            this.MM.Size = new System.Drawing.Size(349, 323);
             this.MM.TabIndex = 1;
             this.MM.TabStop = false;
             this.MM.Text = "MM";
@@ -422,13 +427,14 @@
             this.MMView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MMView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.MMView.HighlightedIndex = -1;
-            this.MMView.Location = new System.Drawing.Point(3, 15);
+            this.MMView.Location = new System.Drawing.Point(3, 24);
             this.MMView.Name = "MMView";
+            this.MMView.RowHeadersWidth = 72;
             this.MMView.RowTemplate.Height = 21;
             this.MMView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.MMView.SecondaryHighlightedIndex = -1;
             this.MMView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.MMView.Size = new System.Drawing.Size(343, 319);
+            this.MMView.Size = new System.Drawing.Size(343, 296);
             this.MMView.TabIndex = 0;
             this.MMView.RowChecked += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.MMView_RowChecked);
             this.MMView.RowUnchecked += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.MMView_RowUnchecked);
@@ -440,10 +446,16 @@
             this.DisplayPanel.AutoSize = true;
             this.DisplayPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.DisplayPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DisplayPanel.Location = new System.Drawing.Point(0, 24);
+            this.DisplayPanel.Location = new System.Drawing.Point(0, 38);
             this.DisplayPanel.Name = "DisplayPanel";
-            this.DisplayPanel.Size = new System.Drawing.Size(693, 540);
+            this.DisplayPanel.Size = new System.Drawing.Size(693, 526);
             this.DisplayPanel.TabIndex = 6;
+            // 
+            // InstructionCountLabel
+            // 
+            this.InstructionCountLabel.Name = "InstructionCountLabel";
+            this.InstructionCountLabel.Size = new System.Drawing.Size(140, 44);
+            this.InstructionCountLabel.Text = "実行命令数: 0";
             // 
             // MainForm
             // 
@@ -517,5 +529,6 @@
         private System.Windows.Forms.ToolStripLabel SpeedLabel;
         private System.Windows.Forms.ToolStripMenuItem 指定アドレスを表示ToolStripMenuItem;
         private System.Windows.Forms.Panel DisplayPanel;
+        private System.Windows.Forms.ToolStripLabel InstructionCountLabel;
     }
 }

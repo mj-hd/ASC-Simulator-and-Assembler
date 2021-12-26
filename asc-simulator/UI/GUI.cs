@@ -48,7 +48,7 @@ namespace Simulator.UI
             {
                 this._MainForm.Machine = value;
 
-                // マシンのイベントに、　MachineDisplayを割り当てる
+                // マシンのイベントに、MachineDisplayを割り当てる
                 this._MainForm.Machine.CycleBegin += this._MainForm.Display.DidCycleBegin;
                 this._MainForm.Machine.CycleEnd += this._MainForm.Display.DidCycleEnd;
                 this._MainForm.Machine.CycleDecode += this._MainForm.Display.DidCycleDecode;

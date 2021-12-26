@@ -691,27 +691,27 @@ namespace Simulator.MachineDisplay
         }
 
         // マシンの実行状態に合わせた処理
-        public void DidCycleBegin()
+        public void DidCycleBegin(Common.CycleEventArgs ce)
         {
             //this._ResetCycleVariables();
         }
-        public void DidCycleEnd()
+        public void DidCycleEnd(Common.CycleEventArgs ce)
         {
             //this._ResetCycleVariables();
         }
-        public void DidCycleDecode()
+        public void DidCycleDecode(Common.CycleEventArgs ce)
         {
             //this._ResetCycleVariables();
         }
-        public void DidCycleUpdateIR()
+        public void DidCycleUpdateIR(Common.CycleEventArgs ce)
         {
             //this._ResetCycleVariables();
         }
-        public void DidCycleOpecode()
+        public void DidCycleOpecode(Common.CycleEventArgs ce)
         {
             //this._ResetCycleVariables();
         }
-        public void DidCycleUpdatePC()
+        public void DidCycleUpdatePC(Common.CycleEventArgs ce)
         {
             //this._ResetCycleVariables();
         }

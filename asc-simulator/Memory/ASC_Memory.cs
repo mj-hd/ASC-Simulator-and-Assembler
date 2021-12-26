@@ -63,8 +63,8 @@ namespace Simulator.Memory
             // 確保したメモリサイズを記録
             this._AllocatedSize = _BlockSize;
 
-            // メモリ変更のイベント発生させる
-            this.OnMemoryChanged(new MemoryEventArgs(0, 0, this._MM));
+            // メモリResetの変更のイベント発生させる
+            this.OnMemoryChanged(new MemoryEventArgs(0, 0, this._MM, true));
         }
 
         // BinaryReaderからメモリへ読み込む
