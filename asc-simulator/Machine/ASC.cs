@@ -305,7 +305,8 @@ namespace Simulator.Machine
         }
 
         public void Dispose() {
-            // _LoopThreadは自動でDisposeされるためここでは呼ばない
+            this._LoopThread.Abort();
+            this._LoopThread.Join();
         }
 
         public void Init()

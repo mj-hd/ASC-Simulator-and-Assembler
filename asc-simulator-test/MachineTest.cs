@@ -10,17 +10,15 @@ namespace asc_simulator_test
         [TestMethod]
         public void TestInit()
         {
-            using (var machine = new ASC())
-            {
-                machine.Init();
+            var machine = new ASC();
+            machine.Init();
 
-                Assert.AreEqual(machine.Registers.R, 0x0000);
-                Assert.AreEqual(machine.Registers.PC, 0x0000);
-                Assert.AreEqual(machine.Registers.IR, 0x0000);
-                Assert.AreEqual(machine.Registers.MAR, 0x0000);
-                Assert.AreEqual(machine.Registers.N, false);
-                Assert.AreEqual(machine.Registers.Z, false);
-            }
+            Assert.AreEqual(machine.Registers.R, 0x0000);
+            Assert.AreEqual(machine.Registers.PC, 0x0000);
+            Assert.AreEqual(machine.Registers.IR, 0x0000);
+            Assert.AreEqual(machine.Registers.MAR, 0x0000);
+            Assert.AreEqual(machine.Registers.N, false);
+            Assert.AreEqual(machine.Registers.Z, false);
         }
 
         [TestMethod]
@@ -38,7 +36,7 @@ namespace asc_simulator_test
                 Operand = 0,
             };
 
-            using (var testASC = await Utils.TestASC.New(new ASC.ILoadable[] {
+            var testASC = await Utils.TestASC.New(new ASC.ILoadable[] {
                 // B 0x003
                 new ASC.MNEMONIC
                 {
@@ -83,59 +81,57 @@ namespace asc_simulator_test
                 dummy,
 
                 expected,
-            }))
+            });
+
+            // B 0x003
+            await testASC.RunCycleAsync();
+
+            Assert.AreEqual(0, testASC.machine.Registers.R);
+            Assert.AreEqual(0x0003, testASC.machine.Registers.PC);
+            Assert.AreEqual(0x0003, testASC.machine.Registers.MAR);
+            Assert.AreEqual(false, testASC.machine.Registers.Z);
+            Assert.AreEqual(false, testASC.machine.Registers.N);
+
+            // BZ 0x006
+            await testASC.RunCycleAsync();
+            await testASC.RunCycleAsync();
+
+            Assert.AreEqual(0, testASC.machine.Registers.R);
+            Assert.AreEqual(0x0006, testASC.machine.Registers.PC);
+            Assert.AreEqual(0x0006, testASC.machine.Registers.MAR);
+            Assert.AreEqual(true, testASC.machine.Registers.Z);
+            Assert.AreEqual(false, testASC.machine.Registers.N);
+
+            // BN 0x009
+            await testASC.RunCycleAsync();
+            await testASC.RunCycleAsync();
+
+            unchecked
             {
-
-                // B 0x003
-                await testASC.RunCycleAsync();
-
-                Assert.AreEqual(0, testASC.machine.Registers.R);
-                Assert.AreEqual(0x0003, testASC.machine.Registers.PC);
-                Assert.AreEqual(0x0003, testASC.machine.Registers.MAR);
-                Assert.AreEqual(false, testASC.machine.Registers.Z);
-                Assert.AreEqual(false, testASC.machine.Registers.N);
-
-                // BZ 0x006
-                await testASC.RunCycleAsync();
-                await testASC.RunCycleAsync();
-
-                Assert.AreEqual(0, testASC.machine.Registers.R);
-                Assert.AreEqual(0x0006, testASC.machine.Registers.PC);
-                Assert.AreEqual(0x0006, testASC.machine.Registers.MAR);
-                Assert.AreEqual(true, testASC.machine.Registers.Z);
-                Assert.AreEqual(false, testASC.machine.Registers.N);
-
-                // BN 0x009
-                await testASC.RunCycleAsync();
-                await testASC.RunCycleAsync();
-
-                unchecked
-                {
-                    Assert.AreEqual((ushort)-1, testASC.machine.Registers.R);
-                }
-                Assert.AreEqual(0x0009, testASC.machine.Registers.PC);
-                Assert.AreEqual(0x0009, testASC.machine.Registers.MAR);
-                Assert.AreEqual(false, testASC.machine.Registers.Z);
-                Assert.AreEqual(true, testASC.machine.Registers.N);
-
-                await testASC.RunCycleAsync();
-
-                unchecked
-                {
-                    Assert.AreEqual((ushort)-1, testASC.machine.Registers.R);
-                }
-                Assert.AreEqual(0x000A, testASC.machine.Registers.PC);
-                Assert.AreEqual(expected.ToUShort(), testASC.machine.Registers.IR);
-                Assert.AreEqual(0x0000, testASC.machine.Registers.MAR);
-                Assert.AreEqual(false, testASC.machine.Registers.Z);
-                Assert.AreEqual(true, testASC.machine.Registers.N);
+                Assert.AreEqual((ushort)-1, testASC.machine.Registers.R);
             }
+            Assert.AreEqual(0x0009, testASC.machine.Registers.PC);
+            Assert.AreEqual(0x0009, testASC.machine.Registers.MAR);
+            Assert.AreEqual(false, testASC.machine.Registers.Z);
+            Assert.AreEqual(true, testASC.machine.Registers.N);
+
+            await testASC.RunCycleAsync();
+
+            unchecked
+            {
+                Assert.AreEqual((ushort)-1, testASC.machine.Registers.R);
+            }
+            Assert.AreEqual(0x000A, testASC.machine.Registers.PC);
+            Assert.AreEqual(expected.ToUShort(), testASC.machine.Registers.IR);
+            Assert.AreEqual(0x0000, testASC.machine.Registers.MAR);
+            Assert.AreEqual(false, testASC.machine.Registers.Z);
+            Assert.AreEqual(true, testASC.machine.Registers.N);
         }
 
         [TestMethod]
         public async Task TestALUInstr()
         {
-            using (var testASC = await Utils.TestASC.New(new ASC.ILoadable[] {
+            var testASC = await Utils.TestASC.New(new ASC.ILoadable[] {
                 // B 0x006
                 new ASC.MNEMONIC
                 {
@@ -294,189 +290,187 @@ namespace asc_simulator_test
                     Opecode = Simulator.Common.Defines.OPECODE.AND,
                     Operand = 0x005,
                 }
-            }))
-            {
+            });
 
-                // B 0x0006
-                await testASC.RunCycleAsync();
+            // B 0x0006
+            await testASC.RunCycleAsync();
 
-                // ADD 0x001 (R = R + 0 = 0)
-                await testASC.RunCycleAsync();
+            // ADD 0x001 (R = R + 0 = 0)
+            await testASC.RunCycleAsync();
 
-                Assert.AreEqual(0, testASC.machine.Registers.R);
-                Assert.AreEqual(0x0001, testASC.machine.Registers.MAR);
-                Assert.AreEqual(true, testASC.machine.Registers.Z);
-                Assert.AreEqual(false, testASC.machine.Registers.N);
-                Assert.AreEqual(false, testASC.overflowed);
+            Assert.AreEqual(0, testASC.machine.Registers.R);
+            Assert.AreEqual(0x0001, testASC.machine.Registers.MAR);
+            Assert.AreEqual(true, testASC.machine.Registers.Z);
+            Assert.AreEqual(false, testASC.machine.Registers.N);
+            Assert.AreEqual(false, testASC.overflowed);
 
-                // ADD 0x002 (R = R + 1 = 1)
-                await testASC.RunCycleAsync();
+            // ADD 0x002 (R = R + 1 = 1)
+            await testASC.RunCycleAsync();
 
-                Assert.AreEqual(1, testASC.machine.Registers.R);
-                Assert.AreEqual(0x0002, testASC.machine.Registers.MAR);
-                Assert.AreEqual(false, testASC.machine.Registers.Z);
-                Assert.AreEqual(false, testASC.machine.Registers.N);
-                Assert.AreEqual(false, testASC.overflowed);
+            Assert.AreEqual(1, testASC.machine.Registers.R);
+            Assert.AreEqual(0x0002, testASC.machine.Registers.MAR);
+            Assert.AreEqual(false, testASC.machine.Registers.Z);
+            Assert.AreEqual(false, testASC.machine.Registers.N);
+            Assert.AreEqual(false, testASC.overflowed);
 
-                // ADD 0x003 (R = R + (-1) = 0)
-                await testASC.RunCycleAsync();
+            // ADD 0x003 (R = R + (-1) = 0)
+            await testASC.RunCycleAsync();
 
-                Assert.AreEqual(0, testASC.machine.Registers.R);
-                Assert.AreEqual(0x0003, testASC.machine.Registers.MAR);
-                Assert.AreEqual(true, testASC.machine.Registers.Z);
-                Assert.AreEqual(false, testASC.machine.Registers.N);
-                Assert.AreEqual(false, testASC.overflowed);
+            Assert.AreEqual(0, testASC.machine.Registers.R);
+            Assert.AreEqual(0x0003, testASC.machine.Registers.MAR);
+            Assert.AreEqual(true, testASC.machine.Registers.Z);
+            Assert.AreEqual(false, testASC.machine.Registers.N);
+            Assert.AreEqual(false, testASC.overflowed);
 
-                // ADD 0x003 (R = R + (-1) = -1)
-                await testASC.RunCycleAsync();
+            // ADD 0x003 (R = R + (-1) = -1)
+            await testASC.RunCycleAsync();
 
-                Assert.AreEqual(0xFFFF, testASC.machine.Registers.R);
-                Assert.AreEqual(0x0003, testASC.machine.Registers.MAR);
-                Assert.AreEqual(false, testASC.machine.Registers.Z);
-                Assert.AreEqual(true, testASC.machine.Registers.N);
-                Assert.AreEqual(false, testASC.overflowed);
+            Assert.AreEqual(0xFFFF, testASC.machine.Registers.R);
+            Assert.AreEqual(0x0003, testASC.machine.Registers.MAR);
+            Assert.AreEqual(false, testASC.machine.Registers.Z);
+            Assert.AreEqual(true, testASC.machine.Registers.N);
+            Assert.AreEqual(false, testASC.overflowed);
 
-                // ADD 0x002 (R = R + 1 = 0)
-                await testASC.RunCycleAsync();
+            // ADD 0x002 (R = R + 1 = 0)
+            await testASC.RunCycleAsync();
 
-                Assert.AreEqual(0x0000, testASC.machine.Registers.R);
-                Assert.AreEqual(0x0002, testASC.machine.Registers.MAR);
-                Assert.AreEqual(true, testASC.machine.Registers.Z);
-                Assert.AreEqual(false, testASC.machine.Registers.N);
-                Assert.AreEqual(false, testASC.overflowed);
+            Assert.AreEqual(0x0000, testASC.machine.Registers.R);
+            Assert.AreEqual(0x0002, testASC.machine.Registers.MAR);
+            Assert.AreEqual(true, testASC.machine.Registers.Z);
+            Assert.AreEqual(false, testASC.machine.Registers.N);
+            Assert.AreEqual(false, testASC.overflowed);
 
-                // ADD 0x004 (R = R + 0x7FFF = 0x7FFF)
-                await testASC.RunCycleAsync();
+            // ADD 0x004 (R = R + 0x7FFF = 0x7FFF)
+            await testASC.RunCycleAsync();
 
-                Assert.AreEqual(0x7FFF, testASC.machine.Registers.R);
-                Assert.AreEqual(0x0004, testASC.machine.Registers.MAR);
-                Assert.AreEqual(false, testASC.machine.Registers.Z);
-                Assert.AreEqual(false, testASC.machine.Registers.N);
-                Assert.AreEqual(false, testASC.overflowed);
+            Assert.AreEqual(0x7FFF, testASC.machine.Registers.R);
+            Assert.AreEqual(0x0004, testASC.machine.Registers.MAR);
+            Assert.AreEqual(false, testASC.machine.Registers.Z);
+            Assert.AreEqual(false, testASC.machine.Registers.N);
+            Assert.AreEqual(false, testASC.overflowed);
 
-                // ADD 0x004 (R = R + 0x7FFF = 0xFFFE)
-                await testASC.RunCycleAsync();
+            // ADD 0x004 (R = R + 0x7FFF = 0xFFFE)
+            await testASC.RunCycleAsync();
 
-                Assert.AreEqual(0xFFFE, testASC.machine.Registers.R);
-                Assert.AreEqual(0x0004, testASC.machine.Registers.MAR);
-                Assert.AreEqual(false, testASC.machine.Registers.Z);
-                Assert.AreEqual(true, testASC.machine.Registers.N);
-                Assert.AreEqual(true, testASC.overflowed);
+            Assert.AreEqual(0xFFFE, testASC.machine.Registers.R);
+            Assert.AreEqual(0x0004, testASC.machine.Registers.MAR);
+            Assert.AreEqual(false, testASC.machine.Registers.Z);
+            Assert.AreEqual(true, testASC.machine.Registers.N);
+            Assert.AreEqual(true, testASC.overflowed);
 
-                // ADD 0x005 (R = R + 0x8001 = 0x7FFF)
-                await testASC.RunCycleAsync();
+            // ADD 0x005 (R = R + 0x8001 = 0x7FFF)
+            await testASC.RunCycleAsync();
 
-                Assert.AreEqual(0x7FFF, testASC.machine.Registers.R);
-                Assert.AreEqual(0x0005, testASC.machine.Registers.MAR);
-                Assert.AreEqual(false, testASC.machine.Registers.Z);
-                Assert.AreEqual(false, testASC.machine.Registers.N);
-                Assert.AreEqual(true, testASC.overflowed);
+            Assert.AreEqual(0x7FFF, testASC.machine.Registers.R);
+            Assert.AreEqual(0x0005, testASC.machine.Registers.MAR);
+            Assert.AreEqual(false, testASC.machine.Registers.Z);
+            Assert.AreEqual(false, testASC.machine.Registers.N);
+            Assert.AreEqual(true, testASC.overflowed);
 
-                // SUB 0x004 (R = R - 0x7FFF = 0)
-                await testASC.RunCycleAsync();
+            // SUB 0x004 (R = R - 0x7FFF = 0)
+            await testASC.RunCycleAsync();
 
-                Assert.AreEqual(0x0000, testASC.machine.Registers.R);
-                Assert.AreEqual(0x0004, testASC.machine.Registers.MAR);
-                Assert.AreEqual(true, testASC.machine.Registers.Z);
-                Assert.AreEqual(false, testASC.machine.Registers.N);
-                Assert.AreEqual(false, testASC.overflowed);
+            Assert.AreEqual(0x0000, testASC.machine.Registers.R);
+            Assert.AreEqual(0x0004, testASC.machine.Registers.MAR);
+            Assert.AreEqual(true, testASC.machine.Registers.Z);
+            Assert.AreEqual(false, testASC.machine.Registers.N);
+            Assert.AreEqual(false, testASC.overflowed);
 
-                // SUB 0x002 (R = R - 1 = -1)
-                await testASC.RunCycleAsync();
+            // SUB 0x002 (R = R - 1 = -1)
+            await testASC.RunCycleAsync();
 
-                Assert.AreEqual(0xFFFF, testASC.machine.Registers.R);
-                Assert.AreEqual(0x0002, testASC.machine.Registers.MAR);
-                Assert.AreEqual(false, testASC.machine.Registers.Z);
-                Assert.AreEqual(true, testASC.machine.Registers.N);
-                Assert.AreEqual(false, testASC.overflowed);
+            Assert.AreEqual(0xFFFF, testASC.machine.Registers.R);
+            Assert.AreEqual(0x0002, testASC.machine.Registers.MAR);
+            Assert.AreEqual(false, testASC.machine.Registers.Z);
+            Assert.AreEqual(true, testASC.machine.Registers.N);
+            Assert.AreEqual(false, testASC.overflowed);
 
-                // SUB 0x003 (R = R - (-1) = 0)
-                await testASC.RunCycleAsync();
+            // SUB 0x003 (R = R - (-1) = 0)
+            await testASC.RunCycleAsync();
 
-                Assert.AreEqual(0x0000, testASC.machine.Registers.R);
-                Assert.AreEqual(0x0003, testASC.machine.Registers.MAR);
-                Assert.AreEqual(true, testASC.machine.Registers.Z);
-                Assert.AreEqual(false, testASC.machine.Registers.N);
-                Assert.AreEqual(false, testASC.overflowed);
+            Assert.AreEqual(0x0000, testASC.machine.Registers.R);
+            Assert.AreEqual(0x0003, testASC.machine.Registers.MAR);
+            Assert.AreEqual(true, testASC.machine.Registers.Z);
+            Assert.AreEqual(false, testASC.machine.Registers.N);
+            Assert.AreEqual(false, testASC.overflowed);
 
-                // SUB 0x005 (R = R - 0x8001 = 0x7FFF)
-                await testASC.RunCycleAsync();
+            // SUB 0x005 (R = R - 0x8001 = 0x7FFF)
+            await testASC.RunCycleAsync();
 
-                Assert.AreEqual(0x7FFF, testASC.machine.Registers.R);
-                Assert.AreEqual(0x0005, testASC.machine.Registers.MAR);
-                Assert.AreEqual(false, testASC.machine.Registers.Z);
-                Assert.AreEqual(false, testASC.machine.Registers.N);
-                Assert.AreEqual(false, testASC.overflowed);
+            Assert.AreEqual(0x7FFF, testASC.machine.Registers.R);
+            Assert.AreEqual(0x0005, testASC.machine.Registers.MAR);
+            Assert.AreEqual(false, testASC.machine.Registers.Z);
+            Assert.AreEqual(false, testASC.machine.Registers.N);
+            Assert.AreEqual(false, testASC.overflowed);
 
-                // SUB 0x005 (R = R - 0x8001 = 0xFFFE)
-                await testASC.RunCycleAsync();
+            // SUB 0x005 (R = R - 0x8001 = 0xFFFE)
+            await testASC.RunCycleAsync();
 
-                Assert.AreEqual(0xFFFE, testASC.machine.Registers.R);
-                Assert.AreEqual(0x0005, testASC.machine.Registers.MAR);
-                Assert.AreEqual(false, testASC.machine.Registers.Z);
-                Assert.AreEqual(true, testASC.machine.Registers.N);
-                Assert.AreEqual(true, testASC.overflowed);
+            Assert.AreEqual(0xFFFE, testASC.machine.Registers.R);
+            Assert.AreEqual(0x0005, testASC.machine.Registers.MAR);
+            Assert.AreEqual(false, testASC.machine.Registers.Z);
+            Assert.AreEqual(true, testASC.machine.Registers.N);
+            Assert.AreEqual(true, testASC.overflowed);
 
-                // AND 0x001 (R = R & 0 = 0)
-                await testASC.RunCycleAsync();
+            // AND 0x001 (R = R & 0 = 0)
+            await testASC.RunCycleAsync();
 
-                Assert.AreEqual(0x0000, testASC.machine.Registers.R);
-                Assert.AreEqual(0x001, testASC.machine.Registers.MAR);
-                Assert.AreEqual(true, testASC.machine.Registers.Z);
-                Assert.AreEqual(true, testASC.machine.Registers.N); // not affected
-                Assert.AreEqual(false, testASC.overflowed);
+            Assert.AreEqual(0x0000, testASC.machine.Registers.R);
+            Assert.AreEqual(0x001, testASC.machine.Registers.MAR);
+            Assert.AreEqual(true, testASC.machine.Registers.Z);
+            Assert.AreEqual(true, testASC.machine.Registers.N); // not affected
+            Assert.AreEqual(false, testASC.overflowed);
 
-                // OR 0x002 (R = R & 1 = 1)
-                await testASC.RunCycleAsync();
+            // OR 0x002 (R = R & 1 = 1)
+            await testASC.RunCycleAsync();
 
-                Assert.AreEqual(0x0001, testASC.machine.Registers.R);
-                Assert.AreEqual(0x002, testASC.machine.Registers.MAR);
-                Assert.AreEqual(false, testASC.machine.Registers.Z);
-                Assert.AreEqual(true, testASC.machine.Registers.N); // not affected
-                Assert.AreEqual(false, testASC.overflowed);
+            Assert.AreEqual(0x0001, testASC.machine.Registers.R);
+            Assert.AreEqual(0x002, testASC.machine.Registers.MAR);
+            Assert.AreEqual(false, testASC.machine.Registers.Z);
+            Assert.AreEqual(true, testASC.machine.Registers.N); // not affected
+            Assert.AreEqual(false, testASC.overflowed);
 
-                // AND 0x002 (R = R & 1 = 1)
-                await testASC.RunCycleAsync();
+            // AND 0x002 (R = R & 1 = 1)
+            await testASC.RunCycleAsync();
 
-                Assert.AreEqual(0x0001, testASC.machine.Registers.R);
-                Assert.AreEqual(0x002, testASC.machine.Registers.MAR);
-                Assert.AreEqual(false, testASC.machine.Registers.Z);
-                Assert.AreEqual(true, testASC.machine.Registers.N); // not affected
-                Assert.AreEqual(false, testASC.overflowed);
+            Assert.AreEqual(0x0001, testASC.machine.Registers.R);
+            Assert.AreEqual(0x002, testASC.machine.Registers.MAR);
+            Assert.AreEqual(false, testASC.machine.Registers.Z);
+            Assert.AreEqual(true, testASC.machine.Registers.N); // not affected
+            Assert.AreEqual(false, testASC.overflowed);
 
-                // OR 0x002 (R = R & 1 = 1)
-                await testASC.RunCycleAsync();
+            // OR 0x002 (R = R & 1 = 1)
+            await testASC.RunCycleAsync();
 
-                Assert.AreEqual(0x0001, testASC.machine.Registers.R);
-                Assert.AreEqual(0x002, testASC.machine.Registers.MAR);
-                Assert.AreEqual(false, testASC.machine.Registers.Z);
-                Assert.AreEqual(true, testASC.machine.Registers.N); // not affected
-                Assert.AreEqual(false, testASC.overflowed);
+            Assert.AreEqual(0x0001, testASC.machine.Registers.R);
+            Assert.AreEqual(0x002, testASC.machine.Registers.MAR);
+            Assert.AreEqual(false, testASC.machine.Registers.Z);
+            Assert.AreEqual(true, testASC.machine.Registers.N); // not affected
+            Assert.AreEqual(false, testASC.overflowed);
 
-                // OR 0x005 (R = R | 0x8001 = 0x8001)
-                await testASC.RunCycleAsync();
+            // OR 0x005 (R = R | 0x8001 = 0x8001)
+            await testASC.RunCycleAsync();
 
-                Assert.AreEqual(0x8001, testASC.machine.Registers.R);
-                Assert.AreEqual(0x005, testASC.machine.Registers.MAR);
-                Assert.AreEqual(false, testASC.machine.Registers.Z);
-                Assert.AreEqual(true, testASC.machine.Registers.N); // not affected
-                Assert.AreEqual(false, testASC.overflowed);
+            Assert.AreEqual(0x8001, testASC.machine.Registers.R);
+            Assert.AreEqual(0x005, testASC.machine.Registers.MAR);
+            Assert.AreEqual(false, testASC.machine.Registers.Z);
+            Assert.AreEqual(true, testASC.machine.Registers.N); // not affected
+            Assert.AreEqual(false, testASC.overflowed);
 
-                // AND 0x005 (R = R | 0x8001 = 0x8001)
-                await testASC.RunCycleAsync();
+            // AND 0x005 (R = R | 0x8001 = 0x8001)
+            await testASC.RunCycleAsync();
 
-                Assert.AreEqual(0x8001, testASC.machine.Registers.R);
-                Assert.AreEqual(0x005, testASC.machine.Registers.MAR);
-                Assert.AreEqual(false, testASC.machine.Registers.Z);
-                Assert.AreEqual(true, testASC.machine.Registers.N); // not affected
-                Assert.AreEqual(false, testASC.overflowed);
-            }
+            Assert.AreEqual(0x8001, testASC.machine.Registers.R);
+            Assert.AreEqual(0x005, testASC.machine.Registers.MAR);
+            Assert.AreEqual(false, testASC.machine.Registers.Z);
+            Assert.AreEqual(true, testASC.machine.Registers.N); // not affected
+            Assert.AreEqual(false, testASC.overflowed);
         }
 
         [TestMethod]
         public async Task TestMemory()
         {
-            using (var testASC = await Utils.TestASC.New(new ASC.ILoadable[] {
+            var testASC = await Utils.TestASC.New(new ASC.ILoadable[] {
                 // B 0x003
                 new ASC.MNEMONIC
                 {
@@ -520,37 +514,35 @@ namespace asc_simulator_test
                     Opecode = Simulator.Common.Defines.OPECODE.LD,
                     Operand = 0x100,
                 },
-            }))
-            {
+            });
 
-                // B 0x0003
-                await testASC.RunCycleAsync();
+            // B 0x0003
+            await testASC.RunCycleAsync();
 
-                // LD 0x002 (R = 0xBEEF)
-                await testASC.RunCycleAsync();
+            // LD 0x002 (R = 0xBEEF)
+            await testASC.RunCycleAsync();
 
-                Assert.AreEqual(0xBEEF, testASC.machine.Registers.R);
-                Assert.AreEqual(0x0002, testASC.machine.Registers.MAR);
+            Assert.AreEqual(0xBEEF, testASC.machine.Registers.R);
+            Assert.AreEqual(0x0002, testASC.machine.Registers.MAR);
 
-                // ST 0x100 ((0x100) = 0xBEEF)
-                await testASC.RunCycleAsync();
+            // ST 0x100 ((0x100) = 0xBEEF)
+            await testASC.RunCycleAsync();
 
-                Assert.AreEqual(0xBEEF, testASC.machine.Registers.R);
-                Assert.AreEqual(0x0100, testASC.machine.Registers.MAR);
-                Assert.AreEqual(0xBEEF, testASC.machine.Memory[0x0100]);
+            Assert.AreEqual(0xBEEF, testASC.machine.Registers.R);
+            Assert.AreEqual(0x0100, testASC.machine.Registers.MAR);
+            Assert.AreEqual(0xBEEF, testASC.machine.Memory[0x0100]);
 
-                // LD 0x001 (R = 0)
-                await testASC.RunCycleAsync();
+            // LD 0x001 (R = 0)
+            await testASC.RunCycleAsync();
 
-                Assert.AreEqual(0x0000, testASC.machine.Registers.R);
-                Assert.AreEqual(0x0001, testASC.machine.Registers.MAR);
+            Assert.AreEqual(0x0000, testASC.machine.Registers.R);
+            Assert.AreEqual(0x0001, testASC.machine.Registers.MAR);
 
-                // LD 0x100 (R = (0x100) = 0xBEEF)
-                await testASC.RunCycleAsync();
+            // LD 0x100 (R = (0x100) = 0xBEEF)
+            await testASC.RunCycleAsync();
 
-                Assert.AreEqual(0xBEEF, testASC.machine.Registers.R);
-                Assert.AreEqual(0x0100, testASC.machine.Registers.MAR);
-            }
+            Assert.AreEqual(0xBEEF, testASC.machine.Registers.R);
+            Assert.AreEqual(0x0100, testASC.machine.Registers.MAR);
         }
     }
 }

@@ -142,13 +142,21 @@ namespace asc_simulator_test
                     tcs.SetResult(null);
                 };
 
+                // OVERFLOW時は特殊なタイミングで停止するためハンドリング
+                Simulator.Common.OverflowedEventHandler overflowListener = (ove) =>
+                {
+                    this.machine.RunCycle();
+                };
+
                 this.machine.Stepped += listener;
+                this.machine.ALU.Overflowed += overflowListener;
 
                 this.machine.RunCycle();
 
                 await tcs.Task;
 
                 this.machine.Stepped -= listener;
+                this.machine.ALU.Overflowed -= overflowListener;
             }
         }
     }
