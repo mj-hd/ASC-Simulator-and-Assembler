@@ -75,6 +75,17 @@
   <PropertyGroup>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Bundle|AnyCPU'">
+    <OutputPath>..\dist\simulator\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -295,6 +306,15 @@
     </FileAssociation>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy $(SolutionDir)\LICENSE.rtf ..\ /Y
+copy $(SolutionDir)\resources\サンプルプログラムについて.url ..\ /Y
+copy $(SolutionDir)\resources\説明書.url ..\ /Y
+copy $(SolutionDir)\resources\asc-simulator.lnk ..\ /Y
+copy $(SolutionDir)\resources\asc-assembler.bat ..\ /Y
+mkdir ..\sample
+copy $(SolutionDir)\resources\sample ..\sample /Y</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

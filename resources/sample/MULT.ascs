@@ -1,0 +1,22 @@
+; TEST-multiplication
+; multiply A and B and store to C (assume B!=0)
+	TITLE	MULTIPLY
+	ORG	0x0
+	LD	Zero
+Loop	ADD	A
+	ST	C
+	LD	B
+	SUB	One
+	BZ	End
+	ST	B
+	LD	C
+	B	Loop
+End	HLT
+
+A 	DC 	3
+B  	DC 	2
+C	DS	1
+Zero	DC	0
+One	DC	1
+	END
+
