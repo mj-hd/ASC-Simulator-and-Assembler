@@ -60,6 +60,9 @@ namespace Simulator.UI.Forms
 
             // HeaderCellとしてMyDataGridViewRowHeaderCellを割り当てる
             this.RowTemplate.HeaderCell = new MyDataGridViewRowHeaderCell();
+
+            // チラツキ抑制
+            this.DoubleBuffered = true;
         }
 
         public void ScrollToIndexRow(int index)
