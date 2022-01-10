@@ -12,11 +12,16 @@ using System.Threading.Tasks;
 
 namespace Simulator.UI
 {
-    class GUI
+    class GUI : IDisposable
     {
         public GUI()
         {
             this._MainForm = new Forms.MainForm();
+        }
+
+        public void Dispose()
+        {
+            this._MainForm.Dispose();
         }
 
         // メインフォームを表示する
@@ -32,9 +37,8 @@ namespace Simulator.UI
             System.Windows.Forms.MessageBox.Show("エラーが発生したため、プログラムを終了します。"+Environment.NewLine+"「"+message+"」", "エラー", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
         }
 
-        // ファイルを開く
-        // ToDo: うまいこと開けない
-        public void OpenFile(string file)
+        // 起動後に開くファイルを設定する
+        public void SetFile(string file)
         {
             this._MainForm.Shown += (sender, e) =>
             {

@@ -20,21 +20,27 @@ namespace Simulator
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            UI.GUI ui;
             Machine.ASC machine = new Machine.ASC();
 
             // GUI
-            ui = new UI.GUI();
-
-            ui.Machine = machine;
-
-            try
+            using (UI.GUI ui = new UI.GUI())
             {
-              ui.ShowWindow();
-            }
-            catch (Exception e)
-            {
-                ui.ShowError(e.Message);
+
+                ui.Machine = machine;
+
+                try
+                {
+                    if (args.Length > 0)
+                    {
+                        ui.SetFile(args[0]);
+                    }
+
+                    ui.ShowWindow();
+                }
+                catch (Exception e)
+                {
+                    ui.ShowError(e.Message);
+                }
             }
         }
     }
