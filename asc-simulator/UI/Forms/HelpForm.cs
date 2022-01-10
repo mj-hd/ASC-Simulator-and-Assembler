@@ -23,7 +23,7 @@ namespace Simulator.UI.Forms
         {
             InitializeComponent();
 
-            var pathToHelp = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Resources\\help.html");
+            var pathToHelp = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "resources\\help.html");
            
             this.webBrowser.Navigate(new Uri(pathToHelp));
 

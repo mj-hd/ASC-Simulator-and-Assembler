@@ -67,7 +67,7 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\Icon_ASCO.ico</ApplicationIcon>
+    <ApplicationIcon>resources\Icon_ASCO.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
@@ -76,7 +76,7 @@
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Bundle|AnyCPU'">
-    <OutputPath>..\dist\simulator\</OutputPath>
+    <OutputPath>..\dist\</OutputPath>
     <DefineConstants>
     </DefineConstants>
     <Optimize>true</Optimize>
@@ -178,29 +178,31 @@
     <ProjectReference Include="..\MachineDisplay\MachineDisplay.csproj">
       <Project>{003C0235-50FF-4CE8-B131-C63AB5E417D7}</Project>
       <Name>MachineDisplay</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\SimulatorCommon\Common.csproj">
       <Project>{3dd5237e-7f3b-44bb-b441-a0c99b3b5158}</Project>
       <Name>Common</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Run.png" />
+    <None Include="resources\Run.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\pause.png" />
+    <None Include="resources\pause.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\stop.png" />
+    <None Include="resources\stop.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\step.png" />
+    <None Include="resources\step.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\step2.png" />
+    <None Include="resources\step2.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\init_old.png" />
+    <None Include="resources\init_old.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -220,82 +222,82 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\github.css">
+    <Content Include="resources\github.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\help.html">
+    <Content Include="resources\help.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\help\MM.png">
+    <Content Include="resources\help\MM.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\help\MMエラー.png">
+    <Content Include="resources\help\MMエラー.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\help\MMビュー色.png">
+    <Content Include="resources\help\MMビュー色.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\help\ツールバー.png">
+    <Content Include="resources\help\ツールバー.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\help\ファイル.png">
+    <Content Include="resources\help\ファイル.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\help\ブレークボタン.png">
+    <Content Include="resources\help\ブレークボタン.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\help\ブレークポイント.png">
+    <Content Include="resources\help\ブレークポイント.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\help\ヘルプ.png">
+    <Content Include="resources\help\ヘルプ.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\help\マシンビュー.png">
+    <Content Include="resources\help\マシンビュー.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\help\レジスタ.png">
+    <Content Include="resources\help\レジスタ.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\help\レジスタエラー.png">
+    <Content Include="resources\help\レジスタエラー.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\help\初期化ボタン.png">
+    <Content Include="resources\help\初期化ボタン.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\help\動作.png">
+    <Content Include="resources\help\動作.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\help\参照.png">
+    <Content Include="resources\help\参照.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\help\命令単位ステップランボタン.png">
+    <Content Include="resources\help\命令単位ステップランボタン.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\help\実行速度コントローラ.png">
+    <Content Include="resources\help\実行速度コントローラ.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\help\指定アドレスへ移動.png">
+    <Content Include="resources\help\指定アドレスへ移動.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\help\書き換え.png">
+    <Content Include="resources\help\書き換え.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\help\状態単位ステップランボタン.png">
+    <Content Include="resources\help\状態単位ステップランボタン.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\help\画面.png">
+    <Content Include="resources\help\画面.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\help\赤いマーク.png">
+    <Content Include="resources\help\赤いマーク.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\help\赤い丸.png">
+    <Content Include="resources\help\赤い丸.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\help\通常実行ボタン.png">
+    <Content Include="resources\help\通常実行ボタン.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Icon_ASCO.ico" />
+    <Content Include="resources\Icon_ASCO.ico" />
   </ItemGroup>
   <ItemGroup>
     <FileAssociation Include=".asco">
@@ -307,13 +309,12 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(SolutionDir)\LICENSE.rtf ..\ /Y
-copy $(SolutionDir)\resources\サンプルプログラムについて.url ..\ /Y
-copy $(SolutionDir)\resources\説明書.url ..\ /Y
-copy $(SolutionDir)\resources\asc-simulator.lnk ..\ /Y
-copy $(SolutionDir)\resources\asc-assembler.bat ..\ /Y
-mkdir ..\sample
-copy $(SolutionDir)\resources\sample ..\sample /Y</PostBuildEvent>
+    <PostBuildEvent>copy $(SolutionDir)\LICENSE.rtf .\ /Y
+copy $(SolutionDir)\resources\サンプルプログラムについて.url .\ /Y
+copy $(SolutionDir)\resources\説明書.url .\ /Y
+copy $(SolutionDir)\resources\asc-assembler.bat .\ /Y
+mkdir .\sample
+copy $(SolutionDir)\resources\sample .\sample /Y</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
