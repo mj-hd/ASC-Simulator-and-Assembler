@@ -42,6 +42,7 @@ namespace Simulator.UI
         {
             this._MainForm.Shown += (sender, e) =>
             {
+                this._MainForm.Machine.Registers.Init();
                 this._MainForm.OpenFile(file);
             };
         }
