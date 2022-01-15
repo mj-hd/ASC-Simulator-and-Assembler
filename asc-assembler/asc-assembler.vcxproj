@@ -124,6 +124,8 @@
     <None Include="test1.asm" />
     <None Include="test2.asm" />
     <None Include="test3.asm" />
+    <None Include="test4.asm" />
+    <None Include="test5.asm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

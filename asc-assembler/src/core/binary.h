@@ -19,14 +19,16 @@ public:
   int GetSize();
   int GetORG();
   void SetORG(int);
-  void        SetTitle(std::string);
+  void SetTitle(std::string);
   std::string GetTitle();
 
   short operator << (short);
+  short operator[](unsigned short);
 
 private:
   short* _Data;
   int _Index;
+  int _Capacity;
   std::string _Title;
 };
 

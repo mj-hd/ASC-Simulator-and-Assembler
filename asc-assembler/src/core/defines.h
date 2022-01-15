@@ -8,7 +8,7 @@
 #include <string>
 
 namespace defines {
-  typedef enum {
+  enum class OPECODE {
     UNKNOWN = -1,
     LD = 0,
     ST,
@@ -26,7 +26,7 @@ namespace defines {
     OPE5,
     OPE6,
     HLT
-  } OPECODE;
+  };
   
   short     ToDecimal(OPECODE);
   short     ToDecimal(std::string);
@@ -38,7 +38,7 @@ namespace defines {
   std::string ToString(int);
 
   bool Has1Operand(OPECODE);
-  bool HasNumber(OPECODE);
+  bool HasUnsignedHexNumber(OPECODE);
   bool HasName(OPECODE);
 }
 #endif

@@ -27,9 +27,9 @@ End	HLT
 ;
 C 	DC 	15	;loop iteration counter
 Mask  	DC 	1	;mask bits
-MSBMask	DC	32768	;mask bit for MSB(0x8000)
+MSBMask	DC	0x8000	;mask bit for MSB
 Count	DC	0	;one bits' counter
-Data	DC	43981	;input data(0xABCD)
+Data	DC	0xABCD	;input data
 One	DC	1	;constant of one
 	END
 

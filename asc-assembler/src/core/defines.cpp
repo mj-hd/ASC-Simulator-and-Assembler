@@ -13,55 +13,55 @@ namespace defines {
 
   OPECODE ToOPECODE(std::string str) {
     if (str == "LD") {
-      return LD;
+      return OPECODE::LD;
     }
     if (str == "ST") {
-      return ST;
+      return OPECODE::ST;
     }
     if (str == "ADD") {
-      return ADD;
+      return OPECODE::ADD;
     }
     if (str == "SUB") {
-      return SUB;
+      return OPECODE::SUB;
     }
     if (str == "AND") {
-      return AND;
+      return OPECODE::AND;
     }
     if (str == "OR") {
-      return OR;
+      return OPECODE::OR;
     }
     if (str == "B") {
-      return B;
+      return OPECODE::B;
     }
     if (str == "BZ") {
-      return BZ;
+      return OPECODE::BZ;
     }
     if (str == "BN") {
-      return BN;
+      return OPECODE::BN;
     }
     if (str == "OPE1") {
-      return OPE1;
+      return OPECODE::OPE1;
     }
     if (str == "OPE2") {
-      return OPE2;
+      return OPECODE::OPE2;
     }
     if (str == "OPE3") {
-      return OPE3;
+      return OPECODE::OPE3;
     }
     if (str == "OPE4") {
-      return OPE4;
+      return OPECODE::OPE4;
     }
     if (str == "OPE5") {
-      return OPE5;
+      return OPECODE::OPE5;
     }
     if (str == "OPE6") {
-      return OPE6;
+      return OPECODE::OPE6;
     }
     if (str == "HLT") {
-      return HLT;
+      return OPECODE::HLT;
     }
 
-    return UNKNOWN;
+    return OPECODE::UNKNOWN;
   }
   OPECODE ToOPECODE(int code) {
     return (OPECODE)code;
@@ -70,52 +70,52 @@ namespace defines {
   std::string ToString(OPECODE opecode) {
     std::string result;
     switch (opecode) {
-      case LD:
+      case OPECODE::LD:
         result = "LD";
         break;
-      case ST:
+      case OPECODE::ST:
         result = "ST";
         break;
-      case ADD:
+      case OPECODE::ADD:
         result = "ADD";
         break;
-      case SUB:
+      case OPECODE::SUB:
         result = "SUB";
         break;
-      case AND:
+      case OPECODE::AND:
         result = "AND";
         break;
-      case OR:
+      case OPECODE::OR:
         result = "OR";
         break;
-      case B:
+      case OPECODE::B:
         result = "B";
         break;
-      case BZ:
+      case OPECODE::BZ:
         result = "BZ";
         break;
-      case BN:
+      case OPECODE::BN:
         result = "BN";
         break;
-      case OPE1:
+      case OPECODE::OPE1:
         result = "OPE1";
         break;
-      case OPE2:
+      case OPECODE::OPE2:
         result = "OPE2";
         break;
-      case OPE3:
+      case OPECODE::OPE3:
         result = "OPE3";
         break;
-      case OPE4:
+      case OPECODE::OPE4:
         result = "OPE4";
         break;
-      case OPE5:
+      case OPECODE::OPE5:
         result = "OPE5";
         break;
-      case OPE6:
+      case OPECODE::OPE6:
         result = "OPE6";
         break;
-      case HLT:
+      case OPECODE::HLT:
         result = "HLT";
         break;
       default:
@@ -129,31 +129,43 @@ namespace defines {
 
   bool Has1Operand(OPECODE opecode) {
     switch(opecode) {
-      case LD:
-      case ST:
-      case ADD:
-      case SUB:
-      case AND:
-      case OR:
-      case B:
-      case BZ:
-      case BN:
+      case OPECODE::LD:
+      case OPECODE::ST:
+      case OPECODE::ADD:
+      case OPECODE::SUB:
+      case OPECODE::AND:
+      case OPECODE::OR:
+      case OPECODE::B:
+      case OPECODE::BZ:
+      case OPECODE::BN:
+      case OPECODE::OPE1:
+      case OPECODE::OPE2:
+      case OPECODE::OPE3:
+      case OPECODE::OPE4:
+      case OPECODE::OPE5:
+      case OPECODE::OPE6:
         return true;
       default:
         return false;
     }
   }
-  bool HasNumber(OPECODE opecode) {
+  bool HasUnsignedHexNumber(OPECODE opecode) {
     switch(opecode) {
-      case LD:
-      case ST:
-      case ADD:
-      case SUB:
-      case AND:
-      case OR:
-      case B:
-      case BZ:
-      case BN:
+      case OPECODE::LD:
+      case OPECODE::ST:
+      case OPECODE::ADD:
+      case OPECODE::SUB:
+      case OPECODE::AND:
+      case OPECODE::OR:
+      case OPECODE::B:
+      case OPECODE::BZ:
+      case OPECODE::BN:
+      case OPECODE::OPE1:
+      case OPECODE::OPE2:
+      case OPECODE::OPE3:
+      case OPECODE::OPE4:
+      case OPECODE::OPE5:
+      case OPECODE::OPE6:
         return true;
       default:
         return false;
@@ -161,15 +173,15 @@ namespace defines {
   }
   bool HasName(OPECODE opecode) {
     switch(opecode) {
-      case LD:
-      case ST:
-      case ADD:
-      case SUB:
-      case AND:
-      case OR:
-      case B:
-      case BZ:
-      case BN:
+      case OPECODE::LD:
+      case OPECODE::ST:
+      case OPECODE::ADD:
+      case OPECODE::SUB:
+      case OPECODE::AND:
+      case OPECODE::OR:
+      case OPECODE::B:
+      case OPECODE::BZ:
+      case OPECODE::BN:
         return true;
       default:
         return false;

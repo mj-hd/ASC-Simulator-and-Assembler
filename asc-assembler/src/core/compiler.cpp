@@ -66,7 +66,7 @@ std::string Compiler::Compile(Binary* binary) {
 
 		if (!(lit->opecode.empty())) {
 
-			if (defines::ToOPECODE(lit->opecode) != defines::UNKNOWN) {
+			if (defines::ToOPECODE(lit->opecode) != defines::OPECODE::UNKNOWN) {
 				// 通常命令の場合
 				short mnemonic = 0;
 
@@ -413,16 +413,16 @@ void Compiler::_Scan() {
 void Compiler::_LineValidation(std::string label, std::string opecode, std::string operand, std::string comment) {
 
 	if (opecode.empty() && !operand.empty()) {
-		throw "オペランド「"+operand+"」はこの場所には不適切です。";
+		throw _errOperandUnexpected(operand);
 	}
 	if (!opecode.empty() && operand.empty()) {
-		if ((opecode != "HLT") && (opecode != "END") && (defines::ToOPECODE(opecode) != defines::UNKNOWN)) {
-			throw "命令「"+opecode+"」にはオペランドが必要です。";
+		if ((opecode != "HLT") && (opecode != "END") && (defines::ToOPECODE(opecode) != defines::OPECODE::UNKNOWN)) {
+			throw _errMissingOperand(opecode);
 		}
 	}
 	if (!opecode.empty() && !operand.empty()) {
 		if ((opecode == "HLT") || (opecode == "END")) {
-			throw "命令"+opecode+"はオペランド「"+operand+"」を必要としません。";
+			throw _errUnnecessaryOperand(opecode, operand);
 		}
 	}
 
@@ -451,20 +451,20 @@ validationOfLabel:
 		if (containsAlphabet && it == label.begin()) isStartedWithAlphabet = true;
 	}
 
-	if (containsSymbol) throw "ラベル「" + label + "」に記号が含まれています。";
-	if (containsIlegal) throw "ラベル「"+label+"」に無効な文字が含まれています。(日本語など)";
-	if (!isStartedWithAlphabet) throw "ラベル「" + label + "」はアルファベットから始まっていなければいけません。";
+	if (containsSymbol) throw _errLabelInvalidSymbol(label);
+	if (containsIlegal) throw _errLabelIllegal(label);
+	if (!isStartedWithAlphabet) throw _errLabelMustBeStartedAlphabet(label);
 
-	if (this->LabelTable.Search(label) != -1) throw "ラベル「" + label + "」が複数回定義されています。";
+	if (this->LabelTable.Search(label) != -1) throw _errLabelDuplication(label);
 	
 validationOfOpecode:
 	if (opecode.empty()) goto validationEnd;
 
 	defines::OPECODE opecode_p = defines::ToOPECODE(opecode);
 
-	if (opecode_p == defines::UNKNOWN) {
+	if (opecode_p == defines::OPECODE::UNKNOWN) {
 		if ((opecode != "TITLE") && (opecode != "ORG") && (opecode != "DC") && (opecode != "DS") && (opecode != "END")) {
-			throw "命令「" + opecode + "」は存在しません。(大文字小文字を区別します）";
+			throw _errOpecodeInvalid(opecode);
 		}
 	}
 
@@ -478,19 +478,24 @@ validationOfOperand:
 	isStartedWithAlphabet = false;
 
 	bool containsUnhexAlphabet = false;
-	bool isStartedWithMinus = false;
-	bool isStartedWithPlus = false;
 
-	bool isNumber = false;
-	bool isHex = false;
-	bool isDec = false;
+	bool shouldBeSignedNumber = false;
+	bool shouldBeHex = false;
 
 	it = operand.begin();
 
 	if (operand.length() > 2) {
+		if (operand.length() > 3) {
+			if (((*it == '+') || (*it == '-')) && (*(it + 1) == '0') && (*(it + 2) == 'x')) {
+				shouldBeHex = true;
+				shouldBeSignedNumber = true;
+				it += 3;
+			}
+		}
+
 		if ((*it == '0') && (*(it + 1) == 'x')) {
-			isHex = true;
-			isNumber = true;
+			shouldBeHex = true;
+			shouldBeSignedNumber = false;
 			it += 2;
 		}
 	}
@@ -500,38 +505,54 @@ validationOfOperand:
 		if (('a' <= *it) && (*it <= 'z')) containsAlphabet = true;
 		if (('A' <= *it) && (*it <= 'Z')) containsAlphabet = true;
 		if (('G' <= *it) && (*it <= 'Z')) containsUnhexAlphabet = true;
-	    if ((*it >= '!') && (*it <= '/')) containsSymbol = true;
+	  if ((*it >= '!') && (*it <= '/')) containsSymbol = true;
 		if ((*it >= ':') && (*it <= '@')) containsSymbol = true;
 		if ((*it >= '[') && (*it <= '`')) containsSymbol = true;
 		if ((*it >= '{') && (*it <= '~')) containsSymbol = true;
 		if ((int)*it >= 128) containsIlegal = true; // 2byte文字など
 
 		if (containsAlphabet && it == (operand.begin())) isStartedWithAlphabet = true;
-		if ('-' == *it && it == operand.begin()) {
-			isStartedWithMinus = true;
+		// 行頭の+/-は正常な記号として扱う
+		if ((('-' == *it) || ('+' == *it)) && it == operand.begin()) {
+			shouldBeSignedNumber = true;
 			containsSymbol = false;
 		}
 	}
 
+	bool isDec = false;
+	bool isHex = false;
+	bool isSignedNumber = false;
+	bool isUnsignedNumber = false;
+
+	// 16進数
+	if (shouldBeHex && !(containsSymbol || containsUnhexAlphabet)) {
+		isHex = true;
+	}
+
+	// 10進数
 	if (containsNumber && !(containsAlphabet || containsSymbol)) {
-		if (!isHex) {
-			isDec = true;
-			isNumber = true;
-		}
+		isDec = !isHex;
 	}
 
-	if (isHex && containsUnhexAlphabet) throw "オペランド「" + operand + "」は16進数として記述されていますが、無効な文字が含まれています。";
-
-	if (containsSymbol) throw "オペランド「" + operand + "」に記号が含まれています。";
-	if (containsIlegal) throw "オペランド「" + operand + "」に無効な文字が含まれています。(日本語など)";
-	if (opecode_p != defines::UNKNOWN) {
-		if (!defines::HasNumber(opecode_p) && isNumber) throw "オペランド「" + operand + "」はこの場所に不適切です。";
-		if (!defines::HasName(opecode_p) && isStartedWithAlphabet) throw "オペランド「" + operand + "」はこの場所に不適切です。";
+	if (isHex || isDec) {
+		isSignedNumber = shouldBeSignedNumber;
+		isUnsignedNumber = !shouldBeSignedNumber;
 	}
-	if ((opecode == "TITLE") && !isStartedWithAlphabet) throw "オペランド「" + operand + "」はアルファベットから始まっていなければいけません。";
-	if ((opecode == "ORG") && !isHex) throw "オペランド「" + operand + "」は16進数であるべきです。";
-	if ((opecode == "DC") && !isDec) throw "オペランド「" + operand + "」は10進数であるべきです。";
-	if ((opecode == "DS") && !isDec) throw "オペランド「" + operand + "」は10進数であるべきです。";
+
+	if (shouldBeHex && containsUnhexAlphabet) throw _errOperandInvalidHex(operand);
+
+	if (containsSymbol) throw _errOperandInvalidSymbol(operand);
+	if (containsIlegal) throw _errOperandIllegal(operand);
+	if (opecode_p != defines::OPECODE::UNKNOWN) {
+		bool valid = false;
+		valid |= defines::HasUnsignedHexNumber(opecode_p) && isHex && isUnsignedNumber;
+		valid |= defines::HasName(opecode_p) && isStartedWithAlphabet;
+		if (!valid) throw _errOperandInvalid(operand);
+	}
+	if ((opecode == "TITLE") && !isStartedWithAlphabet) throw _errOperandTitleInvalid(operand);
+	if ((opecode == "ORG") && !(isHex && isUnsignedNumber)) throw _errOperandOrgInvalid(operand);
+	if ((opecode == "DC") && !isDec && !isHex) throw _errOperandDcInvalid(operand);
+	if ((opecode == "DS") && !(isDec && isUnsignedNumber)) throw _errOperandDsInvalid(operand);
 validationEnd:
 	return;
 }
@@ -545,6 +566,8 @@ short Compiler::_ToShort(std::string source, bool* hasError) {
 	char* endPtr;
 	short result;
 
+	if (source.find("+0x") == 0) isHex = true;
+	if (source.find("-0x") == 0) isHex = true;
 	if (source.find("0x") == 0) isHex = true;
 
 	if (isHex) {
@@ -566,4 +589,68 @@ short Compiler::_ToShort(std::string source, bool* hasError) {
 	}
 
 	return result;
+}
+
+std::string _errOperandDsInvalid(std::string operand) {
+	return "オペランド「" + operand + "」は10進数であるべきです。";
+}
+
+std::string _errOperandDcInvalid(std::string operand) {
+	return "オペランド「" + operand + "」は16進数か10進数、または符号付き16進数か10進数であるべきです。";
+}
+
+std::string _errOperandOrgInvalid(std::string operand) {
+	return "オペランド「" + operand + "」は16進数であるべきです。";
+}
+
+std::string _errOperandTitleInvalid(std::string operand) {
+	return "オペランド「" + operand + "」はアルファベットから始まっていなければいけません。";
+}
+
+std::string _errOperandInvalid(std::string operand) {
+	return "オペランド「" + operand + "」はこの場所に不適切です。";
+}
+
+std::string _errOperandIllegal(std::string operand) {
+	return "オペランド「" + operand + "」に無効な文字が含まれています。(日本語など)";
+}
+
+std::string _errOperandInvalidSymbol(std::string operand) {
+	return "オペランド「" + operand + "」に記号が含まれています。";
+}
+
+std::string _errOperandInvalidHex(std::string operand) {
+	return "オペランド「" + operand + "」は16進数として記述されていますが、無効な文字が含まれています。";
+}
+
+std::string _errOpecodeInvalid(std::string opecode) {
+	return "命令「" + opecode + "」は存在しません。(大文字小文字を区別します）";
+}
+
+std::string _errLabelDuplication(std::string label) {
+	return "ラベル「" + label + "」が複数回定義されています。";
+}
+
+std::string _errLabelMustBeStartedAlphabet(std::string label) {
+	return "ラベル「" + label + "」はアルファベットから始まっていなければいけません。";
+}
+
+std::string _errLabelIllegal(std::string label) {
+	return "ラベル「" + label + "」に無効な文字が含まれています。(日本語など)";
+}
+
+std::string _errLabelInvalidSymbol(std::string label) {
+	return "ラベル「" + label + "」に記号が含まれています。";
+}
+
+std::string _errUnnecessaryOperand(std::string opecode, std::string operand) {
+	return "命令" + opecode + "はオペランド「" + operand + "」を必要としません。";
+}
+
+std::string _errMissingOperand(std::string opecode) {
+	return "命令「" + opecode + "」にはオペランドが必要です。";
+}
+
+std::string _errOperandUnexpected(std::string operand) {
+	return "オペランド「" + operand + "」はこの場所には不適切です。";
 }

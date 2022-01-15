@@ -64,5 +64,11 @@
     <None Include="test3.asm">
       <Filter>Tests</Filter>
     </None>
+    <None Include="test4.asm">
+      <Filter>Tests</Filter>
+    </None>
+    <None Include="test5.asm">
+      <Filter>Tests</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -8,6 +8,7 @@
 #include <string>
 
 Labels::Labels() {
+  this->_BaseAddress = 0;
 }
 Labels::~Labels() {
 }
