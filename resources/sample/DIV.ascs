@@ -1,54 +1,37 @@
-; œŽZ‚ðs‚¤ƒvƒƒOƒ‰ƒ€
+; é™¤ç®—ã‚’è¡Œã†ãƒ—ãƒ­ã‚°ãƒ©ãƒ 
 
 	TITLE DIVISION
 	ORG 0x0000
 
-Init	; Š„‚ç‚ê‚é”‚Æ‚µ‚ÄA‚ÉN‚ðƒXƒgƒA
-	LD	N
-	ST	A
-
-	; Š„‚é”‚Æ‚µ‚ÄB‚ÉM‚ðƒXƒgƒA
-	LD	M
-	ST	B
-
-	; C‚ð‰Šú‰»
-	LD	ZERO
+Init	LD	ZERO  ; Cã‚’åˆæœŸåŒ–
 	ST	C
-	
 
-; A‚Ì’l‚ðB‚Ì’l‚ÅŠ„‚èAŒ‹‰Ê‚ðC‚ÉƒXƒgƒA‚·‚é
-DivSrt	LD	A
-	SUB	B	; A‚©‚çB‚ðˆø‚­
+; Aã®å€¤ã‚’Bã®å€¤ã§å‰²ã‚Šã€çµæžœã‚’Cã«ã‚¹ãƒˆã‚¢ã™ã‚‹
+DivLoop	LD	A
+	SUB	B	; Aã‹ã‚‰Bã‚’å¼•ã
 
-	; ˆø‚«ŽZ‚ÌŒ‹‰Ê‚ª•‰‚ÌŽžAŠ„‚èŽZI—¹
+	; å¼•ãç®—ã®çµæžœãŒè² ã®æ™‚ã€å‰²ã‚Šç®—çµ‚äº†
 	BN	DivEnd
 
-	ST	A	; B‚ðˆø‚¢‚½A‚ðƒXƒgƒA
+	ST	A	; Bã‚’å¼•ã„ãŸAã‚’ã‚¹ãƒˆã‚¢
 
-	; C‚Ì’l‚ð1‘‚â‚·
+	; Cã®å€¤ã‚’1å¢—ã‚„ã™
 	LD	C
 	ADD	ONE
 	ST	C
+	B	DivLoop
 
-	B	DivSrt
-
-DivEnd	LD	C
-	ST	RESULT	; C‚Ì’l‚ð•½‹Ï’l‚Æ‚µ‚ÄƒXƒgƒA
-
+DivEnd	LD	A	; Aã‚’ä½™ã‚Šã«ã‚¹ãƒˆã‚¢
+	ST	D
 	HLT
 
-N	DC	15 ; Š„‚ç‚ê‚é”
-M	DC	5  ; Š„‚é”
+; å‰²ã‚Šç®—ç”¨
+A	DC	17 ; å‰²ã‚‰ã‚Œã‚‹æ•°
+B	DC	5  ; å‰²ã‚‹æ•°
+C	DS	1  ; å•†
+D	DS	1  ; ä½™ã‚Š
 
-; ŒvŽZŒ‹‰Ê
-RESULT	DS	1
-
-; Š„‚èŽZ—p
-A	DS	1
-B	DS	1
-C	DS	1
-
-; ‚»‚Ì‘¼‚Ì’è”
+; ãã®ä»–ã®å®šæ•°
 ZERO	DC	0
 ONE	DC	1
 
