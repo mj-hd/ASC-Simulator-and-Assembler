@@ -83,13 +83,8 @@ namespace ascAssemblerTest
 			stream << "  B Label6" << std::endl;
 			stream << "  BZ Label7" << std::endl;
 			stream << "  BN Label8" << std::endl;
-			stream << "  OPE1 Label9" << std::endl;
-			stream << "  OPE2 LabelA" << std::endl;
-			stream << "  OPE3 LabelB" << std::endl;
-			stream << "  OPE4 LabelC" << std::endl;
-			stream << "  OPE5 LabelD" << std::endl;
-			stream << "  OPE6 LabelE" << std::endl;
 			stream << "  HLT" << std::endl;
+			stream << "  DS 6" << std::endl;
 			stream << "Label0  DC 0" << std::endl;
 			stream << "Label1  DC 0" << std::endl;
 			stream << "Label2  DC 0" << std::endl;
@@ -99,12 +94,6 @@ namespace ascAssemblerTest
 			stream << "Label6  DC 0" << std::endl;
 			stream << "Label7  DC 0" << std::endl;
 			stream << "Label8  DC 0" << std::endl;
-			stream << "Label9  DC 0" << std::endl;
-			stream << "LabelA  DC 0" << std::endl;
-			stream << "LabelB  DC 0" << std::endl;
-			stream << "LabelC  DC 0" << std::endl;
-			stream << "LabelD  DC 0" << std::endl;
-			stream << "LabelE  DC 0" << std::endl;
 			stream << "  END" << std::endl;
 
 			Compiler compiler;
@@ -124,13 +113,7 @@ namespace ascAssemblerTest
 			Assert::AreEqual((short)0x6116, binary[7]);
 			Assert::AreEqual((short)0x7117, binary[8]);
 			Assert::AreEqual((short)0x8118, binary[9]);
-			Assert::AreEqual((short)0x9119, binary[10]);
-			Assert::AreEqual((short)0xA11A, binary[11]);
-			Assert::AreEqual((short)0xB11B, binary[12]);
-			Assert::AreEqual((short)0xC11C, binary[13]);
-			Assert::AreEqual((short)0xD11D, binary[14]);
-			Assert::AreEqual((short)0xE11E, binary[15]);
-			Assert::AreEqual((short)0xF000, binary[16]);
+			Assert::AreEqual((short)0xF000, binary[10]);
 			Assert::AreEqual(log.find("ƒGƒ‰["), std::string::npos);
 			Assert::AreEqual(log.find("Œx"), std::string::npos);
 		}
@@ -238,8 +221,7 @@ namespace ascAssemblerTest
 			stream << "	TITLE		TEST" << std::endl;
 			stream << "	ORG		0x000" << std::endl;
 			stream << "	DC 0xABCD" << std::endl;
-			stream << "	DC +0xABC" << std::endl;
-			stream << "	DC -0xABC" << std::endl;
+			stream << "	DC 0xABC" << std::endl;
 			stream << "	DC 10" << std::endl;
 			stream << "	DC +10" << std::endl;
 			stream << "	DC -10" << std::endl;
@@ -254,10 +236,9 @@ namespace ascAssemblerTest
 
 			Assert::AreEqual((short)0xABCD, binary[1]);
 			Assert::AreEqual((short)0xABC, binary[2]);
-			Assert::AreEqual((short)-0xABC, binary[3]);
+			Assert::AreEqual((short)10, binary[3]);
 			Assert::AreEqual((short)10, binary[4]);
-			Assert::AreEqual((short)10, binary[5]);
-			Assert::AreEqual((short)-10, binary[6]);
+			Assert::AreEqual((short)-10, binary[5]);
 			Assert::AreEqual(log.find("ƒGƒ‰["), std::string::npos);
 			Assert::AreEqual(log.find("Œx"), std::string::npos);
 		}
@@ -269,6 +250,8 @@ namespace ascAssemblerTest
 			stream << "	ORG		0x000" << std::endl;
 			stream << "	DC 0xDEFG" << std::endl;
 			stream << "	DC 0x-ABC" << std::endl;
+			stream << "	DC -0xABC" << std::endl;
+			stream << "	DC +0xABC" << std::endl;
 			stream << "	DC +-0xABC" << std::endl;
 			stream << "	DC +-10" << std::endl;
 			stream << "	DC ABC" << std::endl;
@@ -284,6 +267,8 @@ namespace ascAssemblerTest
 
 			Assert::AreNotEqual(log.find(_errOperandInvalidHex("0xDEFG")), std::string::npos);
 			Assert::AreNotEqual(log.find(_errOperandInvalidSymbol("0x-ABC")) , std::string::npos);
+			Assert::AreNotEqual(log.find(_errOperandDcInvalid("-0xABC")) , std::string::npos);
+			Assert::AreNotEqual(log.find(_errOperandDcInvalid("+0xABC")) , std::string::npos);
 			Assert::AreNotEqual(log.find(_errOperandInvalidSymbol("+-0xABC")) , std::string::npos);
 			Assert::AreNotEqual(log.find(_errOperandInvalidSymbol("+-10")) , std::string::npos);
 			Assert::AreNotEqual(log.find(_errOperandDcInvalid("ABC")), std::string::npos);

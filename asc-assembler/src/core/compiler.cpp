@@ -485,17 +485,8 @@ validationOfOperand:
 	it = operand.begin();
 
 	if (operand.length() > 2) {
-		if (operand.length() > 3) {
-			if (((*it == '+') || (*it == '-')) && (*(it + 1) == '0') && (*(it + 2) == 'x')) {
-				shouldBeHex = true;
-				shouldBeSignedNumber = true;
-				it += 3;
-			}
-		}
-
 		if ((*it == '0') && (*(it + 1) == 'x')) {
 			shouldBeHex = true;
-			shouldBeSignedNumber = false;
 			it += 2;
 		}
 	}
@@ -551,7 +542,7 @@ validationOfOperand:
 	}
 	if ((opecode == "TITLE") && !isStartedWithAlphabet) throw _errOperandTitleInvalid(operand);
 	if ((opecode == "ORG") && !(isHex && isUnsignedNumber)) throw _errOperandOrgInvalid(operand);
-	if ((opecode == "DC") && !isDec && !isHex) throw _errOperandDcInvalid(operand);
+	if ((opecode == "DC") && !isDec && !(isHex && isUnsignedNumber)) throw _errOperandDcInvalid(operand);
 	if ((opecode == "DS") && !(isDec && isUnsignedNumber)) throw _errOperandDsInvalid(operand);
 validationEnd:
 	return;
@@ -566,8 +557,6 @@ short Compiler::_ToShort(std::string source, bool* hasError) {
 	char* endPtr;
 	short result;
 
-	if (source.find("+0x") == 0) isHex = true;
-	if (source.find("-0x") == 0) isHex = true;
 	if (source.find("0x") == 0) isHex = true;
 
 	if (isHex) {
@@ -596,7 +585,7 @@ std::string _errOperandDsInvalid(std::string operand) {
 }
 
 std::string _errOperandDcInvalid(std::string operand) {
-	return "オペランド「" + operand + "」は16進数か10進数、または符号付き16進数か10進数であるべきです。";
+	return "オペランド「" + operand + "」は16進数か符号付き10進数であるべきです。";
 }
 
 std::string _errOperandOrgInvalid(std::string operand) {
