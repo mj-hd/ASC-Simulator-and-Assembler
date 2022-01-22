@@ -31,6 +31,19 @@ typedef struct {
 	std::string comment;
 } Line;
 
+enum class _ShortError {
+	NONE,
+	OUT_OF_SIGNED_RANGE,
+	OUT_OF_UNSIGNED_RANGE,
+	INVALID_VALUE,
+};
+
+enum class _AddrShortError {
+	NONE,
+	OUT_OF_MEMORY_RANGE,
+	INVALID_VALUE,
+};
+
 class Compiler {
 
 public:
@@ -44,21 +57,24 @@ public:
   bool HasError() { return this->_Errors.tellp() > 0; };
   bool HasWarning() { return this->_Warnings.tellp() > 0; };
 
-  int LineNumber;
-  int CharNumber;
+  unsigned int LineNumber;
+  unsigned int CharNumber;
 
   Labels LabelTable;
 
 private:
 	void _Scan();
 	void _LineValidation(std::string, std::string, std::string, std::string);
-	short _ToShort(std::string);
-	short _ToShort(std::string, bool*);
+	unsigned short _ToShort(std::string);
+	unsigned short _ToShort(std::string, _ShortError*);
+	unsigned short _ToAddrShort(std::string, _AddrShortError*);
+	void _AppendAddrShortError(_AddrShortError, std::string);
+	void _AppendShortError(_ShortError, std::string);
 
 	std::string _Buffer;
 	bool _isFileLoaded;
 	bool _isBufferScanned;
-	int _ORG;
+	unsigned int _ORG;
 
 	std::list<Line> _Lines;
 	std::stringstream _Errors;
@@ -81,5 +97,9 @@ std::string _errLabelInvalidSymbol(std::string label);
 std::string _errUnnecessaryOperand(std::string opecode, std::string operand);
 std::string _errMissingOperand(std::string opecode);
 std::string _errOperandUnexpected(std::string operand);
+std::string _errShortOutOfSignedRange(std::string operand);
+std::string _errShortOutOfUnsignedRange(std::string operand);
+std::string _errShortInvalidValue(std::string operand);
+std::string _errShortOutOfMemoryRange(std::string operand);
 
 #endif // CORE_COMPILER_H

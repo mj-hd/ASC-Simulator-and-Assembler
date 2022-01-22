@@ -28,14 +28,14 @@ namespace defines {
     HLT
   };
   
-  short     ToDecimal(OPECODE);
-  short     ToDecimal(std::string);
+  unsigned short ToUShort(OPECODE);
+  unsigned short ToUShort(std::string);
 
   OPECODE ToOPECODE(std::string);
-  OPECODE ToOPECODE(int);
+  OPECODE ToOPECODE(unsigned short);
 
   std::string ToString(OPECODE);
-  std::string ToString(int);
+  std::string ToString(unsigned short);
 
   bool Has1Operand(OPECODE);
   bool HasUnsignedHexNumber(OPECODE);

@@ -18,8 +18,9 @@
 Binary::Binary() {
   this->_Index = 0;
   this->_Capacity = 0;
+  this->_HeaderSize = 1;
 
-  this->_Data = (short*)std::malloc(sizeof(short));
+  this->_Data = (unsigned short*)std::malloc(sizeof(unsigned short));
   if (this->_Data == NULL) throw "[Binary]バッファの確保に失敗しました。";
 
   this->_Data[0] = 0;
@@ -29,12 +30,12 @@ Binary::~Binary() {
   free(this->_Data);
 }
 
-short Binary::operator << (short mnemonic) {
+unsigned short Binary::operator << (unsigned short mnemonic) {
   this->_Index += 1;
 
   if (this->_Capacity < this->_Index + 1) {
     this->_Capacity += 32;
-    short* newData = (short*)std::realloc(this->_Data, this->_Capacity * sizeof(short));
+    unsigned short* newData = (unsigned short*)std::realloc(this->_Data, this->_Capacity * sizeof(unsigned short));
     if (newData == NULL) throw "[Binary]バッファの確保に失敗しました。";
     this->_Data = newData;
   }
@@ -44,7 +45,7 @@ short Binary::operator << (short mnemonic) {
   return mnemonic;
 }
 
-short Binary::operator[](unsigned short i) {
+unsigned short Binary::operator[](unsigned short i) {
   if (i > this->_Index) {
     throw "[Binary]範囲外へのアクセスです";
   }
@@ -56,23 +57,23 @@ void Binary::WriteToStream(std::ostream* stream) {
   stream->write( (char *)this->_Data, GetSize() );
 }
 
-int Binary::GetIndex() {
-	return this->GetORG()+this->_Index-1;
+unsigned int Binary::GetIndex() {
+	return this->GetORG()+this->_Index-this->_HeaderSize;
 }
 
-int Binary::GetSize() {
-  return sizeof(short) *(this->_Index +1);
+unsigned int Binary::GetSize() {
+  return sizeof(unsigned short) * (this->_Index + 1);
 }
 
-int Binary::GetORG() {
-  short headerSize = this->_Data[0] >> 12;
+unsigned short Binary::GetORG() {
+  unsigned short headerSize = this->_Data[0] >> 12;
 
   if (headerSize < 1) return 0;
 
   return this->_Data[0] & 4095;
 }
-void Binary::SetORG(int org) {
-  short headerSize = this->_Data[0] >> 12;
+void Binary::SetORG(unsigned short org) {
+  unsigned short headerSize = this->_Data[0] >> 12;
 
   if (headerSize < 1) headerSize = 1;
   

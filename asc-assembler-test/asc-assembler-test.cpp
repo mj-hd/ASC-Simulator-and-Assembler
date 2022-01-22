@@ -8,6 +8,14 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
+namespace Microsoft{
+	namespace VisualStudio {
+		namespace CppUnitTestFramework {
+			template<> inline std::wstring ToString<unsigned short> (const unsigned short& t) { RETURN_WIDE_STRING(t); }
+		}
+	}
+}
+
 namespace ascAssemblerTest
 {
 	TEST_CLASS(ascAssemblerTest)
@@ -43,28 +51,28 @@ namespace ascAssemblerTest
 			Binary binary;
 
 			compiler.SetStream(&stream);
-			std::string log =compiler.Compile(&binary).c_str();
+			std::string log = compiler.Compile(&binary).c_str();
 			Logger::WriteMessage(log.c_str());
 
-			Assert::AreEqual((short)0x1100, binary[0]);
-			Assert::AreEqual((short)0x0000, binary[1]);
-			Assert::AreEqual((short)0x1001, binary[2]);
-			Assert::AreEqual((short)0x2002, binary[3]);
-			Assert::AreEqual((short)0x3003, binary[4]);
-			Assert::AreEqual((short)0x4004, binary[5]);
-			Assert::AreEqual((short)0x5005, binary[6]);
-			Assert::AreEqual((short)0x6006, binary[7]);
-			Assert::AreEqual((short)0x7007, binary[8]);
-			Assert::AreEqual((short)0x8008, binary[9]);
-			Assert::AreEqual((short)0x9009, binary[10]);
-			Assert::AreEqual((short)0xA00A, binary[11]);
-			Assert::AreEqual((short)0xB00B, binary[12]);
-			Assert::AreEqual((short)0xC00C, binary[13]);
-			Assert::AreEqual((short)0xD00D, binary[14]);
-			Assert::AreEqual((short)0xE00E, binary[15]);
-			Assert::AreEqual((short)0xF000, binary[16]);
-			Assert::AreEqual((short)0x0001, binary[17]);
-			Assert::AreEqual((short)0x0002, binary[18]);
+			Assert::AreEqual((unsigned short)0x1100, binary[0]);
+			Assert::AreEqual((unsigned short)0x0000, binary[1]);
+			Assert::AreEqual((unsigned short)0x1001, binary[2]);
+			Assert::AreEqual((unsigned short)0x2002, binary[3]);
+			Assert::AreEqual((unsigned short)0x3003, binary[4]);
+			Assert::AreEqual((unsigned short)0x4004, binary[5]);
+			Assert::AreEqual((unsigned short)0x5005, binary[6]);
+			Assert::AreEqual((unsigned short)0x6006, binary[7]);
+			Assert::AreEqual((unsigned short)0x7007, binary[8]);
+			Assert::AreEqual((unsigned short)0x8008, binary[9]);
+			Assert::AreEqual((unsigned short)0x9009, binary[10]);
+			Assert::AreEqual((unsigned short)0xA00A, binary[11]);
+			Assert::AreEqual((unsigned short)0xB00B, binary[12]);
+			Assert::AreEqual((unsigned short)0xC00C, binary[13]);
+			Assert::AreEqual((unsigned short)0xD00D, binary[14]);
+			Assert::AreEqual((unsigned short)0xE00E, binary[15]);
+			Assert::AreEqual((unsigned short)0xF000, binary[16]);
+			Assert::AreEqual((unsigned short)0x0001, binary[17]);
+			Assert::AreEqual((unsigned short)0x0002, binary[18]);
 			Assert::AreEqual(log.find("エラー"), std::string::npos);
 			Assert::AreEqual(log.find("警告"), std::string::npos);
 		}
@@ -103,17 +111,17 @@ namespace ascAssemblerTest
 			std::string log = compiler.Compile(&binary).c_str();
 			Logger::WriteMessage(log.c_str());
 
-			Assert::AreEqual((short)0x1100, binary[0]);
-			Assert::AreEqual((short)0x0110, binary[1]);
-			Assert::AreEqual((short)0x1111, binary[2]);
-			Assert::AreEqual((short)0x2112, binary[3]);
-			Assert::AreEqual((short)0x3113, binary[4]);
-			Assert::AreEqual((short)0x4114, binary[5]);
-			Assert::AreEqual((short)0x5115, binary[6]);
-			Assert::AreEqual((short)0x6116, binary[7]);
-			Assert::AreEqual((short)0x7117, binary[8]);
-			Assert::AreEqual((short)0x8118, binary[9]);
-			Assert::AreEqual((short)0xF000, binary[10]);
+			Assert::AreEqual((unsigned short)0x1100, binary[0]);
+			Assert::AreEqual((unsigned short)0x0110, binary[1]);
+			Assert::AreEqual((unsigned short)0x1111, binary[2]);
+			Assert::AreEqual((unsigned short)0x2112, binary[3]);
+			Assert::AreEqual((unsigned short)0x3113, binary[4]);
+			Assert::AreEqual((unsigned short)0x4114, binary[5]);
+			Assert::AreEqual((unsigned short)0x5115, binary[6]);
+			Assert::AreEqual((unsigned short)0x6116, binary[7]);
+			Assert::AreEqual((unsigned short)0x7117, binary[8]);
+			Assert::AreEqual((unsigned short)0x8118, binary[9]);
+			Assert::AreEqual((unsigned short)0xF000, binary[10]);
 			Assert::AreEqual(log.find("エラー"), std::string::npos);
 			Assert::AreEqual(log.find("警告"), std::string::npos);
 		}
@@ -129,11 +137,11 @@ namespace ascAssemblerTest
 			Binary binary;
 
 			compiler.SetStream(&stream);
-			std::string log =compiler.Compile(&binary).c_str();
+			std::string log = compiler.Compile(&binary).c_str();
 			Logger::WriteMessage(log.c_str());
 
 			Assert::AreEqual(std::string("TEST"), binary.GetTitle());
-			Assert::AreEqual(0xABC, binary.GetORG());
+			Assert::AreEqual((unsigned short)0xABC, binary.GetORG());
 			Assert::AreEqual(log.find("エラー"), std::string::npos);
 			Assert::AreEqual(log.find("警告"), std::string::npos);
 		}
@@ -177,7 +185,7 @@ namespace ascAssemblerTest
 			std::stringstream stream;
 			stream << "	TITLE		TEST" << std::endl;
 			stream << "	ORG		0x000" << std::endl;
-			stream << "	DS 1024" << std::endl;
+			stream << "	DS 65535" << std::endl;
 			stream << "	END" << std::endl;
 
 			Compiler compiler;
@@ -187,8 +195,8 @@ namespace ascAssemblerTest
 			std::string log = compiler.Compile(&binary).c_str();
 			Logger::WriteMessage(log.c_str());
 
-			// サイズはHeaderSize(1) + DS(1024)になる
-			Assert::AreEqual((int)((1 + 1024) * sizeof(short)), binary.GetSize());
+			// サイズはHeaderSize(1) + DS(65535)になる
+			Assert::AreEqual((unsigned int)((1 + 65535) * sizeof(short)), binary.GetSize());
 			Assert::AreEqual(log.find("エラー"), std::string::npos);
 			Assert::AreEqual(log.find("警告"), std::string::npos);
 		}
@@ -211,7 +219,7 @@ namespace ascAssemblerTest
 			Logger::WriteMessage(log.c_str());
 
 			Assert::AreNotEqual(log.find(_errOperandDsInvalid("-1024")), std::string::npos);
-			Assert::AreNotEqual(log.find(_errOperandDsInvalid("+1024")) , std::string::npos);
+			Assert::AreNotEqual(log.find(_errOperandDsInvalid("+1024")), std::string::npos);
 			Assert::AreNotEqual(log.find(_errOperandDsInvalid("ABC")), std::string::npos);
 		}
 
@@ -234,11 +242,11 @@ namespace ascAssemblerTest
 			std::string log = compiler.Compile(&binary).c_str();
 			Logger::WriteMessage(log.c_str());
 
-			Assert::AreEqual((short)0xABCD, binary[1]);
-			Assert::AreEqual((short)0xABC, binary[2]);
-			Assert::AreEqual((short)10, binary[3]);
-			Assert::AreEqual((short)10, binary[4]);
-			Assert::AreEqual((short)-10, binary[5]);
+			Assert::AreEqual((unsigned short)0xABCD, binary[1]);
+			Assert::AreEqual((unsigned short)0xABC, binary[2]);
+			Assert::AreEqual((unsigned short)10, binary[3]);
+			Assert::AreEqual((unsigned short)10, binary[4]);
+			Assert::AreEqual((unsigned short)-10, binary[5]);
 			Assert::AreEqual(log.find("エラー"), std::string::npos);
 			Assert::AreEqual(log.find("警告"), std::string::npos);
 		}
@@ -266,13 +274,13 @@ namespace ascAssemblerTest
 			Logger::WriteMessage(log.c_str());
 
 			Assert::AreNotEqual(log.find(_errOperandInvalidHex("0xDEFG")), std::string::npos);
-			Assert::AreNotEqual(log.find(_errOperandInvalidSymbol("0x-ABC")) , std::string::npos);
-			Assert::AreNotEqual(log.find(_errOperandDcInvalid("-0xABC")) , std::string::npos);
-			Assert::AreNotEqual(log.find(_errOperandDcInvalid("+0xABC")) , std::string::npos);
-			Assert::AreNotEqual(log.find(_errOperandInvalidSymbol("+-0xABC")) , std::string::npos);
-			Assert::AreNotEqual(log.find(_errOperandInvalidSymbol("+-10")) , std::string::npos);
+			Assert::AreNotEqual(log.find(_errOperandInvalidSymbol("0x-ABC")), std::string::npos);
+			Assert::AreNotEqual(log.find(_errOperandDcInvalid("-0xABC")), std::string::npos);
+			Assert::AreNotEqual(log.find(_errOperandDcInvalid("+0xABC")), std::string::npos);
+			Assert::AreNotEqual(log.find(_errOperandInvalidSymbol("+-0xABC")), std::string::npos);
+			Assert::AreNotEqual(log.find(_errOperandInvalidSymbol("+-10")), std::string::npos);
 			Assert::AreNotEqual(log.find(_errOperandDcInvalid("ABC")), std::string::npos);
-			Assert::AreNotEqual(log.find(_errOperandInvalidSymbol("1-0")) , std::string::npos);
+			Assert::AreNotEqual(log.find(_errOperandInvalidSymbol("1-0")), std::string::npos);
 		}
 
 		TEST_METHOD(TestOpecodeValidation)
@@ -471,6 +479,61 @@ namespace ascAssemblerTest
 			Assert::AreNotEqual(log.find(_errOperandInvalid("13")), std::string::npos);
 			Assert::AreNotEqual(log.find(_errOperandInvalid("14")), std::string::npos);
 			Assert::AreNotEqual(log.find(_errOperandInvalid("15")), std::string::npos);
+		}
+
+		TEST_METHOD(TestShortOperandValidRange)
+		{
+			std::stringstream stream;
+			stream << "	TITLE		TEST" << std::endl;
+			stream << "	ORG		0x000" << std::endl;
+			stream << "  LD 0x000" << std::endl;
+			stream << "  LD 0xFFF" << std::endl;
+			stream << "  DC 0" << std::endl;
+			stream << "  DC 65535" << std::endl;
+			stream << "  DC 0xFFFF" << std::endl;
+			stream << "  DC +32767" << std::endl;
+			stream << "  DC -32768" << std::endl;
+			stream << "  DS 0" << std::endl;
+			stream << "  DS 65535" << std::endl;
+			stream << "	END" << std::endl;
+
+			Compiler compiler;
+			Binary binary;
+
+			compiler.SetStream(&stream);
+			std::string log = compiler.Compile(&binary);
+			Logger::WriteMessage(log.c_str());
+
+			Assert::AreEqual(log.find("エラー"), std::string::npos);
+			Assert::AreEqual(log.find("警告"), std::string::npos);
+		}
+
+		TEST_METHOD(TestShortOperandInvalidRange)
+		{
+			std::stringstream stream;
+			stream << "	TITLE		TEST" << std::endl;
+			stream << "	ORG		0x000" << std::endl;
+			stream << "  LD 0x1000" << std::endl;
+			stream << "  DC 65537" << std::endl;
+			stream << "  DC 0xFFFFF" << std::endl;
+			stream << "  DC +32768" << std::endl;
+			stream << "  DC -32769" << std::endl;
+			stream << "  DS 65538" << std::endl;
+			stream << "	END" << std::endl;
+
+			Compiler compiler;
+			Binary binary;
+
+			compiler.SetStream(&stream);
+			std::string log = compiler.Compile(&binary);
+			Logger::WriteMessage(log.c_str());
+
+			Assert::AreNotEqual(log.find(_errShortOutOfMemoryRange("0x1000")), std::string::npos);
+			Assert::AreNotEqual(log.find(_errShortOutOfUnsignedRange("65537")), std::string::npos);
+			Assert::AreNotEqual(log.find(_errShortOutOfUnsignedRange("0xFFFFF")), std::string::npos);
+			Assert::AreNotEqual(log.find(_errShortOutOfSignedRange("+32768")), std::string::npos);
+			Assert::AreNotEqual(log.find(_errShortOutOfSignedRange("-32769")), std::string::npos);
+			Assert::AreNotEqual(log.find(_errShortOutOfUnsignedRange("65538")), std::string::npos);
 		}
 	};
 }

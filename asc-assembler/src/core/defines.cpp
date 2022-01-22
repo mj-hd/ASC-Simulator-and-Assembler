@@ -6,10 +6,10 @@
 
 namespace defines {
 
-  short ToDecimal(OPECODE opecode) {
-    return (short)opecode;
+  unsigned short ToUShort(OPECODE opecode) {
+    return (unsigned short)opecode;
   }
-  short ToDecimal(std::string str) { return ToDecimal(ToOPECODE(str)); }
+  unsigned short ToUShort(std::string str) { return ToUShort(ToOPECODE(str)); }
 
   OPECODE ToOPECODE(std::string str) {
     if (str == "LD") {
@@ -63,7 +63,8 @@ namespace defines {
 
     return OPECODE::UNKNOWN;
   }
-  OPECODE ToOPECODE(int code) {
+
+  OPECODE ToOPECODE(unsigned short code) {
     return (OPECODE)code;
   }
 
@@ -125,7 +126,8 @@ namespace defines {
 
     return result;
   }
-  std::string ToString(int code) { return ToString(ToOPECODE(code)); }
+
+  std::string ToString(unsigned short code) { return ToString(ToOPECODE(code)); }
 
   bool Has1Operand(OPECODE opecode) {
     switch(opecode) {

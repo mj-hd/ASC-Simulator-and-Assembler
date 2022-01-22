@@ -15,20 +15,21 @@ public:
 
   void WriteToStream(std::ostream*);
   
-  int GetIndex();
-  int GetSize();
-  int GetORG();
-  void SetORG(int);
+  unsigned int GetIndex();
+  unsigned int GetSize();
+  unsigned short GetORG();
+  void SetORG(unsigned short);
   void SetTitle(std::string);
   std::string GetTitle();
 
-  short operator << (short);
-  short operator[](unsigned short);
+  unsigned short operator << (unsigned short);
+  unsigned short operator[](unsigned short);
 
 private:
-  short* _Data;
-  int _Index;
-  int _Capacity;
+  unsigned short* _Data;
+  unsigned int _Index;
+  unsigned int _Capacity;
+  unsigned int _HeaderSize;
   std::string _Title;
 };
 

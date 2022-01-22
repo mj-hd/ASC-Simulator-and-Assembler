@@ -14,22 +14,22 @@ public:
   Labels();
   ~Labels();
 
-  short operator [] (std::string);
-  std::string operator [] (short);
+  unsigned short operator [] (std::string);
+  std::string operator [] (unsigned short);
 
   std::list<std::string> GetNames();
 
-  void SetBaseAddress(short);
+  void SetBaseAddress(unsigned short);
   short Search(std::string);
-  std::string Search(short);
-  void Register(std::string, int);
+  std::string Search(unsigned short);
+  void Register(std::string, unsigned short);
   void Deregister(std::string);
   void Clear();
 
 private:
   std::string _Chop(std::string);
-  std::map<std::string, int> _Labels;
-  short _BaseAddress;
+  std::map<std::string, unsigned short> _Labels;
+  unsigned short _BaseAddress;
 };
 
 #endif // CORE_LABELS_H

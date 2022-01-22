@@ -13,18 +13,18 @@ Labels::Labels() {
 Labels::~Labels() {
 }
 
-short Labels::operator [] (std::string label) {
+unsigned short Labels::operator [] (std::string label) {
   return Search(label);
 }
 
-std::string Labels::operator [] (short address) {
+std::string Labels::operator [] (unsigned short address) {
   return Search(address);
 }
 
 std::list<std::string> Labels::GetNames() {
 	std::list<std::string> result;
 
-	std::map<std::string, int>::iterator it = this->_Labels.begin();
+	std::map<std::string, unsigned short>::iterator it = this->_Labels.begin();
 	for (; it != this->_Labels.end(); it++) {
 		result.push_back((*it).first);
 	}
@@ -32,16 +32,16 @@ std::list<std::string> Labels::GetNames() {
 	return result;
 }
 
-void Labels::SetBaseAddress(short base) {
+void Labels::SetBaseAddress(unsigned short base) {
   this->_BaseAddress = base;
 }
 short Labels::Search(std::string label) {
   if (this->_Labels.count(label) < 1) return -1;
   return this->_Labels[label] + this->_BaseAddress;
 }
-std::string Labels::Search(short address) {
+std::string Labels::Search(unsigned short address) {
 
-  std::map<std::string, int>::iterator it = this->_Labels.begin();
+  std::map<std::string, unsigned short>::iterator it = this->_Labels.begin();
   for (; it != this->_Labels.end(); it++) {
     if ((*it).second == address+this->_BaseAddress) {
       return (*it).first;
@@ -51,9 +51,9 @@ std::string Labels::Search(short address) {
   return "";
 }
 
-void Labels::Register(std::string label, int index) {
+void Labels::Register(std::string label, unsigned short index) {
 	if (Search(label) == -1) {
-		this->_Labels.insert(this->_Labels.end(), std::pair<std::string, int>(_Chop(label), index));
+		this->_Labels.insert(this->_Labels.end(), std::pair<std::string, unsigned short>(_Chop(label), index));
 	}
 }
 

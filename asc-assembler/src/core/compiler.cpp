@@ -40,6 +40,39 @@ void Compiler::SetStream(std::istream* stream) {
 	this->_isFileLoaded = true;
 }
 
+void Compiler::_AppendAddrShortError(_AddrShortError error, std::string operand) {
+	this->_Errors << "エラー(" << this->LineNumber << "行目): ";
+
+	switch (error) {
+	case _AddrShortError::INVALID_VALUE:
+	  this->_Errors << _errShortInvalidValue(operand);
+		break;
+	case _AddrShortError::OUT_OF_MEMORY_RANGE:
+		this->_Errors << _errShortOutOfMemoryRange(operand);
+		break;
+	}
+
+	this->_Errors << std::endl;
+}
+
+void Compiler::_AppendShortError(_ShortError error, std::string operand) {
+	this->_Errors << "エラー(" << this->LineNumber << "行目): ";
+
+	switch (error) {
+	case _ShortError::INVALID_VALUE:
+	  this->_Errors << _errShortInvalidValue(operand);
+		break;
+	case _ShortError::OUT_OF_SIGNED_RANGE:
+		this->_Errors << _errShortOutOfSignedRange(operand);
+		break;
+	case _ShortError::OUT_OF_UNSIGNED_RANGE:
+		this->_Errors << _errShortOutOfUnsignedRange(operand);
+		break;
+	}
+
+	this->_Errors << std::endl;
+}
+
 std::string Compiler::Compile(Binary* binary) {
 	if (!this->_isFileLoaded) throw std::string("ファイルが設定されていません。");
 	if (!this->_isBufferScanned) this->_Scan();
@@ -48,7 +81,7 @@ std::string Compiler::Compile(Binary* binary) {
 	this->LabelTable.SetBaseAddress(this->_ORG);
 	binary->SetORG(this->_ORG);
 
-	int max_width = 0;
+	unsigned int max_width = 0;
 	std::vector<std::stringstream> log_before = std::vector<std::stringstream>();
 	std::vector<std::stringstream> log_after = std::vector<std::stringstream>();
 
@@ -57,7 +90,7 @@ std::string Compiler::Compile(Binary* binary) {
 	log_before.back() << "行: 変換前";
 	log_after.back() << "アドレス: 変換後";
 
-	int index;
+	unsigned int index;
 
 	std::list<Line>::iterator lit = this->_Lines.begin();
 
@@ -68,9 +101,9 @@ std::string Compiler::Compile(Binary* binary) {
 
 			if (defines::ToOPECODE(lit->opecode) != defines::OPECODE::UNKNOWN) {
 				// 通常命令の場合
-				short mnemonic = 0;
+				unsigned short mnemonic = 0;
 
-				mnemonic += defines::ToDecimal(lit->opecode) << 12;
+				mnemonic += defines::ToUShort(lit->opecode) << 12;
 
 				if (!(lit->operand.empty())) {
 					// ここは、名前か数値かを見分けるもっといい方法を考えること!!
@@ -78,17 +111,11 @@ std::string Compiler::Compile(Binary* binary) {
 						mnemonic += this->LabelTable.Search(lit->operand);
 					}
 					else {
-						bool hasError = false;
-						mnemonic += this->_ToShort(lit->operand, &hasError);
+						_AddrShortError error = _AddrShortError::NONE;
+						mnemonic += this->_ToAddrShort(lit->operand, &error);
 
-						if (hasError) {
-							// 不正な数値か未定義のラベル
-							if ('0' <= lit->operand[0] && lit->operand[0] <= '9') {
-								this->_Errors << "エラー(" << this->LineNumber << "行目): " << "オペランド「" << lit->operand << "」は不正な文字が含まれています" << std::endl;
-							}
-							else {
-								this->_Errors << "エラー(" << this->LineNumber << "行目): " << "オペランド「" << lit->operand << "」は定義されていないラベルです。" << std::endl;
-							}
+						if (error != _AddrShortError::NONE) {
+							this->_AppendAddrShortError(error, lit->operand);
 						}
 					}
 				}
@@ -107,16 +134,36 @@ std::string Compiler::Compile(Binary* binary) {
 					log_after.back() << " ";
 				}
 				if (lit->opecode == "DC") {
-					*binary << this->_ToShort(lit->operand);
+					_ShortError error = _ShortError::NONE;
+					*binary << this->_ToShort(lit->operand, &error);
+
+					if (error != _ShortError::NONE) {
+						this->_AppendShortError(error, lit->operand);
+					}
 
 					log_after.back() << "0x" << std::setw(4) << std::setfill('0') << std::hex << std::right << (binary->GetIndex()) << ": ";
 					log_after.back() << static_cast<std::bitset<16>>(this->_ToShort(lit->operand));
 				}
 				if (lit->opecode == "DS") {
-					for (int i = 0; i < this->_ToShort(lit->operand); i++) {
+					_ShortError error = _ShortError::NONE;
+					unsigned short count = this->_ToShort(lit->operand, &error);
+
+					if (error != _ShortError::NONE) {
+						this->_AppendShortError(error, lit->operand);
+					}
+
+					unsigned short baseIndex = binary->GetIndex() + 1;
+
+					for (int i = 0; i < count; i++) {
 						*binary << 0;
-						log_after.back() << "0x" << std::setw(4) << std::setfill('0') << std::hex << std::right << (binary->GetIndex()) << ": ";
-						log_after.back() << static_cast<std::bitset<16>>(0);
+					}
+
+					if (count > 0) {
+						log_after.back() << "0x" << std::setw(4) << std::setfill('0') << std::hex << std::right << baseIndex;
+						if (count > 1) {
+							log_after.back() << "~0x" << std::setw(4) << std::setfill('0') << std::hex << std::right << baseIndex + count - 1;
+						}
+						log_after.back() << ": " << static_cast<std::bitset<16>>(0);
 					}
 				}
 				if (lit->opecode == "ORG") {
@@ -141,14 +188,14 @@ std::string Compiler::Compile(Binary* binary) {
 			log_before.back() << std::setfill(' ') << std::right << std::setw(4) << std::dec << this->LineNumber << ":" << " " << std::left << std::setw(10) << lit->label << std::setw(5) << lit->opecode << " " << std::setw(6) << lit->operand << " " << lit->comment;
 		}
 		if (log_before.back().tellp() > max_width) {
-			max_width = log_before.back().tellp();
+			max_width = (unsigned int)log_before.back().tellp();
 		}
 	}
 
 	std::stringstream log = std::stringstream();
 	log << "[変換結果]" << std::endl;
 
-	for (auto i = 0; i < log_before.size(); i++) {
+	for (unsigned int i = 0; i < log_before.size(); i++) {
 		log << std::setw(max_width) << std::left << log_before[i].str();
 		if (!this->HasError()) {
 			log << "\t" << log_after[i].str();
@@ -211,7 +258,7 @@ void Compiler::_Scan() {
 	bool isORGWritten = false;
 	bool isENDWritten = false;
 
-	int relativeAddress = 0;
+	unsigned int relativeAddress = 0;
 
 	this->LineNumber = 1;
 	this->CharNumber = 1;
@@ -446,7 +493,7 @@ validationOfLabel:
 		if ((*it >= ':') && (*it <= '@')) containsSymbol = true;
 		if ((*it >= '[') && (*it <= '`')) containsSymbol = true;
 		if ((*it >= '{') && (*it <= '~')) containsSymbol = true;
-		if ((int)*it >= 128) containsIlegal = true; // 2byte文字など
+		if ((unsigned int)*it >= 128) containsIlegal = true; // 2byte文字など
 
 		if (containsAlphabet && it == label.begin()) isStartedWithAlphabet = true;
 	}
@@ -500,7 +547,7 @@ validationOfOperand:
 		if ((*it >= ':') && (*it <= '@')) containsSymbol = true;
 		if ((*it >= '[') && (*it <= '`')) containsSymbol = true;
 		if ((*it >= '{') && (*it <= '~')) containsSymbol = true;
-		if ((int)*it >= 128) containsIlegal = true; // 2byte文字など
+		if ((unsigned int)*it >= 128) containsIlegal = true; // 2byte文字など
 
 		if (containsAlphabet && it == (operand.begin())) isStartedWithAlphabet = true;
 		// 行頭の+/-は正常な記号として扱う
@@ -548,36 +595,61 @@ validationEnd:
 	return;
 }
 
-short Compiler::_ToShort(std::string source) {
+unsigned short Compiler::_ToAddrShort(std::string source, _AddrShortError* error) {
+	if (source.find("0x") != 0 || source.find("+") == 0 || source.find("-") == 0) {
+		if (error != NULL) *error = _AddrShortError::INVALID_VALUE;
+		return 0;
+	}
+
+	char* endPtr;
+	long result;
+	result = std::strtol(source.c_str(), &endPtr, 16);
+
+	if (error != NULL) {
+		if (*endPtr != NULL) *error = _AddrShortError::INVALID_VALUE;
+
+		if (!(0 <= result && result <= 0xFFF)) {
+			*error = _AddrShortError::OUT_OF_MEMORY_RANGE;
+		}
+	}
+
+	return (unsigned short)result;
+}
+
+unsigned short Compiler::_ToShort(std::string source) {
 	return this->_ToShort(source, NULL);
 }
 
-short Compiler::_ToShort(std::string source, bool* hasError) {
+unsigned short Compiler::_ToShort(std::string source, _ShortError* error) {
 	bool isHex = false;
+	bool isSigned = false;
 	char* endPtr;
-	short result;
+	long result;
 
 	if (source.find("0x") == 0) isHex = true;
+	if (source.find("+") == 0 || source.find("-") == 0) isSigned = true;
 
 	if (isHex) {
-		result = (short)std::strtol(source.c_str(), &endPtr, 16);
+		result = std::strtol(source.c_str(), &endPtr, 16);
 	}
 	else {
-		result = (short)std::strtol(source.c_str(), &endPtr, 10);
+		result = std::strtol(source.c_str(), &endPtr, 10);
 	}
 
-	if (*endPtr != NULL) {
-		if (hasError != NULL) {
-			*hasError = true;
+	if (error != NULL) {
+		if (*endPtr != NULL) {
+			*error = _ShortError::INVALID_VALUE;
 		}
-	}
-	else {
-		if (hasError != NULL) {
-			*hasError = false;
+
+		long min = isSigned ? SHRT_MIN : 0;
+		long max = isSigned ? SHRT_MAX : USHRT_MAX;
+
+		if (!(min <= result && result <= max)) {
+			*error = isSigned ? _ShortError::OUT_OF_SIGNED_RANGE : _ShortError::OUT_OF_UNSIGNED_RANGE;
 		}
 	}
 
-	return result;
+	return (unsigned short)result;
 }
 
 std::string _errOperandDsInvalid(std::string operand) {
@@ -642,4 +714,20 @@ std::string _errMissingOperand(std::string opecode) {
 
 std::string _errOperandUnexpected(std::string operand) {
 	return "オペランド「" + operand + "」はこの場所には不適切です。";
+}
+
+std::string _errShortOutOfSignedRange(std::string operand) {
+	return "オペランド「" + operand + "」は符号付き数の範囲外です";
+}
+
+std::string _errShortOutOfUnsignedRange(std::string operand) {
+	return "オペランド「" + operand + "」は数値の範囲外です";
+}
+
+std::string _errShortInvalidValue(std::string operand) {
+	return "オペランド「" + operand + "」は不正な値か、未定義のラベルです";
+}
+
+std::string _errShortOutOfMemoryRange(std::string operand) {
+	return "オペランド「" + operand + "」はメモリ番地指定の範囲外です";
 }
