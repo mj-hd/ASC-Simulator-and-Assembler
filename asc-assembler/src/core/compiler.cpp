@@ -388,7 +388,6 @@ void Compiler::_Scan() {
 
 			if (opecode == "END") {
 				isENDWritten = true;
-				break;
 			}
 
 			this->_Lines.push_back({label, opecode, operand, comment});
@@ -418,7 +417,7 @@ void Compiler::_Scan() {
 		if (isComment) comment += *it;
 		if (isIlegal) ilegal += *it;
 
-		if (it == this->_Buffer.end()) {
+		if (it == this->_Buffer.end() || isENDWritten) {
 			break;
 		}
 
