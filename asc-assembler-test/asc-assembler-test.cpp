@@ -168,6 +168,7 @@ namespace ascAssemblerTest
 			std::stringstream stream;
 			stream << "	TITLE		TEST" << std::endl;
 			stream << "	ORG		-123" << std::endl;
+			stream << "	ORG		0x1000" << std::endl;
 			stream << "	END" << std::endl;
 
 			Compiler compiler;
@@ -178,6 +179,7 @@ namespace ascAssemblerTest
 			Logger::WriteMessage(log.c_str());
 
 			Assert::AreNotEqual(log.find(_errOperandOrgInvalid("-123")), std::string::npos);
+			Assert::AreNotEqual(log.find(_errShortOutOfMemoryRange("0x1000")), std::string::npos);
 		}
 
 		TEST_METHOD(TestDs)

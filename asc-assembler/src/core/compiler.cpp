@@ -233,7 +233,6 @@ void Compiler::_Scan() {
 
 	this->_Buffer.append("\n");
 
-	std::string::iterator it;
 	std::string label = std::string("");
 	std::string opecode = std::string("");
 	std::string operand = std::string("");
@@ -263,8 +262,8 @@ void Compiler::_Scan() {
 	this->LineNumber = 1;
 	this->CharNumber = 1;
 
-	for (it = this->_Buffer.begin(); it != this->_Buffer.end(); it++) {
-
+	std::string::iterator it = this->_Buffer.begin();
+	while (true) {
 		if (isReturn) {
 			isBeginOfLine = true;
 			isReturn = false;
@@ -363,15 +362,27 @@ void Compiler::_Scan() {
 					relativeAddress++;
 				}
 			}
+			// Compile側ではエラーを出さないようにする
 			if (opecode == "DS") {
-				relativeAddress += this->_ToShort(operand)-1;
+				_ShortError error = _ShortError::NONE;
+				relativeAddress += this->_ToShort(operand, &error)-1;
+
+				if (error != _ShortError::NONE) {
+					this->_AppendShortError(error, operand);
+				}
 			}
 
 			if (opecode == "TITLE") {
 				isTITLEWritten = true;
 			}
 			if (opecode == "ORG") {
-				this->_ORG = this->_ToShort(operand);
+				_AddrShortError error = _AddrShortError::NONE;
+				this->_ORG = this->_ToAddrShort(operand, &error);
+
+				if (error != _AddrShortError::NONE) {
+					this->_AppendAddrShortError(error, operand);
+				}
+
 				isORGWritten = true;
 			}
 
@@ -407,53 +418,15 @@ void Compiler::_Scan() {
 		if (isComment) comment += *it;
 		if (isIlegal) ilegal += *it;
 
-	}
-
-	if (!label.empty() || !opecode.empty() || !operand.empty() || !comment.empty()) {
-		
-		try {
-			this->_LineValidation(label, opecode, operand, comment);
-		}
-		catch (std::string message) {
-			this->_Errors << "エラー(" << this->LineNumber << "行目): " << message << std::endl;
-			this->_Errors << "	" << std::dec << this->LineNumber << ": " << label << " " << opecode << " " << operand << " " << comment << std::endl;
-		}
-		if (!ilegal.empty()) {
-			this->_Errors << "エラー(" << this->LineNumber << "行目): オペランド「" << ilegal << "」はこの場所に不適切です。" << std::endl;
-			this->_Errors << "	" << std::dec << this->LineNumber << ": " << label << " " << opecode << " " << operand << " " << ilegal << " " << comment << std::endl;
+		if (it == this->_Buffer.end()) {
+			break;
 		}
 
-		if (!label.empty()) {
-			this->LabelTable.Register(label, relativeAddress);
-		}
-		if (!opecode.empty()) {
-			if ((opecode != "TITLE") && (opecode != "ORG")) {
-				relativeAddress++;
-			}
-		}
-		if (opecode == "DS") {
-			relativeAddress += this->_ToShort(operand)-1;
-		}
-
-		if (opecode == "TITLE") {
-			isTITLEWritten = true;
-		}
-		if (opecode == "ORG") {
-			this->_ORG = this->_ToShort(operand);
-			isORGWritten = true;
-		}
-
-		if (opecode == "END") {
-			isENDWritten = true;
-		}
-
-		this->_Lines.push_back({label, opecode, operand, comment});
-
-		this->LineNumber++;
+		it++;
 	}
 
 	if (!isTITLEWritten) this->_Errors << "エラー: TITLE命令が記述されていません。" << std::endl;
-	if (!isORGWritten) this->_Warnings << "警告  : ORG命令が記述されていません。0x0000番地をプログラムの始点として使用します。" << std::endl;
+	if (!isORGWritten) this->_Warnings << "警告  : ORG命令が記述されていません。0x000番地をプログラムの始点として使用します。" << std::endl;
 	if (!isENDWritten) this->_Warnings << "警告  : END命令が記述されていません。" << std::endl;
 }
 
