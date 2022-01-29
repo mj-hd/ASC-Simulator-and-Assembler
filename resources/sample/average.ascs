@@ -1,7 +1,7 @@
 ; •½‹Ï‚ð‹‚ß‚éƒvƒƒOƒ‰ƒ€
 
 	TITLE AVERAGE
-	ORG 0x0000
+	ORG 0x000
 
 Init	; SUM‚ÆAVERAGE‚ð‰Šú‰»
 	LD	ZERO

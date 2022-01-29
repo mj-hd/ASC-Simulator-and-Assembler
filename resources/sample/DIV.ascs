@@ -1,37 +1,37 @@
-; é™¤ç®—ã‚’è¡Œã†ãƒ—ãƒ­ã‚°ãƒ©ãƒ 
+; œŽZ‚ðs‚¤ƒvƒƒOƒ‰ƒ€
 
 	TITLE DIVISION
-	ORG 0x0000
+	ORG 0x000
 
-Init	LD	ZERO  ; Cã‚’åˆæœŸåŒ–
+Init	LD	ZERO  ; C‚ð‰Šú‰»
 	ST	C
 
-; Aã®å€¤ã‚’Bã®å€¤ã§å‰²ã‚Šã€çµæžœã‚’Cã«ã‚¹ãƒˆã‚¢ã™ã‚‹
+; A‚Ì’l‚ðB‚Ì’l‚ÅŠ„‚èAŒ‹‰Ê‚ðC‚ÉƒXƒgƒA‚·‚é
 DivLoop	LD	A
-	SUB	B	; Aã‹ã‚‰Bã‚’å¼•ã
+	SUB	B	; A‚©‚çB‚ðˆø‚­
 
-	; å¼•ãç®—ã®çµæžœãŒè² ã®æ™‚ã€å‰²ã‚Šç®—çµ‚äº†
+	; ˆø‚«ŽZ‚ÌŒ‹‰Ê‚ª•‰‚ÌŽžAŠ„‚èŽZI—¹
 	BN	DivEnd
 
-	ST	A	; Bã‚’å¼•ã„ãŸAã‚’ã‚¹ãƒˆã‚¢
+	ST	A	; B‚ðˆø‚¢‚½A‚ðƒXƒgƒA
 
-	; Cã®å€¤ã‚’1å¢—ã‚„ã™
+	; C‚Ì’l‚ð1‘‚â‚·
 	LD	C
 	ADD	ONE
 	ST	C
 	B	DivLoop
 
-DivEnd	LD	A	; Aã‚’ä½™ã‚Šã«ã‚¹ãƒˆã‚¢
+DivEnd	LD	A	; A‚ð—]‚è‚ÉƒXƒgƒA
 	ST	D
 	HLT
 
-; å‰²ã‚Šç®—ç”¨
-A	DC	17 ; å‰²ã‚‰ã‚Œã‚‹æ•°
-B	DC	5  ; å‰²ã‚‹æ•°
-C	DS	1  ; å•†
-D	DS	1  ; ä½™ã‚Š
+; Š„‚èŽZ—p
+A	DC	17 ; Š„‚ç‚ê‚é”
+B	DC	5  ; Š„‚é”
+C	DS	1  ; ¤
+D	DS	1  ; —]‚è
 
-; ãã®ä»–ã®å®šæ•°
+; ‚»‚Ì‘¼‚Ì’è”
 ZERO	DC	0
 ONE	DC	1
 
