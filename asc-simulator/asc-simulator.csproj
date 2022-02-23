@@ -310,6 +310,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy $(SolutionDir)\LICENSE.rtf .\ /Y
+copy $(SolutionDir)\resources\はじめにお読みください.txt .\ /Y
 copy $(SolutionDir)\resources\サンプルプログラムについて.url .\ /Y
 copy $(SolutionDir)\resources\説明書.url .\ /Y
 copy $(SolutionDir)\resources\asc-assembler.bat .\ /Y
