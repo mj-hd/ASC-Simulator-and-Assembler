@@ -11,12 +11,12 @@
 #include <iomanip>
 #include <bitset>
 #include <vector>
-
 #include <iostream>
 
 #include "binary.h"
 #include "labels.h"
 #include "defines.h"
+#include "utils.h"
 
 Compiler::Compiler() {
 	this->LabelTable = Labels();
@@ -36,6 +36,7 @@ Compiler::~Compiler() {
 
 void Compiler::SetStream(std::istream* stream) {
 	this->_Buffer = static_cast<std::stringstream const&>(std::stringstream() << stream->rdbuf()).str();
+	this->_Buffer = convertToSjis(this->_Buffer);
 
 	this->_isFileLoaded = true;
 }

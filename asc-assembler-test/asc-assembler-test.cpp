@@ -537,5 +537,43 @@ namespace ascAssemblerTest
 			Assert::AreNotEqual(log.find(_errShortOutOfSignedRange("-32769")), std::string::npos);
 			Assert::AreNotEqual(log.find(_errShortOutOfUnsignedRange("65538")), std::string::npos);
 		}
+
+		TEST_METHOD(TestUtf8)
+		{
+			std::stringstream stream;
+			stream << "	TITLE		TEST" << std::endl;
+			stream << "	ORG		0x000" << std::endl;
+			stream << u8"  ; テストメッセージ" << std::endl;
+			stream << "  LD 0x000" << std::endl;
+			stream << "	END" << std::endl;
+
+			Compiler compiler;
+			Binary binary;
+
+			compiler.SetStream(&stream);
+			std::string log = compiler.Compile(&binary);
+			Logger::WriteMessage(log.c_str());
+
+			Assert::AreNotEqual(log.find("テストメッセージ"), std::string::npos);
+		}
+
+		TEST_METHOD(TestSjis)
+		{
+			std::stringstream stream;
+			stream << "	TITLE		TEST" << std::endl;
+			stream << "	ORG		0x000" << std::endl;
+			stream << "  ; テストメッセージ" << std::endl;
+			stream << "  LD 0x000" << std::endl;
+			stream << "	END" << std::endl;
+
+			Compiler compiler;
+			Binary binary;
+
+			compiler.SetStream(&stream);
+			std::string log = compiler.Compile(&binary);
+			Logger::WriteMessage(log.c_str());
+
+			Assert::AreNotEqual(log.find("テストメッセージ"), std::string::npos);
+		}
 	};
 }

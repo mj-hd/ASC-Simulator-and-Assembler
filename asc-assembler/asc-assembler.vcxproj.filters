@@ -53,6 +53,9 @@
     <ClInclude Include="src\core\labels.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\core\utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="test1.asm">
