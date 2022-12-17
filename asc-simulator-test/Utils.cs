@@ -46,7 +46,7 @@ namespace asc_simulator_test
 
                 machine.Stepped += (ce) => {
                     Console.WriteLine("STEPPED {0}", ce.InstructionCount);
-                    machine.HLT();
+                    machine.Stop();
                 };
 
                 machine.ALU.AssignZTrue += () => {

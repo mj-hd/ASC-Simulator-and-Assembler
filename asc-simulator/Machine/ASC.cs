@@ -207,6 +207,7 @@ namespace Simulator.Machine
             }
         }
 
+        public delegate void MachineStateEventHandler();
 
         // 命令サイクル中に呼び出されるイベント
         public event Common.CycleEventHandler CycleBegin;
@@ -218,6 +219,9 @@ namespace Simulator.Machine
 
         // ステップ実行が終了したとき
         public event Common.CycleEventHandler Stepped;
+
+        // HLT命令が実行されたとき
+        public event MachineStateEventHandler Halted;
 
         // データ変更イベント
         public event Common.DataMovedEventHandler PreDataMoved;
@@ -272,7 +276,7 @@ namespace Simulator.Machine
             this.ALU.Overflowed += (ove) =>
             {
                 // オーバーフロー発生時は次の状態で停止する
-                this.HLT(StopMode.PerStep);
+                this.Stop(StopMode.PerStep);
             };
 
             this.CycleBegin += (ce) => { };
@@ -283,6 +287,7 @@ namespace Simulator.Machine
             this.CycleUpdatePC += (ce) => { };
 
             this.Stepped += (ce) => { };
+            this.Halted += () => { };
 
             this.PreDataMoved += (dme) => { };
             this.DataMoved += (dme) => { };
@@ -354,7 +359,7 @@ namespace Simulator.Machine
         }
 
         // マシンを停止する
-        public void HLT(StopMode? nextMode = null)
+        public void Stop(StopMode? nextMode = null)
         {
             // 実行モード別のResetEventをリセットしてスレッドを止める
             switch (nextMode ?? this._Mode)
@@ -682,7 +687,8 @@ namespace Simulator.Machine
                             break;
 
                         case Common.Defines.OPECODE.HLT:
-                            this.HLT();
+                            this.Stop();
+                            this.Halted();
                             break;
                     }
 

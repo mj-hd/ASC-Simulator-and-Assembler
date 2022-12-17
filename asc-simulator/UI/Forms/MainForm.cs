@@ -58,6 +58,7 @@ namespace Simulator.UI.Forms
                 this._Machine.ALU.Overflowed += this.DidOverflowed;
 
                 this._Machine.Stepped += this.DidStepped;
+                this._Machine.Halted += this.DidHalted;
 
                 this.Machine.Registers.DataChanged += this.DidDataChanged;
                 this.Machine.Registers.DataAccessed += this.DidDataAccessed;
@@ -329,7 +330,7 @@ namespace Simulator.UI.Forms
         // マシンの動作を停止する
         private void _StopMachine()
         {
-            this.Machine.HLT();
+            this.Machine.Stop();
             this._EnableViews();
             this.Display.Invalidate();
         }
@@ -906,6 +907,11 @@ namespace Simulator.UI.Forms
         }
 
         private void DidStepped(Common.CycleEventArgs ce)
+        {
+            this._StopMachine();
+        }
+
+        private void DidHalted()
         {
             this._StopMachine();
         }
