@@ -1,30 +1,29 @@
-; factorial of N, i.e., N! 
-	TITLE	Factorial
-	ORG	0x100
+; Nの階乗プログラム-メインルーチン
+	TITLE	Factorial	;プログラム名
+	ORG	0x100	;16進100番地から開始
 	LD	N
-	SUB	One
-	BN	Error	;error as N<1
-	BZ	FOne	;F=1 as N=1
-
-; compute F for N>=2
-	LD	N
-	ST	F	;F��N
-	SUB	One
-FLoop	ST	N	;N��N-1
-	LD	F
-	ST	A	;A��F
-	LD	N
-	ST	B	;B��N
-	B	MULT	; goto multiply routine	
-Next	LD	C	; C��A*B
-	ST	F	; F��F*N
-	LD	N	;test if N=1
-	SUB	One	
+	ADD	Zero
+	BN	Error	; N<0　ならエラーとする
+; N>=0に対して、階乗の計算を開始
+	LD	One
+	ST	F	;F←１
+FLoop	LD	N	;N=0ならEndFactへ行く
+	ADD 	Zero
 	BZ	EndFact
-	B	FLoop
-EndFact	HLT		;successful termination
+	LD	F
+	ST	A	;A←F
+	LD	N
+	ST	B	;B←N
+	B	MULT	; かけ算ルーチンへ分岐
+Next	LD	C	; C←A*B
+	ST	F	; F←F*N
+	LD	N	; N ← N-1
+	SUB	One	
+	ST	N	
+	B	FLoop	;ループの先頭へ戻る
+EndFact	HLT		;正常終了
 
-; multiplication routine
+; かけ算サブルーチン-A×Bを計算してCに置く
 MULT	LD	Zero
 MLoop	ADD	A
 	ST	C
@@ -36,20 +35,16 @@ MLoop	ADD	A
 	B	MLoop
 EndMult	B	Next
 
+; N<0のときエラー終了
+Error	HLT		;エラー終了
 
-FOne	LD	One
-	ST	F
-	HLT		;successful termination
+; 変数、定数を置く領域
+N	DC	3	;入力nを置く
+F	DS	1	;計算結果を置く
 
-Error	HLT		;error termination
-
-N	DC	3
-F	DS	1
-
-A 	DS 	1
-B  	DS 	1
-C	DS	1
-Zero	DC	0
-One	DC	1
+A 	DS 	1	;かけられる数を置く
+B  	DS 	1	;かける数を置く
+C	DS	1	;かけた結果を置く
+Zero	DC	0	;定数0
+One	DC	1	;定数1
 	END
-

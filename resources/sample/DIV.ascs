@@ -1,38 +1,29 @@
-; ���Z���s���v���O����
-
+; 除算プログラム
+; A÷Bを計算して商をC、余りをDとする（A,B共に正の整数）
 	TITLE DIVISION
 	ORG 0x000
-
-Init	LD	ZERO  ; C��������
+Init	LD	ZERO  ; Cを初期化
 	ST	C
-
-; A�̒l��B�̒l�Ŋ���A���ʂ�C�ɃX�g�A����
+;除算ループの開始 
 DivLoop	LD	A
-	SUB	B	; A����B������
-
-	; �����Z�̌��ʂ����̎��A����Z�I��
-	BN	DivEnd
-
-	ST	A	; B��������A���X�g�A
-
-	; C�̒l��1���₷
+	SUB	B	; AからBを引く
+	BN	DivEnd	; 引き算の結果が負の時、割り算終了
+	ST	A	; Bを引いた結果をAに格納
+; 商Cの値を1増やし、DivLoopに戻る
 	LD	C
 	ADD	ONE
 	ST	C
 	B	DivLoop
-
-DivEnd	LD	A	; A��]��ɃX�g�A
+DivEnd	LD	A	; Aを余りDに格納して終了
 	ST	D
 	HLT
 
-; ����Z�p
-A	DC	17 ; �����鐔
-B	DC	5  ; ���鐔
-C	DS	1  ; ��
-D	DS	1  ; �]��
-
-; ���̑��̒萔
+; 割り算用
+A	DC	17 ; 割られる数
+B	DC	5  ; 割る数
+C	DS	1  ; 商
+D	DS	1  ; 余り
+; その他の定数
 ZERO	DC	0
 ONE	DC	1
-
 	END

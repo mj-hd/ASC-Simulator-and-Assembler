@@ -1,22 +1,36 @@
-; Bit-count
-; count one bits of Data and store to Count
+; ビットカウント
+; Data中の1を数え、結果をCountに格納する
+;
+; 1を数えるために1ビットだけ1が立ったマスクを使用するが、
+; シフト命令がないため、マスクの作成は000...001から出発して
+; 同じデータを加算することにより行っている。
+; このマスクとの論理積が1となるか、0となるかのテストによって
+; 1が立っているかどうかを判定し、計数する。
+; なお、MSBのテストのために、010...000+010...000→100...000を
+; 行うとオーバフロー割り込みを起こすため、MSBだけは、
+; あらかじめ100...000をマスクとして用意してテストに用いている。
+;
 	TITLE	BITCOUNT
 	ORG	0x0
+;ループ開始、Maskによりビットの値をテストする
 Loop	LD	Data
 	AND	Mask
 	BZ	Loop2
+;1ならCountを1増やす
 	LD	Count
 	ADD	One
 	ST	Count
+;15ビットまでテストしたらTestMSBへ行く
 Loop2	LD	C
 	SUB	One
 	BZ	TestMSB
 	ST	C
+;Mask+Maskにより、Maskの値を1ビット左へずらす
 	LD	Mask
 	ADD	Mask
 	ST	Mask
-	B	Loop
-; test MSB bit
+	B	Loop	;ループの先頭に戻る
+; DataのMSBの値をテストする
 TestMSB	LD	Data
 	AND	MSBMask
 	BZ	End
@@ -25,11 +39,10 @@ TestMSB	LD	Data
 	ST	Count
 End	HLT
 ;
-C 	DC 	15	;loop iteration counter
-Mask  	DC 	1	;mask bits
-MSBMask	DC	0x8000	;mask bit for MSB
-Count	DC	0	;one bits' counter
-Data	DC	0xABCD	;input data
-One	DC	1	;constant of one
+C 	DC 	15	;ループ計数
+Mask  	DC 	1	;マスクビット
+MSBMask	DC	0x8000	;MSBをテストするためのマスク
+Count	DC	0	;1ビットカウンタ
+Data	DC	0xABCD	;入力データ
+One	DC	1	;定数1
 	END
-
