@@ -23,7 +23,7 @@ Next	LD	C	; C←A*B
 	B	FLoop	;ループの先頭へ戻る
 EndFact	HLT		;正常終了
 
-; かけ算サブルーチン-A×Bを計算してCに置く
+; かけ算サブルーチン[A×Bを計算してCに置く]
 MULT	LD	Zero
 MLoop	ADD	A
 	ST	C

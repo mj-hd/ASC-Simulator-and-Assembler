@@ -1,0 +1,8 @@
+﻿input-file: help.md
+output-file: help.html
+from: commonmark_x
+to: html
+css:
+  - github.css
+standalone: true
+wrap: preserve
