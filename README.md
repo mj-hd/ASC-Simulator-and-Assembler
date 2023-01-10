@@ -1,5 +1,5 @@
 # ASC-Simulator-and-Assembler
-「コンピュータのしくみを理解するための10章」より、モデルコンピュータASC用アセンブラとシミュレータ
+「算数で読み解く コンピュータのしくみ」より、モデルコンピュータASC用アセンブラとシミュレータ
 
 <img src="https://user-images.githubusercontent.com/6854255/155265764-7a30a466-4fe8-4a5c-896a-cf01ab9713a1.png" width="400" alt="ASC Assemblerの様子" />
 <img src="https://user-images.githubusercontent.com/6854255/155265870-de2e2688-c364-48c9-9c29-170267434830.png" width="400" alt="ASC Simulatorの様子" />
